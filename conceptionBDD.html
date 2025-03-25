@@ -1,0 +1,219 @@
+Afin d'être efficasse dans la conception de la BDD, il faut comprendre les parcours utilisateurs, les fonctionnalités, et leurs impacts sur la base de données. Voici donc un cahier des charges fonctionnel et technique complet, basé sur les interfaces que tu m’as fournies et le MCD/MLD que nous avons défini ensemble.
+
+
+
+📘 Cahier des charges — Application "SneakyDate"
+
+    🧩 Objectif de l’application
+
+        SneakyDate est une plateforme de mise en relation entre joueurs "fairplay", pour organiser des sessions multijoueurs sur des jeux comme PUBG, Rust ou Among Us. L'application se base sur une vérification anti-cheat via l’API Steam et simplifie les prises de rendez-vous grâce à Discord.
+
+
+    🧑‍💻 Parcours Utilisateur (Webflow)
+
+        🔸 1. Accueil (non connecté)
+                
+            L’utilisateur découvre les valeurs de la plateforme (fairplay, vocal Discord, clean Steam...).
+
+            Il peut cliquer sur :
+
+                - S’inscrire
+                - Se connecter
+
+            Aucun accès aux fonctionnalités sans authentification.
+
+
+
+        🔸 2. Inscription
+
+            L’utilisateur fournit :
+
+                - Son pseudo
+                - Son email
+                - Son Steam ID (vérifié via l’API)
+                - Il doit connecter son compte Discord
+                - Il choisit un mot de passe
+
+            Une fois inscrit :
+
+                - Un compte est créé dans la table USER
+                - Le système enregistre son temps de jeu Steam par jeu via l’API (optionnel mais visible dans le profil)
+                - Il est redirigé vers la page d’accueil connectée.
+
+
+
+        🔸 3. Connexion
+
+                - Via pseudo + mot de passe
+
+            En cas d’oubli :
+
+                - L’utilisateur peut réinitialiser son mot de passe
+                - Système envoie un lien sécurisé par email (pas visible en BDD, mais action front)
+
+
+
+        🔸 4. Accueil (connecté)
+
+            L’utilisateur voit :
+
+                - Son avatar et son pseudo
+                - Son prochain RDV
+                - Ses amis en ligne
+            
+            Peut accéder à :
+
+                - Son profil
+                - Le planning RDV
+                - Ses RDV
+                - Ses amis
+                - Le moteur de recherche de joueurs
+
+
+
+        🔸 5. Planning RDV
+
+            L’utilisateur consulte la liste des RDV disponibles par date.
+
+            Filtres disponibles :
+
+                - Par date (calendrier)
+                - Par jeu
+                - Par rôle
+
+            Chaque RDV est une cardbox, affichant :
+
+                - Nom du RDV
+                - Jeu concerné
+                - Nombre de joueurs
+                - Statut (privé/public)
+
+            Il peut cliquer sur "VOIR" pour afficher les détails.
+
+
+
+        🔸 6. Détails d’un RDV
+
+            Affiche :
+
+                - Liste des joueurs invités
+                - Organisateur
+                - Statut de la salle
+                - Heure
+
+            L’utilisateur peut :
+            
+            - Demander à participer
+            - Accepter/refuser une invitation
+            - Cela impacte la table CARDBOXRDVPLAYER avec statut_invitation.
+
+
+
+        🔸 7. Création d’un RDV
+
+            Accessible uniquement si connecté.
+
+            L’utilisateur remplit :
+
+                - Nom du RDV
+                - Heure
+                - Jeu
+                - Statut salon (privé/public)
+                - Choix de joueurs max (dépend du jeu choisi, 4 joueurs max pour PUBG par exemple) dans sa liste d’amis
+
+            Un enregistrement est créé dans :
+
+                - CARDBOXRDV (RDV principal)
+                - CARDBOXRDVPLAYER pour l'organisateur et ses invités
+
+
+
+        🔸 8. Mes RDV
+
+            Liste des :
+
+                - RDV que j’organise
+                - RDV auxquels je participe
+                - Invitations en attente
+            
+            Mise à jour automatique des statuts via CARDBOXRDVPLAYER.
+
+
+
+        🔸 9. Mon profil
+
+            Affiche :
+                
+                - Pseudo Discord / Steam
+                - Avatar D / S 
+                - Temps de jeu par jeu (via API Steam)
+            
+            Aucune modification possible ici (lecture seule)
+
+
+
+        🔸 10. Mes amis
+
+            Affiche les amis avec :
+
+                - Leur statut en ligne (Online/Offline)
+                - Les jeux joués en commun
+                - Possibilité d’ouvrir leur profil
+
+            Données croisées via FRIENDLIST et FRIENDLISTUSER.
+
+
+
+        🔸 11. Recherche de joueurs
+
+            Moteur de recherche par pseudo :
+
+            Liste tous les utilisateurs avec :
+
+                - Jeux joués
+                - Bouton "Voir le profil"
+                - Boutons "Ajouter en ami" ou "Inviter à un RDV"
+
+
+
+        🔸 12. Profil d’un joueur
+
+            Affiche :
+
+                - Pseudo Discord / Steam
+                - Temps de jeu par jeu
+                - Boutons :
+                    - Ajouter en ami
+                    - Inviter à un RDV
+            
+            Données liées au USER et à JEUX.
+
+
+
+        🗃️ Impacts BDD
+
+        Action utilisateur	                   | Table(s) impactée(s)
+        _______________________________________|________________________________________
+        Inscription	                           | USER
+        Connexion	                           | — (auth backend, pas de modif BDD)
+        Création RDV	                       | CARDBOXRDV, CARDBOXRDVPLAYER
+        Invitation d’un ami	                   | CARDBOXRDVPLAYER
+        Acceptation / refus invitation	       | CARDBOXRDVPLAYER
+        Création d’une liste d’amis	           | FRIENDLIST, FRIENDLISTUSER
+        Ajout d’un ami	                       | FRIENDLISTUSER
+        Disponibilité par jeu	               | DISPONIBILITE
+        Recherche de joueurs	               | Lecture sur USER, DISPONIBILITE, JEUX
+        Mise à jour du statut RDV	           | CARDBOXRDVPLAYER
+
+
+
+        📌 Notes techniques complémentaires
+
+            Le couplage avec l’API Steam permet :
+
+                - Vérification anti-cheat
+                - Récupération du temps de jeu
+
+            Le lien Discord permet une meilleure organisation vocale et une récupération des informations de compte Discord de l'Utilisateur
+
+            L’interface est 100% sécurisée par login et mot de passe (hashé en base)
