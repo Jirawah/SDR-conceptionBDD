@@ -1,0 +1,228 @@
+/*  1. Diagramme d'activité — Inscription / Connexion
+
+        - Ce diagramme regroupe les cas UC1, UC2, UC3, UC4, UC5.
+        - Le start commence sur l'écran d'accueil avec les deux choix : se connecter ou s'inscrire.
+        - Les erreurs de connexion ou les erreurs d'inscription provoquent des boucles.
+        - Les appels à Discord et Steam sont intégrés dans la branche d'inscription.
+
+
+@startuml
+start
+
+:Afficher l'écran de connexion/inscription;
+
+if (Déjà inscrit ?) then (Oui)
+  :Saisir identifiants;
+  :Cliquer sur "Se connecter";
+  if (Identifiants valides ?) then (Oui)
+    stop
+  else
+    :Afficher erreur;
+    if (Mot de passe oublié ?) then (Oui)
+      :Saisir email;
+      :Recevoir lien de réinitialisation;
+      :Saisir nouveau mot de passe;
+      back to :Saisir identifiants;
+    else
+      back to :Saisir identifiants;
+    endif
+  endif
+
+else (Non)
+  :Saisir pseudo, email, mot de passe, Steam ID;
+  :Connexion via Discord;
+  :Vérification Steam API;
+  if (Données valides ?) then (Oui)
+    :Compte créé;
+    stop
+  else
+    :Afficher message d’erreur;
+    back to :Saisir informations;
+  endif
+endif
+@enduml
+
+
+
+
+
+    2. Diagramme d'activité — Cycle d’un RDV 
+
+        - Ce diagramme couvre UC8 “Créer un RDV”, mais est déjà prêt à servir de base pour les flux liés à l’ajout d’invités.
+        - Il contient des décisions conditionnelles (statut du RDV, ajout d’amis).
+        - La création peut échouer (ex : heure incorrecte, nom manquant), ce qui ramène à la saisie.
+
+
+@startuml
+start
+
+:Accéder à l'écran de création de RDV;
+:Sélectionner une date dans le planning;
+:Choisir un jeu;
+:Saisir le nom du RDV;
+:Saisir l'horaire;
+
+if (Statut privé ou public ?) then (Privé)
+  :Définir comme RDV privé;
+else
+  :Définir comme RDV public;
+endif
+
+if (Inviter des amis ?) then (Oui)
+  :Choisir une liste d’amis;
+  :Ajouter manuellement des amis;
+endif
+
+:Valider et créer le RDV;
+
+if (Création réussie ?) then (Oui)
+  :Afficher confirmation;
+  stop
+else
+  :Afficher message d’erreur;
+  back to :Saisir les informations;
+endif
+@enduml
+
+
+
+
+
+    3. Diagramme d'activité — Invitations et participation à un RDV
+
+        - Ce diagramme regroupe les cas :
+            • UC21 – Inviter un ami à un RDV
+            • UC22 – Accepter une invitation
+            • UC23 – Refuser une invitation
+            • UC24 – Annuler sa participation à un RDV
+        - Le diagramme montre l’enchaînement initié par l’organisateur, puis le flux de réponse côté invité.
+        - Le statut final peut être : confirmé, refusé, ou annulé.
+
+
+@startuml
+start
+
+:Organisateur accède à la fiche RDV;
+:Cliquer sur "Inviter un ami";
+
+:Sélectionner amis ou listes d’amis;
+:Envoyer invitations;
+
+partition "Invité (Utilisateur)" {
+  :Recevoir notification d'invitation;
+  :Accéder à l’invitation;
+
+  if (Accepter ?) then (Oui)
+    :Cliquer sur "Accepter";
+    :Statut = Confirmé;
+  else
+    :Cliquer sur "Refuser";
+    :Statut = Refusé;
+  endif
+}
+
+if (Annuler sa participation ?) then (Oui)
+  :Accéder à la liste de mes RDV;
+  :Cliquer sur "Annuler participation";
+  :Statut = Annulé;
+endif
+
+stop
+@enduml
+
+
+
+
+
+    4. Diagramme d'activité — Gestion d’amis et de listes
+
+        - Regroupe les cas d’utilisation :
+            • UC15 – Gérer mes amis
+            • UC16 – Créer une liste d’amis
+            • UC17 – Gérer mes listes d’amis
+            • UC19 – Supprimer une liste d’amis
+            • UC20 – Supprimer un ami
+            • UC26 – Ajouter un ami
+        - Utilise deux partitions : une pour les interactions individuelles (amis) et une pour les collections (listes).
+        - Les interactions sont indépendantes mais souvent complémentaires (on peut créer une liste juste après avoir ajouté un ami, par exemple).
+
+
+@startuml
+start
+
+:Accéder à l'onglet "Amis";
+
+partition "Gestion des amis" {
+  :Rechercher un pseudo;
+  :Cliquer sur "Ajouter un ami";
+  :Ami ajouté;
+
+  if (Supprimer un ami ?) then (Oui)
+    :Cliquer sur "Supprimer";
+    :Ami retiré de la liste;
+  endif
+}
+
+partition "Gestion des listes" {
+  :Accéder à "Mes listes d’amis";
+
+  if (Créer une liste ?) then (Oui)
+    :Saisir nom de la liste;
+    :Choisir un jeu associé;
+    :Sélectionner des amis;
+    :Valider création;
+  endif
+
+  if (Modifier une liste ?) then (Oui)
+    :Accéder à la liste;
+    :Ajouter ou retirer des amis;
+    :Enregistrer les modifications;
+  endif
+
+  if (Supprimer une liste ?) then (Oui)
+    :Cliquer sur "Supprimer la liste";
+    :Liste supprimée;
+  endif
+}
+
+stop
+@enduml
+
+
+
+
+
+    5. Diagramme d'activité — Recherche et consultation de profil
+
+        - Couvre les cas :
+            • UC14 – Rechercher un joueur
+            • UC18 – Voir le profil d’un joueur
+            • Interaction potentielle avec UC26 – Ajouter un ami (réutilisée ici contextuellement)
+        - Ce flux simule une navigation classique : recherche ➜ résultat ➜ profil ➜ action.
+        - Il tient compte d’une recherche échouée (aucun joueur trouvé).
+
+
+@startuml
+start
+
+:Accéder à la section "Recherche joueurs";
+:Saisir un pseudo ou un tag;
+:Afficher la liste des résultats;
+
+if (Joueur trouvé ?) then (Oui)
+  :Cliquer sur "Voir le profil";
+
+  :Afficher le profil du joueur;
+  :Voir ses jeux, son temps de jeu, ses avatars;
+
+  if (Souhait d’interagir ?) then (Oui)
+    :Cliquer sur "Ajouter en ami";
+    :Envoyer la demande;
+  endif
+
+else
+  :Afficher "Aucun joueur trouvé";
+endif
+
+stop
+@enduml

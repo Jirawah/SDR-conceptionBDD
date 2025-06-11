@@ -1,0 +1,210 @@
+    1.UC3 – Connexion via Discord (avec bot sur salon vocal)
+
+        Explication des étapes :
+            - Côté UI :
+        • L’utilisateur clique sur « Connection Discord » sur la page d’inscription.
+        • Le frontend affiche les instructions : « Connecte-toi au salon vocal Discord ».
+
+            - Côté Discord :
+        • Le bot écoute le salon vocal.
+        • Lorsqu’un utilisateur rejoint, il récupère son ID Discord, pseudo, serveur, canal.
+        • Le bot envoie ces infos au backend via un appel HTTP ou WebSocket.
+
+            - Côté backend :
+        • L'AuthController reçoit ces données Discord.
+        • Le DiscordService valide, associe à l’inscription en cours, puis les stocke (temporairement ou en BDD).
+
+
+@startuml uc3_discord_connection
+actor Utilisateur
+participant "UI Web" as UI
+participant "AuthController" as AuthCtrl
+participant "DiscordService" as DiscordSvc
+database "Base Utilisateur" as DB
+participant "Discord Bot (vocal)" as Bot
+
+Utilisateur -> UI : Clique sur "CONNECTION DISCORD"
+UI -> Utilisateur : Affiche instruction "Rejoindre le salon vocal"
+
+Utilisateur -> Bot : Se connecte au salon vocal Discord
+Bot -> Bot : Récupère ID Discord, pseudo, canal, serveur
+Bot -> AuthCtrl : POST /discord/callback {idDiscord, pseudoDiscord}
+
+AuthCtrl -> DiscordSvc : Traite les données Discord
+DiscordSvc -> DB : Associe l’ID Discord à l’inscription en cours
+DB --> DiscordSvc : OK
+DiscordSvc --> AuthCtrl : OK
+AuthCtrl --> Bot : 200 OK
+@enduml
+
+
+
+
+
+    2.UC4 – Vérification du compte Steam
+
+        Explication des étapes :
+            - Côté UI :
+        • Lors de l’inscription, l’utilisateur saisit son Steam ID dans le formulaire.
+
+            - Côté Backend :
+        • Le backend reçoit le Steam ID avec le reste du formulaire.
+        • Le SteamService appelle l’API Web de Steam pour valider que :
+            • Le compte existe.
+            • L’utilisateur n’est pas banni (optionnel selon ton système).
+        • Si la réponse est valide, l’ID est associé au compte utilisateur en cours de création.
+
+
+@startuml uc4_steam_verification
+actor Utilisateur
+participant "UI Web" as UI
+participant "AuthController" as AuthCtrl
+participant "SteamService" as SteamSvc
+participant "Steam API" as SteamAPI
+database "Base Utilisateur" as DB
+
+Utilisateur -> UI : Remplit formulaire avec Steam ID
+UI -> AuthCtrl : POST /auth/register {steamId, autres champs...}
+
+AuthCtrl -> SteamSvc : Vérifier Steam ID
+SteamSvc -> SteamAPI : GET /ISteamUser/GetPlayerSummaries
+SteamAPI --> SteamSvc : Données du joueur (pseudo, statut, etc.)
+
+alt Steam ID valide
+    SteamSvc -> DB : Associer Steam ID au compte
+    DB --> SteamSvc : OK
+    SteamSvc --> AuthCtrl : OK
+    AuthCtrl --> UI : 201 Created
+else Steam ID invalide
+    SteamSvc --> AuthCtrl : 400 Bad Request
+    AuthCtrl --> UI : Affiche message "Steam ID invalide"
+endif
+@enduml
+
+
+
+
+
+    3.UC5 – Réinitialisation du mot de passe
+        
+        Explication des étapes :
+            - Côté UI :
+        • L'utilisateur clique sur « Mot de passe oublié ? » sur la page de connexion.
+        • Il saisit son adresse email.
+        • Il reçoit un mail avec un lien de réinitialisation.
+        • Il clique sur le lien, accède à un formulaire de nouveau mot de passe.
+        • Il saisit et valide un nouveau mot de passe.
+
+            - Côté Backend :
+        • L'email est envoyé via un MailService.
+        • Le lien contient un token temporaire sécurisé.
+        • Quand l’utilisateur clique dessus, le token est vérifié.
+        • Si le token est valide, le backend accepte la nouvelle valeur.
+
+
+@startuml uc5_reset_password
+actor Utilisateur
+participant "UI Web" as UI
+participant "AuthController" as AuthCtrl
+participant "MailService" as Mail
+participant "TokenService" as TokenSvc
+database "Base Utilisateur" as DB
+
+Utilisateur -> UI : Clique sur "Mot de passe oublié ?"
+UI -> Utilisateur : Affiche formulaire d'email
+Utilisateur -> UI : Saisit son email
+UI -> AuthCtrl : POST /auth/forgot-password {email}
+
+AuthCtrl -> DB : Vérifie existence de l’email
+DB --> AuthCtrl : OK
+
+AuthCtrl -> TokenSvc : Génère un token de reset sécurisé
+TokenSvc --> AuthCtrl : Token Reset
+
+AuthCtrl -> Mail : Envoie email de réinitialisation (avec lien contenant le token)
+Mail --> Utilisateur : Email avec lien /reset-password?token=XYZ
+
+Utilisateur -> UI : Clique sur lien reçu
+UI -> AuthCtrl : GET /auth/reset-password?token=XYZ
+AuthCtrl -> TokenSvc : Vérifie validité du token
+TokenSvc --> AuthCtrl : Token OK
+
+UI -> Utilisateur : Affiche formulaire de nouveau mot de passe
+Utilisateur -> UI : Saisit nouveau mot de passe
+UI -> AuthCtrl : POST /auth/reset-password {token, newPassword}
+
+AuthCtrl -> DB : Met à jour le mot de passe
+DB --> AuthCtrl : OK
+AuthCtrl --> UI : 200 OK
+UI --> Utilisateur : Message "Mot de passe mis à jour"
+@enduml
+
+
+
+
+
+    4.UC21 + UC22 + UC23 – Invitations à un RDV et réponse
+        
+        Explication des étapes :
+            - Côté UI (organisateur) :
+        • L’utilisateur clique sur un bouton “Inviter un ami” dans un RDV existant.
+        • Il sélectionne un ou plusieurs amis, puis valide.
+
+            - Côté Backend :
+        • Le RDVService enregistre les invitations en base.
+        • Le NotificationService envoie une alerte aux destinataires.
+
+            - Côté UI (invité) :
+        • L’utilisateur reçoit la notification.
+        • Il accède à l’écran “Mes invitations”.• 
+        • Il clique sur “Accepter” ou “Refuser”.
+
+            - Côté Backend (invité) :
+        • Le RDVService met à jour le statut de participation selon la réponse.
+
+
+        Détails importants :
+            - NotificationService est techniquement indépendant (ex : envoi WebSocket, toast frontend, ou email).
+            - Le backend garde trace du statut d’invitation (ACCEPTED, REFUSED).
+            - Le contrôle d’accès doit s’assurer qu’un utilisateur ne peut répondre qu’à ses propres invitations.
+
+
+@startuml uc21_22_23_rdv_invitation
+actor Organisateur
+actor Invité
+participant "UI Web (org)" as UIOrg
+participant "UI Web (invité)" as UIInv
+participant "RdvController" as RdvCtrl
+participant "RdvService" as RdvSvc
+participant "NotificationService" as Notify
+database "Base RDV" as DB
+
+' --- Organisation côté organisateur ---
+Organisateur -> UIOrg : Sélectionne amis à inviter
+UIOrg -> RdvCtrl : POST /rdv/invitations {rdvId, destinataires}
+RdvCtrl -> RdvSvc : Traiter invitations
+RdvSvc -> DB : Enregistrer invitations
+RdvSvc -> Notify : Notifier les invités
+Notify --> Invité : Notification (invitation reçue)
+
+' --- Côté invité : consultation & réponse ---
+Invité -> UIInv : Accède à "Mes invitations"
+UIInv -> RdvCtrl : GET /rdv/invitations/{userId}
+RdvCtrl -> RdvSvc : Charger invitations
+RdvSvc -> DB : Lire invitations
+DB --> RdvSvc : Liste
+RdvSvc --> RdvCtrl : Données
+RdvCtrl --> UIInv : Affiche les invitations
+
+alt Accepte l'invitation
+  Invité -> UIInv : Clique sur "Accepter"
+  UIInv -> RdvCtrl : POST /rdv/invitations/{id}/accept
+  RdvCtrl -> RdvSvc : Marquer comme "accepté"
+  RdvSvc -> DB : Update statut = "ACCEPTED"
+else Refuse l'invitation
+  Invité -> UIInv : Clique sur "Refuser"
+  UIInv -> RdvCtrl : POST /rdv/invitations/{id}/refuse
+  RdvCtrl -> RdvSvc : Marquer comme "refusé"
+  RdvSvc -> DB : Update statut = "REFUSED"
+endif
+@enduml

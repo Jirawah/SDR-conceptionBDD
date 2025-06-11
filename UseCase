@@ -1,0 +1,129 @@
+@startuml
+left to right direction
+
+actor "Visiteur" as V
+actor "Utilisateur" as U
+actor "Discord API" as D
+actor "Steam API" as S
+
+rectangle "SneakyDateReforged" {
+  usecase "S'inscrire" as UC1
+  usecase "Se connecter" as UC2
+  usecase "Connexion avec Discord" as UC3
+  usecase "Vérifier le compte Steam" as UC4
+  usecase "Réinitialiser le mot de passe" as UC5
+
+  usecase "Voir mon profil" as UC6
+  usecase "Gérer mes RDV" as UC7
+  usecase "Créer un RDV" as UC8
+  usecase "Modifier un RDV" as UC9
+  usecase "Supprimer un RDV" as UC10
+  usecase "Participer à un RDV" as UC11
+  usecase "Gérer mes invitations" as UC12
+  usecase "Voir/Modifier un RDV que j'organise" as UC25
+  usecase "Annuler participation à un RDV" as UC24
+  usecase "Accepter une invitation à un RDV" as UC22
+  usecase "Refuser une invitation à un RDV" as UC23
+  usecase "Inviter un ami à un RDV" as UC21
+  usecase "Voir les détails d’un RDV" as UC27
+
+  usecase "Consulter le planning" as UC13
+  usecase "Filtrer les RDV" as UC28
+
+  usecase "Rechercher un joueur" as UC14
+  usecase "Voir profil d’un joueur" as UC18
+
+  usecase "Gérer mes amis" as UC15
+  usecase "Ajouter un ami" as UC26
+  usecase "Supprimer un ami" as UC20
+
+  usecase "Créer une liste d'amis" as UC16
+  usecase "Gérer mes listes d'amis" as UC17
+  usecase "Supprimer une liste d'amis" as UC19
+
+  usecase "Basculer en mode sombre" as UC29
+}
+
+' Visiteur
+V -- UC1
+V -- UC2
+UC1 .> UC3 : <<include>>
+UC1 .> UC4 : <<include>>
+UC5 .> UC2 : <<extend>>
+
+' Utilisateur
+U -- UC5
+U -- UC6
+U -- UC7
+U -- UC8
+U -- UC9
+U -- UC10
+U -- UC11
+U -- UC12
+U -- UC13
+U -- UC14
+U -- UC15
+U -- UC16
+U -- UC17
+U -- UC18
+U -- UC19
+U -- UC20
+U -- UC21
+U -- UC22
+U -- UC23
+U -- UC24
+U -- UC25
+U -- UC26
+U -- UC27
+U -- UC28
+U -- UC29
+
+' RDV inclusions
+UC8 .> UC7 : <<include>>
+UC9 .> UC7 : <<include>>
+UC10 .> UC7 : <<include>>
+UC11 .> UC7 : <<include>>
+UC12 .> UC7 : <<include>>
+UC21 .> UC7 : <<include>>
+UC24 .> UC11 : <<extend>>
+UC25 .> UC11 : <<include>>
+UC22 .> UC12 : <<include>>
+UC23 .> UC12 : <<include>>
+UC27 .> UC7 : <<include>>
+
+' Amis / listes
+UC15 .> UC16 : <<include>>
+UC15 .> UC17 : <<include>>
+UC15 .> UC26 : <<include>>
+UC15 .> UC20 : <<include>>
+UC17 .> UC19 : <<include>>
+
+' APIs externes
+UC3 -- D
+UC4 -- S
+@enduml
+
+
+
+
+
+
+
+
+
+
+Couvrir l’ensemble de ces cas d’usage par des Activity Diagrams est tout à fait envisageable, mais pour que tes schémas restent lisibles et exploitables, je te conseille de regrouper logiquement les usages voisins dans un même diagramme plutôt que de faire un diagramme par UC isolée. Voici comment je structurerais :
+
+Regroupement	Use cases	Pourquoi / Focus
+1. Inscription / Connexion	UC1 “S’inscrire” + UC2 “Se connecter”	Parcours « tout-en-un » avec boucle d’erreur
+2. Cycle d’un RDV	UC8 “Créer un RDV”	Création, validation, confirmation
+3. Invitations et participation	UC21 “Inviter un ami”	
+  → UC22 “Accepter une invitation”		
+  → UC23 “Refuser une invitation”		
+  → UC24 “Annuler sa participation”	Regroupe tout le workflow d’invitations et de mise à jour du planning du destinataire	
+4. Gestion d’amis et de listes	UC15 “Gérer mes amis”	
+  → UC16/17 “Créer / Gérer mes listes”		
+  → UC19 “Supprimer une liste”		
+  → UC20 “Supprimer un ami”		
+  → UC26 “Ajouter un ami”	Regroupe la création, modification et suppression d’amis et de listes	
+5. Recherche et profil	UC14 “Rechercher un joueur” + UC18 “Voir profil d’un joueur”	Flux de recherche, affichage et navigation vers le profil

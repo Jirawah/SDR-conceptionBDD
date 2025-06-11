@@ -1,0 +1,178 @@
+' ------------------------
+' Diagramme 1 : Inscription / Connexion
+' ------------------------
+@startuml inscription_connexion
+start
+
+:Afficher l'écran de connexion/inscription;
+
+if (Déjà inscrit ?) then (Oui)
+  :Saisir identifiants;
+  :Cliquer sur "Se connecter";
+  if (Identifiants valides ?) then (Oui)
+    stop
+  else
+    :Afficher erreur;
+    if (Mot de passe oublié ?) then (Oui)
+      :Saisir email;
+      :Recevoir lien de réinitialisation;
+      :Saisir nouveau mot de passe;
+      back to :Saisir identifiants;
+    else
+      back to :Saisir identifiants;
+    endif
+  endif
+
+else (Non)
+  :Saisir pseudo, email, mot de passe, Steam ID;
+  :Connexion via Discord;
+  :Vérification Steam API;
+  if (Données valides ?) then (Oui)
+    :Compte créé;
+    stop
+  else
+    :Afficher message d’erreur;
+    back to :Saisir informations;
+  endif
+endif
+@enduml
+
+' ------------------------
+' Diagramme 2 : Cycle d’un RDV
+' ------------------------
+@startuml cycle_rdv
+start
+
+:Accéder à l'écran de création de RDV;
+:Sélectionner une date dans le planning;
+:Choisir un jeu;
+:Saisir le nom du RDV;
+:Saisir l'horaire;
+
+if (Statut privé ou public ?) then (Privé)
+  :Définir comme RDV privé;
+else
+  :Définir comme RDV public;
+endif
+
+if (Inviter des amis ?) then (Oui)
+  :Choisir une liste d’amis;
+  :Ajouter manuellement des amis;
+endif
+
+:Valider et créer le RDV;
+
+if (Création réussie ?) then (Oui)
+  :Afficher confirmation;
+  stop
+else
+  :Afficher message d’erreur;
+  back to :Saisir les informations;
+endif
+@enduml
+
+' ------------------------
+' Diagramme 3 : Invitations et participation
+' ------------------------
+@startuml invitations_participation
+start
+
+:Organisateur accède à la fiche RDV;
+:Cliquer sur "Inviter un ami";
+
+:Sélectionner amis ou listes d’amis;
+:Envoyer invitations;
+
+partition "Invité (Utilisateur)" {
+  :Recevoir notification d'invitation;
+  :Accéder à l’invitation;
+
+  if (Accepter ?) then (Oui)
+    :Cliquer sur "Accepter";
+    :Statut = Confirmé;
+  else
+    :Cliquer sur "Refuser";
+    :Statut = Refusé;
+  endif
+}
+
+if (Annuler sa participation ?) then (Oui)
+  :Accéder à la liste de mes RDV;
+  :Cliquer sur "Annuler participation";
+  :Statut = Annulé;
+endif
+
+stop
+@enduml
+
+' ------------------------
+' Diagramme 4 : Gestion d’amis et de listes
+' ------------------------
+@startuml amis_et_listes
+start
+
+:Accéder à l'onglet "Amis";
+
+partition "Gestion des amis" {
+  :Rechercher un pseudo;
+  :Cliquer sur "Ajouter un ami";
+  :Ami ajouté;
+
+  if (Supprimer un ami ?) then (Oui)
+    :Cliquer sur "Supprimer";
+    :Ami retiré de la liste;
+  endif
+}
+
+partition "Gestion des listes" {
+  :Accéder à "Mes listes d’amis";
+
+  if (Créer une liste ?) then (Oui)
+    :Saisir nom de la liste;
+    :Choisir un jeu associé;
+    :Sélectionner des amis;
+    :Valider création;
+  endif
+
+  if (Modifier une liste ?) then (Oui)
+    :Accéder à la liste;
+    :Ajouter ou retirer des amis;
+    :Enregistrer les modifications;
+  endif
+
+  if (Supprimer une liste ?) then (Oui)
+    :Cliquer sur "Supprimer la liste";
+    :Liste supprimée;
+  endif
+}
+
+stop
+@enduml
+
+' ------------------------
+' Diagramme 5 : Recherche et profil
+' ------------------------
+@startuml recherche_et_profil
+start
+
+:Accéder à la section "Recherche joueurs";
+:Saisir un pseudo ou un tag;
+:Afficher la liste des résultats;
+
+if (Joueur trouvé ?) then (Oui)
+  :Cliquer sur "Voir le profil";
+
+  :Afficher le profil du joueur;
+  :Voir ses jeux, son temps de jeu, ses avatars;
+
+  if (Souhait d’interagir ?) then (Oui)
+    :Cliquer sur "Ajouter en ami";
+    :Envoyer la demande;
+  endif
+
+else
+  :Afficher "Aucun joueur trouvé";
+endif
+
+stop
+@enduml

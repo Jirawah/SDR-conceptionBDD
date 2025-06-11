@@ -1,6 +1,47 @@
-sneakyDateReforged BDD conception !
+1.Après avoir lancé mon serveur web (Apache) et avoir navigué jusqu'à mon fichier \mysql.exe via l'invit de commande, je me connecte à MySQL avec l'utilisateur 'root' (utilisateur par défaut ayant tout les droits d'administrations) grâce à
+la commande système suivante:
+	- mysql -u root -p
 
-Afin d'être efficasse dans la conception de la BDD, il faut comprendre les parcours utilisateurs, les fonctionnalités, et leurs impacts sur la base de données. Voici donc un cahier des charges fonctionnel et technique complet, basé sur les interfaces que tu m’as fournies et le MCD/MLD que nous avons défini ensemble.
+
+
+2.A partir de là, je peux désormais créer une base de données avec l'instruction DDL 'CREATE' et configurer l'encodage (charset), ce qui me permet de contrôler la manière dont les caractères des textes seront encodés et la collation, qui 
+définit si les caractères sont sensible à la casse (case sensitive).
+	- CREATE DATABASE sneakydatereforged CHARACTER SET utf8 COLLATE utf8mb4_0900_as_cs;
+
+Cette étape est nécessaire, car elle garantit que les données contenant des caractères spéciaux peuvent être insérées sans problème, en fonction du jeu de caractères défini lors de la création de la base. 
+
+
+
+3.Une fois la base de données créée, j'utilise les droits d'administration de l'utilisateur "root" pour créer un utilisateur (USER) :
+	- mysql> CREATE USER 'sneakyDateAdmin'@'localhost' IDENTIFIED BY 'xxxxxxxxxxxxx';
+
+Cet utilisateur doit être configuré pour pouvoir interagir avec une base de données :
+	- mysql> GRANT select, insert, update, delete on sneakydatereforged.* to 'sneakyDateAdmin'@'localhost'; (droit de manipulation de  données DML /// data definition langage DDL) manipalution contre structuration des objets de la BDD
+
+Dans cette dernière instruction SQL, en tant qu'administrateur "root", je donne les droits "select, insert, update et delete" (CRUD) à l'utilisateur sneakyDateAdmin (restreint à une connexion locale 'localhost'), lui permettant 
+d'effectuer ces opérations sur l'ensemble des tables de la base de donnée sneakydatereforged.
+
+Il est judicieux d'effectuer cette étape pour des raisons de sécurité et de limitation des risques de suppressions ou modifications accidentelles.
+
+
+En termes de sécurité, si l'une de mes bases de données gérées par MySQL venait à être compromise, l'utilisateur malveillant ne pourrait interagir uniquement avec la base de données corrompus et non à l'ensemble de mes base de données 
+gérées par mysql.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4.Afin d'être efficasse dans la conception de la BDD, il faut comprendre les parcours utilisateurs, les fonctionnalités, et leurs impacts sur la base de données. Voici donc un cahier des charges fonctionnel et technique complet, basé sur les interfaces de la maquette et le MCD/MLD que j'ai défini.
 
 
 
@@ -8,7 +49,7 @@ Afin d'être efficasse dans la conception de la BDD, il faut comprendre les parc
 
     🧩 Objectif de l’application
 
-        SneakyDate est une plateforme de mise en relation entre joueurs "fairplay", pour organiser des sessions multijoueurs sur des jeux comme PUBG, Rust ou Among Us. L'application se base sur une vérification anti-cheat via l’API Steam et simplifie les prises de rendez-vous grâce à Discord.
+        SneakyDate est une plateforme de mise en relation entre joueurs "fairplay", pour organiser des sessions multijoueurs sur des jeux comme PUBG, Rust ou Among Us. L'application se base sur une vérification anti-cheat via l’API Steam et simplifie les prises de rendez-vous grâce à l'API Discord.
 
 
     🧑‍💻 Parcours Utilisateur (Webflow)
@@ -39,7 +80,7 @@ Afin d'être efficasse dans la conception de la BDD, il faut comprendre les parc
             Une fois inscrit :
 
                 - Un compte est créé dans la table USER
-                - Le système enregistre son temps de jeu Steam par jeu via l’API (optionnel mais visible dans le profil)
+                - Le système enregistre son temps de jeu Steam par jeu via l’API STEAM(visible dans le profil)
                 - Il est redirigé vers la page d’accueil connectée.
 
 
@@ -219,3 +260,393 @@ Afin d'être efficasse dans la conception de la BDD, il faut comprendre les parc
             Le lien Discord permet une meilleure organisation vocale et une récupération des informations de compte Discord de l'Utilisateur
 
             L’interface est 100% sécurisée par login et mot de passe (hashé en base)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Rappel : pourquoi utiliser une procédure stockée ?
+
+permet des calculs complexes impossibles avec un ORM (créations de variables, tables temporaires, plusieurs requêtes. ORM Java: Hibernate, Spring Data JPA)
+Un ORM permet d'éviter de faire du SQL à la main et te de travailler directement avec des classes et des objets pour interagir avec ta base de données.
+    -> permet de séparer les couches de langage (pas de sql dans le Java)
+
+permet d'optimiser les temps d'exécution car stockée sur le seveur
+
+permet de factoriser le code (appeler une procédure plutôt que de dupliquer du sql)
+
+
+
+
+
+
+
+
+
+
+📚 Connexion et Configuration Initiale de MySQL
+1️⃣ Démarrage du Serveur et Connexion à MySQL
+Après avoir lancé mon serveur web (Apache) et accédé à l’emplacement de mysql.exe via l’invite de commande, je me connecte à MySQL en utilisant l’utilisateur par défaut root, qui dispose de tous les droits d’administration.
+👉 Commande de connexion :
+
+bash
+Copier
+Modifier
+mysql -u root -p
+(-u pour spécifier l’utilisateur, -p pour indiquer qu’un mot de passe est requis)
+
+2️⃣ Création de la Base de Données avec Encodage et Collation
+Une fois connecté, je peux créer une base de données avec l’instruction DDL CREATE, en définissant :
+
+Le jeu de caractères (CHARACTER SET), qui détermine la manière dont les textes seront encodés (ici, utf8 pour une large compatibilité).
+
+La collation (COLLATE), qui précise les règles de tri et de comparaison des textes (ici, utf8mb4_0900_as_cs pour une sensibilité à la casse).
+
+👉 Commande SQL :
+
+sql
+Copier
+Modifier
+CREATE DATABASE sneakydatereforged CHARACTER SET utf8 COLLATE utf8mb4_0900_as_cs;
+💡 Cette configuration est importante pour garantir que les données contenant des caractères spéciaux ou multilingues sont correctement gérées et stockées.
+
+3️⃣ Création d’un Utilisateur avec des Droits Restreints
+Pour des raisons de sécurité, il est préférable de ne pas utiliser l’utilisateur root pour manipuler les données de l’application. Je crée donc un nouvel utilisateur dédié :
+
+👉 Commande SQL :
+
+sql
+Copier
+Modifier
+CREATE USER 'sneakyDateAdmin'@'localhost' IDENTIFIED BY 'xxxxxxxxxxxxx';
+4️⃣ Attribution des Droits à l’Utilisateur
+Je donne ensuite à cet utilisateur uniquement les droits nécessaires pour manipuler les données de la base sneakydatereforged (opérations CRUD : Create, Read, Update, Delete).
+
+👉 Commande SQL :
+
+sql
+Copier
+Modifier
+GRANT SELECT, INSERT, UPDATE, DELETE ON sneakydatereforged.* TO 'sneakyDateAdmin'@'localhost';
+💡 Cette séparation des droits permet de protéger les autres bases de données en cas de compromission de cet utilisateur. Il ne pourra agir que sur la base de données spécifiée.
+
+✅ Pourquoi cette méthode est importante ?
+🔒 Sécurité accrue : L’utilisateur sneakyDateAdmin a des droits limités et ne peut pas altérer les structures des bases ou accéder à d’autres bases.
+
+📚 Bonne pratique de gestion des droits : On limite les risques d’erreurs ou de suppressions accidentelles de données sensibles.
+
+🌍 Meilleure gestion des encodages : Permet de stocker et traiter correctement les caractères spéciaux et multilingues.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Oral
+____________________________________________________________________________
+explication MCD MLD MPD
+____________________________________________________________________________
+
+_____
+MCD :
+
+Il s’agit du Modèle Conceptuel de Données, ou schéma Entité/Association. 
+On ne parle pas ici de vocabulaire propre aux bases de données, il n’y a pas de tables, de relations, de clés ou toute autre notion, tous les corps de métier sont capables d’interpréter ce schéma.
+Nous avons donc des entités (regroupe des informations de même nature, comme celles d’un employé, d’une voiture, …), des associations (permet de créer un lien entre 2 entités) et la cardinalité.
+
+• Entité : Représentée sous forme de rectangle, son nom est en majuscule et au singulier. 
+Elle est composée d’attributs, correspondant aux différentes informations que nous souhaitons collecter à propos de l’entité. Chaque attribut doit avoir un nom unique, et chaque entité doit 
+posséder un attribut identifiant, en gras et souligné.
+
+• Association : Représentée par un ovale dont le titre est un verbe d’action ou d’état qui doit être unique. Cet ovale relie 2 entités grâce à des traits pleins sur lesquels nous 
+retrouvons les cardinalités.
+
+• Cardinalité : Elle constitue le nombre d’occurrences minimum et maximum d’une entité dans une autre. Il n’existe que 4 cardinalités possibles, même si plusieurs notations existent :
+    • 1-1 : Une seule et unique occurrence (on parle de relation One)
+    • 0-1 : Une ou aucune occurrence sont possibles (relation One également)
+    • 1-n (ou 1..*) : Au moins une occurrence jusqu’à un nombre indéfini (relation Many)
+    • 0-n (ou 0..*) : Aucune occurrence à un nombre indéfini (relation Many)
+
+_____
+MLD :
+
+Avec le Modèle Logique de Données, nous intégrons maintenant notre MCD dans un environnement de base de données. Les entités deviennent des tables, les associations des 
+relations et des tables intermédiaires en conservant les cardinalités. Nous pouvons le représenter sous forme textuelle ou de diagramme.
+
+La conversion du MCD vers le MLD peut être automatisée, puisqu’il s’agit de simplement suivre des règles pour y parvenir :
+ • Les identifiants deviennent des clés primaires si aucun attribut n’occupe cette fonction
+ • Des clés étrangères sont ajoutées aux tables possédant une relation One
+ • Dans le cas d’une relation ManyToMany entre 2 tables, le verbe devient une table contenant des clés étrangères des 2 tables qu’il liait, auxquelles vous pouvez ajouter d’autres attributs si vous le souhaitez.
+ • Dans tous les autres cas, les verbes avec leur ovale disparaissent.
+
+La table intermédiaire, dans le cas d’une relation ManyToMany, est nécessaire puisqu’il est impossible de stocker un tableau d’id d’une autre table tout en conservant la contrainte de clé étrangère.
+Rappelez-vous : une clé étrangère permet de s’assurer de l’existence de l’id renseigné dans la table ciblée, nous ne pourrions donc pas donner un utilisateur dont l’id n’existe pas en base de données à notre voiture.
+Étant donné que le côté Many d’une relation devrait posséder plusieurs id, nous ne pouvons pas y stocker de clé étrangère.
+La solution consiste en la création d’une nouvelle table qui contiendra l’id de la première ainsi que l’id de la seconde table, de cette manière nous pouvons stocker un nombre indéfini de relations entre les 2 tables. 
+Nous pourrions en profiter pour stocker des informations propres à une de ces relations, par exemple le rôle d’un utilisateur au sein d’un projet qui comporte un grand nombre d’autres utilisateurs.
+
+_____
+MPD :
+
+Place maintenant au Modèle Physique de Données. 
+Il s’agit du MLD en prenant en compte le SGBD que vous avez choisi.
+ 
+👉 Ce diagramme représente donc la base de données telle qu’elle sera réellement implémentée, avec :
+
+✅ La création effective des tables.
+✅ La définition précise des types de données (par exemple : VARCHAR(255), INT, DATE, etc.).
+✅ Les contraintes d’intégrité : clés primaires, clés étrangères, NOT NULL, UNIQUE, etc.
+✅ La gestion des index, des triggers, des procédures stockées si nécessaire.
+✅ La prise en compte des performances (choix des index, moteur de stockage…).
+
+   -> Création du SQL
+____________________________________________________________________________
+
+
+
+____________________________________________________________________________
+explication sécurité (création d'un utilisateur "user" pour protéger "root", voir conceptionBDD.html)
+____________________________________________________________________________
+
+Après avoir lancé mon serveur web (Apache) et avoir navigué jusqu'à mon fichier \mysql.exe via l'invit de commande, je me connecte à MySQL avec l'utilisateur 'root' (utilisateur par défaut ayant tout les droits 
+d'administrations) grâce à la commande système suivante:
+	- mysql -u root -p
+
+A partir de là, je peux désormais créer une base de données avec l'instruction DDL 'CREATE' et configurer l'encodage (charset), ce qui me permet de contrôler la manière dont les caractères des textes seront 
+encodés et la collation, qui définit si les caractères sont sensible à la casse (case sensitive).
+	- CREATE DATABASE sneakydatereforged CHARACTER SET utf8 COLLATE utf8mb4_0900_as_cs;
+
+Cette étape est nécessaire, car elle garantit que les données contenant des caractères spéciaux peuvent être insérées sans problème, en fonction du jeu de caractères défini lors de la création de la base. 
+
+
+
+Une fois la base de données créée, j'utilise les droits d'administration de l'utilisateur "root" pour créer un utilisateur (USER) :
+	- mysql> CREATE USER 'sneakyDateAdmin'@'localhost' IDENTIFIED BY 'xxxxxxxxxxxxx';
+
+Cet utilisateur doit être configuré pour pouvoir interagir avec une base de données :
+	- mysql> GRANT select, insert, update, delete on sneakydatereforged.* to 'sneakyDateAdmin'@'localhost'; (droit de manipulation de données DML /// data definition langage DDL) manipalution contre 
+	structuration des objets de la BDD
+
+Dans cette dernière instruction SQL, en tant qu'administrateur "root", je donne les droits "select, insert, update et delete" (CRUD) à l'utilisateur sneakyDateAdmin (restreint à une connexion locale 'localhost'), 
+lui permettant d'effectuer ces opérations sur l'ensemble des tables de la base de donnée sneakydatereforged.
+
+Il est judicieux d'effectuer cette étape pour des raisons de sécurité et de limitation des risques de suppressions ou modifications accidentelles.
+
+En termes de sécurité, si l'une de mes bases de données gérées par MySQL venait à être compromise, l'utilisateur malveillant ne pourrait interagir uniquement avec la base de données corrompus et non à l'ensemble
+de mes base de données gérées par mysql.
+____________________________________________________________________________
+
+
+
+____________________________________________________________________________
+explication procédure
+____________________________________________________________________________
+
+Dans le cadre de la gestion et de l’optimisation de la base de données SneakyDateReforged, l'utilisation de procédures stockées peut s’avérer particulièrement pertinente.
+
+Une procédure stockée (ou stored procedure en anglais) est un bloc de code SQL enregistré et stocké directement sur le serveur de base de données.
+Elle regroupe un ensemble d'instructions SQL (souvent complexes) que l’on peut appeler à la demande, un peu comme une fonction dans un langage de programmation.
+
+Pourquoi utiliser des procédures stockées ?
+
+	1. Encapsulation de logique métier complexe
+		Les procédures stockées permettent d'exécuter des suites de requêtes SQL, souvent trop complexes pour être exprimées proprement dans un ORM. Elles autorisent :
+		La déclaration de variables
+		La création de tables temporaires
+		Des boucles, des conditions
+		L’enchaînement de plusieurs requêtes SQL dans un flux logique
+	👉 Par exemple : comptabiliser les connexions d’un utilisateur par mois, vérifier des contraintes spécifiques avant d’accepter un rendez-vous, etc.
+
+	2. Séparation des couches (pas de SQL dans l'application Java)
+		Dans une architecture bien pensée, on sépare le code métier (ex. Java avec Spring Boot) du code de gestion des données (SQL).
+		Les procédures stockées permettent donc d’éviter d’éparpiller du SQL un peu partout dans l’application.
+		Avec un ORM comme Hibernate ou Spring Data JPA, tu manipules des objets Java. Mais dès que tu veux aller plus loin que les simples SELECT ou JOIN, les limitations apparaissent. Les procédures prennent alors le relais.
+
+	3. Factorisation et réutilisation
+		Si plusieurs parties de l’application ont besoin d’un traitement identique, il est bien plus pratique et maintenable de centraliser ce traitement dans une procédure unique.
+		👉 Cela permet d’éviter la duplication de requêtes SQL complexes dans plusieurs endroits de l'application.
+
+	4. Optimisation des performances
+		Puisque les procédures stockées sont exécutées directement sur le serveur SQL, elles :
+		Réduisent le temps de communication entre l'application et la base
+		Bénéficient de la compilation anticipée (le serveur optimise le plan d’exécution)
+		Peuvent améliorer considérablement les temps de réponse, surtout pour des traitements complexes ou répétés
+
+	💡 Quand les utiliser dans SneakyDateReforged ?
+		📆 Valider automatiquement les disponibilités d’un utilisateur avant de créer un rendez-vous
+		🧮 Calculer le nombre total d’heures jouées par utilisateur (sur tous les jeux)
+		🔄 Réinitialiser ou archiver des données de notification après un certain délai
+		📈 Gérer un classement hebdomadaire basé sur l’activité (requêtes trop lourdes pour un ORM)
+
+	📌 Exemple simple de procédure stockée en MySQL
+
+		DELIMITER $$
+
+		CREATE PROCEDURE GetNombreAmis(IN userId INT)
+		BEGIN
+ 		 SELECT COUNT(*) AS nb_amis
+ 		 FROM etre_ami
+		  WHERE (utilisateur1_id = userId OR utilisateur2_id = userId)
+  		  AND statut = 'Acceptée';
+		END$$
+
+		DELIMITER ;
+
+	🔹 Ici, on encapsule dans une procédure une requête qui compte les amis d’un utilisateur donné.
+
+	🔐 Dernier avantage : la sécurité
+	Tu peux donner l’accès à une procédure stockée sans donner accès aux tables directement, ce qui permet :
+		De limiter les droits sur les données
+		De garantir que les opérations se font via des canaux bien contrôlés
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    📖 Diapositive 1 : MCD (Modèle Conceptuel de Données)
+        - Schéma Entité / Association
+        - Compréhensible par tous les métiers
+        - Entités : Rectangles, majuscule, identifiant souligné
+        - Associations : Ovales, verbe d’action
+        - Cardinalités :
+            1-1 : One
+            0-1 : Optionnel
+            1-N : Plusieurs (Many)
+            0-N : Aucun ou plusieurs (Many)
+
+    📖 Diapositive 2 : MLD (Modèle Logique de Données)
+        - Transformation MCD ➔ MLD
+        - Entités → Tables
+        - Associations → Relations ou Tables intermédiaires
+        - Règles de conversion :
+            Identifiants → Clés primaires
+            Relations One → Clés étrangères
+            Relations ManyToMany → Table intermédiaire
+        - Pourquoi une table intermédiaire ?
+            Contraintes de clés étrangères
+            Stockage de données supplémentaires (ex : rôle d’un utilisateur dans un projet)
+
+    📖 Diapositive 3 : MPD (Modèle Physique de Données)
+        - Implémentation réelle de la base
+        - SGBD pris en compte (MySQL, PostgreSQL…)
+        - Éléments clés :
+            Types de données (VARCHAR, INT…)
+            Contraintes : PK, FK, NOT NULL, UNIQUE
+            Index, Triggers, Procédures stockées
+            Optimisation des performances
+
+    📖 Diapositive 4 : Sécurité – Gestion des Droits
+        - Pourquoi créer un utilisateur dédié ?
+            Protection de root
+            Réduction des risques (suppression, modification accidentelle)
+        - Commandes essentielles :
+            CREATE USER
+            GRANT (Droits CRUD : SELECT, INSERT, UPDATE, DELETE)
+        - Bonne pratique :
+            Limiter les accès à une base spécifique
+
+    📖 Diapositive 5 : Procédures Stockées – Pourquoi ?
+        Encapsulation de la logique métier
+        Avantages :
+            - Variables, boucles, conditions
+            - Exécution de plusieurs requêtes
+            - Pas de SQL dans le code Java (Séparation des couches)
+            - Factorisation et réutilisation des requêtes
+            - Optimisation des performances (exécution sur le serveur)
+            - Sécurité accrue (droits limités à la procédure)
+        Cas d’usage SneakyDateReforged :
+            - Calculer les heures de jeu
+            - Vérifier disponibilités avant un rendez-vous
+            - Gérer les notifications
+            - Classement hebdomadaire
