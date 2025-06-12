@@ -1,0 +1,104 @@
+@startuml
+left to right direction
+
+actor "Visiteur" as V
+actor "Utilisateur" as U
+actor "Discord API" as D
+actor "Steam API" as S
+
+rectangle "SneakyDateReforged" {
+  usecase "S'inscrire" as UC1
+  usecase "Se connecter" as UC2
+  usecase "Connexion avec Discord" as UC3
+  usecase "Vérifier le compte Steam" as UC4
+  usecase "Réinitialiser le mot de passe" as UC5
+
+  usecase "Voir mon profil" as UC6
+  usecase "Gérer mes RDV" as UC7
+  usecase "Créer un RDV" as UC8
+  usecase "Modifier un RDV" as UC9
+  usecase "Supprimer un RDV" as UC10
+  usecase "Participer à un RDV" as UC11
+  usecase "Gérer mes invitations" as UC12
+  usecase "Voir/Modifier un RDV que j'organise" as UC25
+  usecase "Annuler participation à un RDV" as UC24
+  usecase "Accepter une invitation à un RDV" as UC22
+  usecase "Refuser une invitation à un RDV" as UC23
+  usecase "Inviter un ami à un RDV" as UC21
+  usecase "Voir les détails d’un RDV" as UC27
+
+  usecase "Consulter le planning" as UC13
+  usecase "Filtrer les RDV" as UC28
+
+  usecase "Rechercher un joueur" as UC14
+  usecase "Voir profil d’un joueur" as UC18
+
+  usecase "Gérer mes amis" as UC15
+  usecase "Ajouter un ami" as UC26
+  usecase "Supprimer un ami" as UC20
+
+  usecase "Créer une liste d'amis" as UC16
+  usecase "Gérer mes listes d'amis" as UC17
+  usecase "Supprimer une liste d'amis" as UC19
+
+  usecase "Basculer en mode sombre" as UC29
+}
+
+' Visiteur
+V -- UC1
+V -- UC2
+UC1 .> UC3 : <<include>>
+UC1 .> UC4 : <<include>>
+UC5 .> UC2 : <<extend>>
+
+' Utilisateur
+U -- UC5
+U -- UC6
+U -- UC7
+U -- UC8
+U -- UC9
+U -- UC10
+U -- UC11
+U -- UC12
+U -- UC13
+U -- UC14
+U -- UC15
+U -- UC16
+U -- UC17
+U -- UC18
+U -- UC19
+U -- UC20
+U -- UC21
+U -- UC22
+U -- UC23
+U -- UC24
+U -- UC25
+U -- UC26
+U -- UC27
+U -- UC28
+U -- UC29
+
+' RDV inclusions
+UC8 .> UC7 : <<include>>
+UC9 .> UC7 : <<include>>
+UC10 .> UC7 : <<include>>
+UC11 .> UC7 : <<include>>
+UC12 .> UC7 : <<include>>
+UC21 .> UC7 : <<include>>
+UC24 .> UC11 : <<extend>>
+UC25 .> UC11 : <<include>>
+UC22 .> UC12 : <<include>>
+UC23 .> UC12 : <<include>>
+UC27 .> UC7 : <<include>>
+
+' Amis / listes
+UC15 .> UC16 : <<include>>
+UC15 .> UC17 : <<include>>
+UC15 .> UC26 : <<include>>
+UC15 .> UC20 : <<include>>
+UC17 .> UC19 : <<include>>
+
+' APIs externes
+UC3 -- D
+UC4 -- S
+@enduml

@@ -1,0 +1,136 @@
+' ------------------------
+' UC3 – Connexion via Discord (avec bot sur salon vocal)
+' ------------------------
+@startuml uc3_discord_connection
+actor Utilisateur
+participant "UI Web" as UI
+participant "AuthController" as AuthCtrl
+participant "DiscordService" as DiscordSvc
+database "Base Utilisateur" as DB
+participant "Discord Bot (vocal)" as Bot
+
+Utilisateur -> UI : Clique sur "CONNECTION DISCORD"
+UI -> Utilisateur : Affiche instruction "Rejoindre le salon vocal"
+
+Utilisateur -> Bot : Se connecte au salon vocal Discord
+Bot -> Bot : Récupère ID Discord, pseudo, canal, serveur
+Bot -> AuthCtrl : POST /discord/callback {idDiscord, pseudoDiscord}
+
+AuthCtrl -> DiscordSvc : Traite les données Discord
+DiscordSvc -> DB : Associe l’ID Discord à l’inscription en cours
+DB --> DiscordSvc : OK
+DiscordSvc --> AuthCtrl : OK
+AuthCtrl --> Bot : 200 OK
+@enduml
+
+' ------------------------
+' UC4 – Vérification du compte Steam
+' ------------------------
+@startuml uc4_steam_verification
+actor Utilisateur
+participant "UI Web" as UI
+participant "AuthController" as AuthCtrl
+participant "SteamService" as SteamSvc
+participant "Steam API" as SteamAPI
+database "Base Utilisateur" as DB
+
+Utilisateur -> UI : Remplit formulaire avec Steam ID
+UI -> AuthCtrl : POST /auth/register {steamId, autres champs...}
+
+AuthCtrl -> SteamSvc : Vérifier Steam ID
+SteamSvc -> SteamAPI : GET /ISteamUser/GetPlayerSummaries
+SteamAPI --> SteamSvc : Données du joueur (pseudo, statut, etc.)
+
+alt Steam ID valide
+    SteamSvc -> DB : Associer Steam ID au compte
+    DB --> SteamSvc : OK
+    SteamSvc --> AuthCtrl : OK
+    AuthCtrl --> UI : 201 Created
+else Steam ID invalide
+    SteamSvc --> AuthCtrl : 400 Bad Request
+    AuthCtrl --> UI : Affiche message "Steam ID invalide"
+endif
+@enduml
+
+' ------------------------
+' UC5 – Réinitialisation du mot de passe
+' ------------------------
+@startuml uc5_reset_password
+actor Utilisateur
+participant "UI Web" as UI
+participant "AuthController" as AuthCtrl
+participant "MailService" as Mail
+participant "TokenService" as TokenSvc
+database "Base Utilisateur" as DB
+
+Utilisateur -> UI : Clique sur "Mot de passe oublié ?"
+UI -> Utilisateur : Affiche formulaire d'email
+Utilisateur -> UI : Saisit son email
+UI -> AuthCtrl : POST /auth/forgot-password {email}
+
+AuthCtrl -> DB : Vérifie existence de l’email
+DB --> AuthCtrl : OK
+
+AuthCtrl -> TokenSvc : Génère un token de reset sécurisé
+TokenSvc --> AuthCtrl : Token Reset
+
+AuthCtrl -> Mail : Envoie email de réinitialisation (avec lien contenant le token)
+Mail --> Utilisateur : Email avec lien /reset-password?token=XYZ
+
+Utilisateur -> UI : Clique sur lien reçu
+UI -> AuthCtrl : GET /auth/reset-password?token=XYZ
+AuthCtrl -> TokenSvc : Vérifie validité du token
+TokenSvc --> AuthCtrl : Token OK
+
+UI -> Utilisateur : Affiche formulaire de nouveau mot de passe
+Utilisateur -> UI : Saisit nouveau mot de passe
+UI -> AuthCtrl : POST /auth/reset-password {token, newPassword}
+
+AuthCtrl -> DB : Met à jour le mot de passe
+DB --> AuthCtrl : OK
+AuthCtrl --> UI : 200 OK
+UI --> Utilisateur : Message "Mot de passe mis à jour"
+@enduml
+
+' ------------------------
+' UC21 + UC22 + UC23 – Invitations à un RDV et réponse
+' ------------------------
+@startuml uc21_22_23_rdv_invitation
+actor Organisateur
+actor Invité
+participant "UI Web (org)" as UIOrg
+participant "UI Web (invité)" as UIInv
+participant "RdvController" as RdvCtrl
+participant "RdvService" as RdvSvc
+participant "NotificationService" as Notify
+database "Base RDV" as DB
+
+' --- Organisation côté organisateur ---
+Organisateur -> UIOrg : Sélectionne amis à inviter
+UIOrg -> RdvCtrl : POST /rdv/invitations {rdvId, destinataires}
+RdvCtrl -> RdvSvc : Traiter invitations
+RdvSvc -> DB : Enregistrer invitations
+RdvSvc -> Notify : Notifier les invités
+Notify --> Invité : Notification (invitation reçue)
+
+' --- Côté invité : consultation & réponse ---
+Invité -> UIInv : Accède à "Mes invitations"
+UIInv -> RdvCtrl : GET /rdv/invitations/{userId}
+RdvCtrl -> RdvSvc : Charger invitations
+RdvSvc -> DB : Lire invitations
+DB --> RdvSvc : Liste
+RdvSvc --> RdvCtrl : Données
+RdvCtrl --> UIInv : Affiche les invitations
+
+alt Accepte l'invitation
+  Invité -> UIInv : Clique sur "Accepter"
+  UIInv -> RdvCtrl : POST /rdv/invitations/{id}/accept
+  RdvCtrl -> RdvSvc : Marquer comme "accepté"
+  RdvSvc -> DB : Update statut = "ACCEPTED"
+else Refuse l'invitation
+  Invité -> UIInv : Clique sur "Refuser"
+  UIInv -> RdvCtrl : POST /rdv/invitations/{id}/refuse
+  RdvCtrl -> RdvSvc : Marquer comme "refusé"
+  RdvSvc -> DB : Update statut = "REFUSED"
+endif
+@enduml
