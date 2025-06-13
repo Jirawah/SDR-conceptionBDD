@@ -1,0 +1,331 @@
+Spécifications fonctionnelles - Non authentifié
+
+    Page 1 – Écran d’accueil non connecté
+
+        Contenu visible :
+
+            - Logo / Slogan : "RDV Gaming Cheater Free" (cliquez sur le logo amène sur la page Accueil authentifié )
+            - Titre : "Organise tes rendez-vous"
+            - Slogan : "RDV Gaming Cheater Free"
+            - Boutons ou liens visibles :
+                • INSCRIPTION
+                • CONNEXION
+            - Informations promotionnelles :
+                • Création d’équipes et de communautés éthiques
+                • Connexion vocale simplifiée avec l’API Discord
+                • Recherche de joueurs fairplay
+                • Validation via l’API Steam
+
+
+        Interactions utilisateur constatées :
+
+            1.Accès à l’inscription (INSCRIPTION) :
+                • L’utilisateur peut initier le processus d’inscription.
+                • Renvoie très probablement vers un formulaire d’inscription (vu plus tard).
+
+            2.Accès à la connexion (CONNEXION) :
+                • Permet de s’identifier s’il dispose déjà d’un compte.
+
+            3.Mode sombre (DARK MODE) :
+                • Bascule possible de l’interface en dark/light mode.
+
+            4.Accès indirect à des explications techniques :
+                • L’utilisateur peut lire les avantages du système : sécurité, anti-cheat, Discord, Steam – ce qui prépare implicitement aux prérequis d’inscription.
+                • Pas cliquables ici, mais préparent le terrain pour les conditions d’adhésion.
+
+
+
+
+
+    Page 2 – Formulaire d'inscription
+
+        Contenu visible :
+
+            Champs de formulaire :
+                • Pseudo (ex : “Utilisez celui de Discord”)
+                • Email
+                • Steam ID
+                • Mot de passe
+                • Répétez votre mot de passe
+
+            Aide utilisateur :
+                • Bouton ou lien “Comment obtenir ma Steam ID ?”
+                    → déclenche un popup d'aide expliquant comment récupérer manuellement son Steam ID.
+
+            Boutons cliquables :
+                • CONNEXION DISCORD
+                    → redirige l’utilisateur vers un salon vocal Discord spécifique.
+                    Un bot Discord en attente sur le salon y détecte automatiquement la présence de l’utilisateur et transmet à l’application, via l'API officiel Discord (sans OAuth2):
+                    → son ID, son discriminator, son pseudonyme, son avatar et son statut (en ligne / hors ligne).
+                    → Le bot ignore les utilisateurs déjà traités.
+                • INSCRIPTION (bouton de validation du formulaire)
+                • Déjà inscrit ? CONNEXION (lien/bouton menant au formulaire de login)
+                • Politique de confidentialité (lien vers une page dédiée aux informations de collecte et traitement des données)
+
+            Mentions ou conditions affichées :
+                • “Avoir un compte Steam”
+                • “Avoir un compte Discord”
+
+            Conditions obligatoires pour s'inscrire :
+                • Le formulaire doit être entièrement complété
+                • L'email ne doit pas déjà exister en BDD
+                • Le Steam ID ne doit pas déjà exister en BDD
+                • Le Steam ID doit être validé par l’API Web Steam (pas de ban de la part de Steam ou des développeurs des jeux de cette plateforme)
+                    → La réponse attendue inclut : personaname, avatar, et les infos sur les bannissements :
+                    (ex : banni VAC : Non, nombre de bans VAC, nombre de bans de jeu, jours depuis le dernier ban)
+                    → la validation Steam est faite avant insertion en BDD, et que les infos récupérées (pseudo/avatar) peuvent être stockées ou affichées.
+
+            Autre élément UX :
+                • Bascule de thème sombre/clair disponible
+
+
+        Interactions utilisateur constatées :
+
+            1.Remplissage manuel du formulaire :
+                • L’utilisateur saisit les champs Pseudo, Email, Steam ID, Mot de passe, et confirmation.
+                • Le mot de passe est vérifié par comparaison des deux champs.
+                • Tous les champs sont obligatoires pour activer le bouton d’inscription (le bouton "CONNEXION DISCORD" doit avoir été cliqué et les informations récoltées par le bot doivent avoir été renvoyé afin que l'utilisateur puisse cliquer sur "INSCRIPTION" pour finaliser celle-ci).
+
+            2.Aide Steam ID :
+                • Un clic sur “Comment obtenir ma Steam ID ?” ouvre un popup avec les explications nécessaires, sans changer de page.
+
+            3.Connexion via Discord (vocale, sans OAuth2) :
+                • Clic sur CONNEXION DISCORD → redirection vers un salon vocal Discord.
+                • Le bot Discord détecte l’utilisateur connecté et envoie ses informations à l’application :
+                ID + discriminator, pseudo, avatar, statut.
+                • Le bot ignore les utilisateurs déjà identifiés précédemment.
+
+            4.Vérifications côté serveur :
+                • L’email est vérifié : s’il existe déjà → blocage.
+                • Le Steam ID est vérifié :
+                    - non présent en BDD,
+                    - validé via l’API Web Steam (pseudo, avatar, statut de bannissements).
+
+            5.Soumission de l’inscription (INSCRIPTION) :
+                • L’utilisateur peut cliquer sur INSCRIPTION seulement si :
+                    - le formulaire est complet,
+                    - Discord est validé,
+                    - l’email et le Steam ID sont valides.
+                • Il est en suite redirigé vers la page CONNEXION.
+
+            6.Accès à la connexion s'il a déjà un compte (Déjà inscrit ? CONNEXION) :
+                • Lien qui redirige vers le formulaire de login.
+
+            7.Consultation de la politique de confidentialité :
+                •Lien vers une page décrivant en détail la collecte et l’utilisation des données.
+
+            8.Thème sombre :
+                • L’utilisateur peut activer ou désactiver le mode sombre à tout moment.
+                • Le mode choisi reste actif sur les autres pages.
+
+
+
+
+
+    Page 3 – Formulaire de connexion
+
+        Contenu visible :
+
+            Champs de formulaire :
+                • Email
+                • Mot de passe
+
+            Boutons cliquables :
+                • CONNEXION (bouton de validation du formulaire)
+                • Mot de passe oublié ? (lien ou bouton redirigeant vers la page de procédure de récupération (Réinitialisation du mot de passe - Demande d'email))
+                • Pas encore inscrit ? INSCRIPTION (renvoie sur la page d'inscription)
+
+            Messages d’erreur potentiels (affichés dynamiquement) :
+                • Email ou mot de passe incorrect
+                • Compte inexistant ou désactivé
+                • Champs vides ou mal remplis
+
+            Autre élément UX :
+                • Bascule de thème sombre/clair disponible
+
+
+        Interactions utilisateur constatées :
+
+            1.Saisie des identifiants :
+                • L’utilisateur renseigne son email et son mot de passe.
+                • Aucun des deux champs ne peut être vide pour activer le bouton CONNEXION.
+
+            2.Soumission du formulaire de connexion (CONNEXION) :
+                • En cliquant sur CONNEXION, les informations sont envoyées à l’application pour vérification.
+                • Si les identifiants sont valides :
+                    - L’utilisateur est redirigé vers la page d'accueil authentifié.
+                • En cas d’erreur :
+                    - Un message s’affiche (ex. : “Email ou mot de passe incorrect”).
+
+            3.Réinitialisation du mot de passe (Mot de passe oublié ?) :
+                • Si l’utilisateur clique sur ce lien :
+                    - Il est redirigé vers une page dédiée à la récupération de mot de passe.
+
+            5.Lien (Pas encore inscrit ? INSCRIPTION) :
+                • Redirige l'utilisateur vers la page d'inscription.
+
+            6.Thème sombre :
+                • L’utilisateur peut activer ou désactiver le mode sombre à tout moment.
+                • Le choix du thème reste actif sur les autres pages.
+
+
+
+
+
+    Page 4 – Réinitialisation du mot de passe – Demande d’email
+
+        Contenu visible :
+
+            Champs de formulaire :
+                • Email (champ de saisie unique)
+
+            Textes d’information :
+                • “Entrez l’adresse email associée à votre compte. Vous recevrez un lien pour réinitialiser votre mot de passe.”
+                • Message de confirmation affiché après soumission :
+                    → “Si un compte est associé à cette adresse, un email de réinitialisation a été envoyé.”
+
+            Boutons cliquables :
+                • ENVOYER (valide l’adresse email et déclenche l’envoi du lien de réinitialisation)
+                • Retour (revient à la page de connexion)
+
+            Messages d’erreur potentiels :
+                • “Adresse email invalide”
+                • “Veuillez entrer une adresse email”
+
+            Autre élément UX :
+                • Bascule de thème sombre/clair disponible
+
+
+        Interactions utilisateur constatées :
+
+            Saisie de l’adresse email :
+                • L’utilisateur entre l’adresse email associée à son compte.
+                • Le champ est obligatoire ; une validation empêche l’envoi si le champ est vide ou mal formé.
+
+            Soumission du formulaire (ENVOYER) :
+                • Si le champ est correctement rempli, un appel est effectué vers le backend.
+                • Deux cas de réponse :
+                    - Si un compte correspond : un email de réinitialisation est envoyé.
+                    - Sinon : même message affiché, pour des raisons de sécurité (aucune indication sur l’existence ou non du compte).
+
+            Retour à la connexion (Retour) :
+                • L’utilisateur peut revenir à la page de connexion pour retenter un login.
+
+            Thème sombre :
+                • Comme sur les autres pages, l’interface permet à l’utilisateur de choisir entre clair et sombre.
+                • La préférence est conservée pour la navigation future.
+
+
+
+
+
+    Page 5 – Réinitialisation du mot de passe – Formulaire Nouveau MDP
+
+        Contenu visible :
+
+            Champs de formulaire :
+                • Nouveau mot de passe
+                • Confirmer le nouveau mot de passe
+
+            Textes d’information :
+                • “Veuillez choisir votre nouveau mot de passe pour votre compte.”
+                • “Pour des raisons de sécurité, le mot de passe doit comporter au minimum 12 caractères.”
+
+            Boutons cliquables :
+                • RÉINITIALISER (valide le nouveau mot de passe et enregistre la modification, puis redirige vers la page CONNEXION)
+                • Retour (vers la page de Réinitialisation du mot de passe - Demande d'email)
+
+            Messages d’erreur potentiels :
+                • “Les mots de passe ne correspondent pas”
+                • “Mot de passe trop court”
+                • “Lien expiré ou invalide”
+
+            Messages de confirmation :
+                • “Votre mot de passe a été mis à jour avec succès. Vous pouvez désormais vous connecter.”
+
+            Autre élément UX :
+                • Bascule de thème sombre/clair disponible
+
+
+        Interactions utilisateur constatées :
+
+            Saisie du nouveau mot de passe :
+                • L’utilisateur saisit un nouveau mot de passe puis le confirme dans un second champ.
+                • Le système vérifie que :
+                    - les deux mots de passe correspondent,
+                    - le mot de passe respecte les critères de sécurité (ex. : 12 caractères minimum).
+
+            Soumission du formulaire (RÉINITIALISER) :
+                • Si la validation est réussie, le mot de passe est mis à jour dans la base de données.
+                • L’utilisateur est redirigé vers la page de connexion.
+
+            Lien expiré ou invalide :
+                • Si l’utilisateur a cliqué sur un lien de réinitialisation trop ancien ou déjà utilisé, un message d’erreur s’affiche et il est invité à refaire la procédure depuis le début.
+
+            Retour à la page Réinitialisation du mot de passe - Demande d'email (Retour) :
+                • L’utilisateur peut revenir à la page d'avant sans réinitialiser son mot de passe.
+
+            Thème sombre :
+                • L’utilisateur peut activer/désactiver le thème sombre.
+                • La préférence est conservée.
+
+
+
+
+
+Spécifications fonctionnelles - Authentifié
+
+    Page 1 – Accueil authentifié
+
+        Contenu visible :
+
+            Entête persistante (haut de page) :
+                • Logo / Slogan : "RDV Gaming Cheater Free" (cliquez sur le logo amène sur la page Accueil authentifié )
+                • Bouton DÉCONNEXION
+                • Avatar de l’utilisateur connecté
+                • Menu de navigation (texte ou icônes) :
+                    → MON PROFIL
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+                    → PLANNING
+
+            Zone principale (bloc de bienvenue) :
+                • Texte de bienvenue : "Bienvenue"
+                • Pseudo affiché : ex. "ByteStorm404"
+                • Données de synthèse :
+                    → Nombre total de RDV
+                    → Prochain RDV (date/heure affichée)
+                    → Horaire actuel
+                    → Avatar utilisateur
+
+            Éléments visuels :
+                • Présence d’un encadré sur fond neutre ou coloré pour chaque info clé (type dashboard)
+                • Présence des sections/fonctionnalités organisées comme une vue résumé
+
+            Autre élément UX :
+                • Bascule de thème sombre/clair toujours présente
+                • Slogan ou identité visuelle globale conservée (pas de rupture avec la page d’accueil non-connecté)
+
+
+    Interactions utilisateur constatées :
+
+        Affichage personnalisé des données de l’utilisateur connecté :
+            • L’interface récupère les infos en base : pseudo, avatar, nombre de RDV, prochain RDV.
+            • Les données sont affichées dynamiquement dès l’arrivée sur la page (après authentification réussie).
+
+        Navigation via menu :
+            • Chaque élément du menu principal permet d’accéder aux fonctionnalités liées :
+                - MON PROFIL → consultation et modification des données personnelles
+                - MES RDV → gestion des RDV créés, participations, invitations
+                - MES AMIS → listes d’amis, profils, invitations
+                - RECHERCHE JOUEURS → moteur de recherche filtrable
+                - PLANNING → vue calendrier + création de RDV à une date donnée
+
+        Déconnexion (DÉCONNEXION) :
+            • Clic sur le bouton déconnecte l’utilisateur et le redirige vers la page d’accueil non connecté.
+            • Le token JWT (si utilisé) est supprimé du stockage local (localStorage / sessionStorage).
+
+        Accès au mode sombre :
+            • L’utilisateur peut activer/désactiver le thème sombre.
+            • Le choix est conservé sur les autres pages.
