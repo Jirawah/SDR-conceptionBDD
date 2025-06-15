@@ -4,7 +4,7 @@ Spécifications fonctionnelles - Non authentifié
 
         Contenu visible :
 
-            - Logo / Slogan : "RDV Gaming Cheater Free" (cliquez sur le logo amène sur la page Accueil authentifié )
+            - Logo / Slogan : "RDV Gaming Cheater Free" (cliquez sur le logo amène sur la page Accueil non-authentifié, identique sur toutes les pages non-authentifié)
             - Titre : "Organise tes rendez-vous"
             - Slogan : "RDV Gaming Cheater Free"
             - Boutons ou liens visibles :
@@ -275,57 +275,170 @@ Spécifications fonctionnelles - Non authentifié
 
 Spécifications fonctionnelles - Authentifié
 
-    Page 1 – Accueil authentifié
+   Page 1 – Accueil authentifié
+Contenu visible :
+Entête persistante (présente sur toutes les pages authentifiées) :
+• Logo / Slogan : RDV Gaming Cheater Free
+→ Cliquer sur le logo ramène à la page d’accueil authentifié
+• Heure actuelle (ex. : “13 h 32”)
+• Avatar de l’utilisateur connecté
+• Bouton : DÉCONNEXION
+• Menu de navigation :
+→ MON PROFIL
+→ MES RDV
+→ MES AMIS
+→ RECHERCHE JOUEURS
+→ PLANNING
 
-        Contenu visible :
+Zone principale (dashboard résumé) :
+• Texte de bienvenue : “Bienvenue”
+• Pseudo utilisateur affiché en grand (ex. : “ByteStorm404”)
+• Bloc synthétique d’information :
 
-            Entête persistante (haut de page) :
-                • Logo / Slogan : "RDV Gaming Cheater Free" (cliquez sur le logo amène sur la page Accueil authentifié )
-                • Bouton DÉCONNEXION
-                • Avatar de l’utilisateur connecté
-                • Menu de navigation (texte ou icônes) :
-                    → MON PROFIL
-                    → MES RDV
-                    → MES AMIS
-                    → RECHERCHE JOUEURS
-                    → PLANNING
+Nombre de RDV
 
-            Zone principale (bloc de bienvenue) :
-                • Texte de bienvenue : "Bienvenue"
-                • Pseudo affiché : ex. "ByteStorm404"
-                • Données de synthèse :
-                    → Nombre total de RDV
-                    → Prochain RDV (date/heure affichée)
-                    → Horaire actuel
-                    → Avatar utilisateur
+Prochain RDV
 
-            Éléments visuels :
-                • Présence d’un encadré sur fond neutre ou coloré pour chaque info clé (type dashboard)
-                • Présence des sections/fonctionnalités organisées comme une vue résumé
+Horaire (affiché ou déduit de l’heure système)
 
-            Autre élément UX :
-                • Bascule de thème sombre/clair toujours présente
-                • Slogan ou identité visuelle globale conservée (pas de rupture avec la page d’accueil non-connecté)
+Avatar affiché (même image que dans l’entête)
+
+Encadré central contextuel :
+• Message incitatif :
+→ “Créer tes RDV ou demande à participer aux autres membres”
+• Bouton call-to-action :
+→ C’EST PAR ICI !
+→ Comportement : redirection vers la page Planning RDV
+
+Autre élément UX :
+• Bouton de bascule DARK MODE toujours visible
+• Aucun bloc secondaire ou panneau latéral présent
+
+Interactions utilisateur constatées :
+Affichage personnalisé des données utilisateur :
+• Lors de l’arrivée sur cette page, l’interface récupère les infos du compte connecté :
+→ pseudo, avatar, nombre total de RDV, date/heure du prochain RDV
+• Ces données sont affichées dynamiquement sans rechargement complet de la page.
+
+Accès au Planning (via “C’EST PAR ICI !”) :
+• Clic sur le bouton C’EST PAR ICI !
+• Redirige vers la page Planning RDV (Page 2)
+
+Navigation via le menu haut :
+• Chaque lien du menu permet un accès direct :
+
+MON PROFIL → page de consultation du profil
+
+MES RDV → page de gestion des rendez-vous
+
+MES AMIS → page des amis et des listes
+
+RECHERCHE JOUEURS → page moteur de recherche
+
+PLANNING → calendrier interactif
+
+Déconnexion (DÉCONNEXION) :
+• Déconnecte immédiatement l’utilisateur
+• Supprime le token d’authentification s’il est en place (ex : localStorage)
+• Redirige vers la page d’accueil non connectée
+
+Retour à l’accueil depuis le logo :
+• Cliquer sur le logo / slogan dans l’entête ramène à cette page
+
+Thème sombre :
+• L’utilisateur peut activer/désactiver le Dark Mode via le bouton en haut
+• L’état choisi est conservé lors de la navigation (même si fictif)
 
 
-    Interactions utilisateur constatées :
 
-        Affichage personnalisé des données de l’utilisateur connecté :
-            • L’interface récupère les infos en base : pseudo, avatar, nombre de RDV, prochain RDV.
-            • Les données sont affichées dynamiquement dès l’arrivée sur la page (après authentification réussie).
 
-        Navigation via menu :
-            • Chaque élément du menu principal permet d’accéder aux fonctionnalités liées :
-                - MON PROFIL → consultation et modification des données personnelles
-                - MES RDV → gestion des RDV créés, participations, invitations
-                - MES AMIS → listes d’amis, profils, invitations
-                - RECHERCHE JOUEURS → moteur de recherche filtrable
-                - PLANNING → vue calendrier + création de RDV à une date donnée
 
-        Déconnexion (DÉCONNEXION) :
-            • Clic sur le bouton déconnecte l’utilisateur et le redirige vers la page d’accueil non connecté.
-            • Le token JWT (si utilisé) est supprimé du stockage local (localStorage / sessionStorage).
+Page 2 – Planning RDV
+Contenu visible :
+Entête persistante (présente sur toutes les pages authentifiées) :
+• Logo / Slogan : RDV Gaming Cheater Free (le clic sur le logo ramène vers la page “Accueil authentifié”)
+• Heure actuelle (ex : “13 h 32”)
+• Avatar utilisateur
+• Bouton : DÉCONNEXION
+• Menu de navigation :
+→ MON PROFIL
+→ MES RDV
+→ MES AMIS
+→ RECHERCHE JOUEURS
+→ PLANNING
 
-        Accès au mode sombre :
-            • L’utilisateur peut activer/désactiver le thème sombre.
-            • Le choix est conservé sur les autres pages.
+Titre principal de la page :
+• PLANNING RDV
+
+Bloc secondaire visible :
+• LES RDV POUR LE [date sélectionnée]
+
+Filtres :
+• Filtres disponibles en haut à droite :
+
+FILTRER PAR DATE (via un calendrier mensuel cliquable)
+
+ET/OU PAR RÔLES (ex. : organisateur / invité / participant)
+
+ET/OU PAR JEU (ex. : PUBG, Rust, Among Us)
+
+Calendrier :
+• Affichage du mois courant (ex. Janvier)
+• Jours du mois affichés sous forme de grille
+• Navigation possible entre les mois via les flèches (non affichées mais implicites)
+
+Liste des RDV du jour sélectionné (sous le bloc “LES RDV POUR LE”) :
+Pour chaque RDV :
+• Nom du RDV
+• Jeu associé (ex. PUBG, Rust, Among Us)
+• Heure
+• Nom de l’organisateur
+• Statut du salon : Public / Privé
+• Statut de l’utilisateur vis-à-vis du RDV :
+→ déjà sur la liste ou
+→ bouton Demandez à participer
+• Boutons d'action si l’utilisateur est déjà invité :
+→ Accepter / Refuser
+
+Autre élément UX :
+• Présence du bouton “Créer un RDV à cette date” (si aucun RDV ou affiché dans le bas de la liste)
+• Bascule DARK MODE présente (même si fictive)
+
+Interactions utilisateur constatées :
+Sélection d’une date :
+• L’utilisateur clique sur un jour du calendrier.
+• Le système affiche en dessous la section “LES RDV POUR LE [date]” avec les RDV correspondants à ce jour.
+
+Filtrage avancé :
+• L’utilisateur peut cocher ou sélectionner un ou plusieurs filtres :
+
+par rôle (organisateur, participant, invité),
+
+par jeu (Among Us, Rust, PUBG),
+• Les résultats s’actualisent dynamiquement selon les filtres.
+
+Affichage des RDV d’un jour sélectionné :
+• Tous les RDV pour cette date sont listés avec :
+
+leur nom, heure, jeu, salon, statut
+
+et l’état de l’utilisateur (sur liste, invité, en attente, etc.)
+
+Interaction avec un RDV :
+• Si l’utilisateur n’est pas inscrit, un bouton Demandez à participer est affiché.
+• Si l’utilisateur a été invité, il peut cliquer sur Accepter ou Refuser.
+• Si déjà inscrit : simple mention “Liste”.
+
+Création d’un RDV :
+• Si l’utilisateur clique sur Créer un RDV à cette date, il est redirigé vers un formulaire de création de RDV avec la date pré-remplie.
+
+Déconnexion :
+• Clic sur DÉCONNEXION → redirection vers la page d’accueil non connectée.
+
+Navigation depuis l’entête :
+• Clic sur un élément du menu → redirection immédiate vers la page associée :
+
+ex. : MON PROFIL, MES AMIS, etc.
+
+Mode sombre :
+• Clic sur “DARK MODE” → bascule visuelle (fictive ici), sans rechargement de page.
