@@ -273,7 +273,7 @@ Spécifications fonctionnelles - Non authentifié
 
 
 
-Spécifications fonctionnelles - Authentifié
+Spécifications fonctionnelles - Authentifié--
 
    Page 1 – Accueil authentifié
 Contenu visible :
