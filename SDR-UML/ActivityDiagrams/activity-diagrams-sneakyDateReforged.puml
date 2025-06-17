@@ -10,6 +10,7 @@ if (Déjà inscrit ?) then (Oui)
   :Saisir identifiants;
   :Cliquer sur "Se connecter";
   if (Identifiants valides ?) then (Oui)
+    :Rediriger vers l'accueil authentifié;
     stop
   else
     :Afficher erreur;
@@ -24,11 +25,14 @@ if (Déjà inscrit ?) then (Oui)
   endif
 
 else (Non)
+  :Cliquer sur "INSCRIPTION";
   :Saisir pseudo, email, mot de passe, Steam ID;
   :Connexion via Discord;
   :Vérification Steam API;
   if (Données valides ?) then (Oui)
     :Compte créé;
+    :Afficher message "Inscription réussie";
+    :Rediriger vers la page de connexion;
     stop
   else
     :Afficher message d’erreur;
@@ -36,6 +40,7 @@ else (Non)
   endif
 endif
 @enduml
+
 
 ' ------------------------
 ' Diagramme 2 : Cycle d’un RDV
@@ -64,6 +69,7 @@ endif
 
 if (Création réussie ?) then (Oui)
   :Afficher confirmation;
+  :Rediriger vers la page "Détail RDV – Cardbox cliquée";
   stop
 else
   :Afficher message d’erreur;
@@ -71,17 +77,19 @@ else
 endif
 @enduml
 
+
 ' ------------------------
 ' Diagramme 3 : Invitations et participation
 ' ------------------------
 @startuml invitations_participation
 start
 
-:Organisateur accède à la fiche RDV;
-:Cliquer sur "Inviter un ami";
-
-:Sélectionner amis ou listes d’amis;
-:Envoyer invitations;
+partition "Organisateur" {
+  :Accéder à la fiche RDV;
+  :Cliquer sur "Inviter un ami";
+  :Sélectionner amis ou listes d’amis;
+  :Envoyer invitations;
+}
 
 partition "Invité (Utilisateur)" {
   :Recevoir notification d'invitation;
@@ -94,16 +102,25 @@ partition "Invité (Utilisateur)" {
     :Cliquer sur "Refuser";
     :Statut = Refusé;
   endif
+
+  if (Annuler sa participation ?) then (Oui)
+    :Accéder à la liste de mes RDV;
+    :Cliquer sur "Annuler participation";
+    :Statut = Annulé;
+  endif
 }
 
-if (Annuler sa participation ?) then (Oui)
-  :Accéder à la liste de mes RDV;
-  :Cliquer sur "Annuler participation";
-  :Statut = Annulé;
-endif
+partition "Utilisateur non invité" {
+  if (Salon public et slots disponibles ?) then (Oui)
+    :Accéder au détail du RDV;
+    :Cliquer sur "Demander à participer";
+    :Statut = En attente;
+  endif
+}
 
 stop
 @enduml
+
 
 ' ------------------------
 ' Diagramme 4 : Gestion d’amis et de listes
@@ -115,8 +132,15 @@ start
 
 partition "Gestion des amis" {
   :Rechercher un pseudo;
-  :Cliquer sur "Ajouter un ami";
-  :Ami ajouté;
+  if (Ami déjà ajouté ?) then (Non)
+    :Cliquer sur "Ajouter un ami";
+    :Ami ajouté;
+  else
+    :Afficher message "Cet utilisateur est déjà dans votre liste";
+  endif
+
+  :Cliquer sur une cardbox d’ami;
+  :Voir le profil de l’ami sélectionné;
 
   if (Supprimer un ami ?) then (Oui)
     :Cliquer sur "Supprimer";
@@ -161,14 +185,23 @@ start
 
 if (Joueur trouvé ?) then (Oui)
   :Cliquer sur "Voir le profil";
-
   :Afficher le profil du joueur;
   :Voir ses jeux, son temps de jeu, ses avatars;
 
-  if (Souhait d’interagir ?) then (Oui)
+  if (Est déjà ami ?) then (Oui)
+    :Afficher bouton "Retirer des amis";
+    if (Retirer l’ami ?) then (Oui)
+      :Cliquer sur "Retirer des amis";
+      :Ami supprimé;
+    endif
+  else
+    :Afficher bouton "Ajouter en ami";
     :Cliquer sur "Ajouter en ami";
-    :Envoyer la demande;
+    :Demande envoyée;
   endif
+
+  :Cliquer sur "Inviter à un RDV";
+  :Rediriger vers la création de RDV avec ce joueur présélectionné;
 
 else
   :Afficher "Aucun joueur trouvé";
@@ -176,3 +209,4 @@ endif
 
 stop
 @enduml
+

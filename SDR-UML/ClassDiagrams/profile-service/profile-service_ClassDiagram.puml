@@ -1,0 +1,36 @@
+@startuml profile_service_class_diagram
+
+' Couleurs personnalisées pour distinguer Domain & DTO
+skinparam class {
+    BackgroundColor<<DTO>> HoneyDew
+    ArrowColor Black
+    BorderColor Black
+}
+
+' ==========================
+'           DTOs
+' ==========================
+
+class ProfileDTO <<DTO>> {
+    + userId : Long
+    + pseudo : String
+    + avatarUrl : String
+    + steamId : String
+    + discordId : String
+    + nombreAmis : int
+    + nombreRDVs : int
+    + prochainRDV : LocalDateTime
+    + jeuxFavoris : List<String>
+    + statsRDV : StatsRDVDTO
+}
+
+class StatsRDVDTO <<DTO>> {
+    + total : int
+    + confirmés : int
+    + annulés : int
+    + participations : int
+}
+
+ProfileDTO --> StatsRDVDTO : contient
+
+@enduml

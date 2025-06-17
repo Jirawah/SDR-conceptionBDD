@@ -1,0 +1,39 @@
+🎯 Objectif : Diagramme de classes du microservice `profile-service`
+
+Ce service gère :
+    - La consultation de son propre profil (UC6)
+    - La consultation du profil d’un autre joueur (UC18)
+    - La consultation du profil d’un ami
+
+📌 Remarque :
+    - Ce service n’a pas d’entités persistées
+    - Il agrège des données provenant des autres microservices (auth, rdv, friend…)
+
+──────────────────────────────────────────────
+📦 Étape 1 : DTOs (objets d’échange uniquement)
+──────────────────────────────────────────────
+
+✅ ProfileDTO  
+    - userId : Long  
+    - pseudo : String  
+    - avatarUrl : String  
+    - steamId : String  
+    - discordId : String  
+    - nombreAmis : int  
+    - nombreRDVs : int  
+    - prochainRDV : LocalDateTime  
+    - jeuxFavoris : List<String>  
+    - statsRDV : StatsRDVDTO  
+
+✅ StatsRDVDTO  
+    - total : int  
+    - confirmés : int  
+    - annulés : int  
+    - participations : int  
+
+──────────────────────────────────────────────
+🔗 Étape 2 : Relations
+──────────────────────────────────────────────
+
+- ProfileDTO --> StatsRDVDTO (composition)
+- Pas d’entités JPA, uniquement des objets d’agrégation exposés via REST

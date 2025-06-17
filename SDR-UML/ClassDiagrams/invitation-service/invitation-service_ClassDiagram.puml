@@ -1,0 +1,45 @@
+@startuml invitation_service_class_diagram
+
+' Couleurs personnalisées pour distinguer Domain & DTO
+skinparam class {
+    BackgroundColor<<Domain>> LightYellow
+    BackgroundColor<<DTO>> HoneyDew
+    ArrowColor Black
+    BorderColor Black
+}
+
+' ==========================
+'       ENTITÉ JPA
+' ==========================
+
+class Invitation <<Domain>> {
+    - id : Long
+    - rdvId : Long
+    - inviteId : Long
+    - statut : String
+    - dateEnvoi : LocalDateTime
+}
+
+' ==========================
+'           DTOs
+' ==========================
+
+class InvitationRequestDTO <<DTO>> {
+    + rdvId : Long
+    + destinataires : List<Long>
+}
+
+class InvitationResponseDTO <<DTO>> {
+    + id : Long
+    + rdvId : Long
+    + inviteId : Long
+    + statut : String
+    + dateEnvoi : LocalDateTime
+}
+
+class InvitationDecisionDTO <<DTO>> {
+    + invitationId : Long
+    + decision : String
+}
+
+@enduml

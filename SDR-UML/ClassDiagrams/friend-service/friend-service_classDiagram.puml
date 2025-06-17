@@ -1,0 +1,66 @@
+@startuml friend_service_class_diagram
+
+' Couleurs personnalisées pour distinguer Domain & DTO
+skinparam class {
+    BackgroundColor<<Domain>> LightYellow
+    BackgroundColor<<DTO>> HoneyDew
+    ArrowColor Black
+    BorderColor Black
+}
+
+' ==========================
+'       ENTITÉS JPA
+' ==========================
+
+class Friend <<Domain>> {
+    - id : Long
+    - userId : Long
+    - amiId : Long
+    - statut : String
+    - dateAjout : LocalDateTime
+}
+
+class FriendList <<Domain>> {
+    - id : Long
+    - nom : String
+    - userId : Long
+}
+
+class FriendListMember <<Domain>> {
+    - id : Long
+    - friendList : FriendList
+    - amiId : Long
+}
+
+FriendList "1" -- "0..*" FriendListMember
+
+' ==========================
+'           DTOs
+' ==========================
+
+class FriendDTO <<DTO>> {
+    + userId : Long
+    + amiId : Long
+    + statut : String
+    + dateAjout : LocalDateTime
+}
+
+class FriendListDTO <<DTO>> {
+    + id : Long
+    + nom : String
+    + userId : Long
+    + membres : List<Long>
+}
+
+class CreateFriendListRequest <<DTO>> {
+    + nom : String
+    + membres : List<Long>
+}
+
+class UpdateFriendListRequest <<DTO>> {
+    + id : Long
+    + nom : String
+    + membres : List<Long>
+}
+
+@enduml

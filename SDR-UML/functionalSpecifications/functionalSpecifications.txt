@@ -273,7 +273,7 @@ Spécifications fonctionnelles - Non authentifié
 
 
 
-Spécifications fonctionnelles - Authentifié--
+Spécifications fonctionnelles - Authentifié--   
 
     Page 1 – Accueil authentifié
 
@@ -781,1053 +781,773 @@ Spécifications fonctionnelles - Authentifié--
 
 
 
-Page 7 – Détail invités – Organisateur – [Nom du RDV] (ex. : PUBGNow)
-✅ Contenu visible :
-🧱 En-tête persistante (commune à toutes les pages authentifiées) :
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Heure affichée
-
-Menu de navigation :
-→ MON PROFIL
-→ PLANNING
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-
-Avatar utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bouton : DARK MODE
-
-📋 Zone latérale gauche (dashboard résumé) :
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar utilisateur connecté
-
-Bloc d'information :
-→ Nombre total de RDV
-→ Prochain RDV (date et heure)
-→ Nombre de participations
-
-Bouton DÉCONNEXION
-
-🧩 Zone principale – Gestion des invités pour un RDV :
-Titre de section : “DÉTAILS ET INVITÉS – PUBGNow”
-
-Sous-titre : Informations du RDV
-→ Nom du RDV : PUBGNow
-→ Jeu : PUBG
-→ Date et heure : 2/12 à 20h30
-→ Statut du salon : Privé / Public
-→ Nombre total de slots : 4
-→ Nombre de places restantes : [X]
-
-📜 Liste des slots (affichée verticalement, chaque ligne représente un slot) :
-Slot 1 : Organisateur – ByteStorm404 (vous) ✅
-
-Slot 2 : Invite ✉ Accepté – SteamMaster92 [✔]
-
-Slot 3 : Invite ✉ En attente – NoScopeQueen [✖ Refuser] [✔ Accepter]
-
-Slot 4 : Place disponible
-→ Bouton : Inviter un ami (ouvre liste déroulante d'amis disponibles)
-
-🛠️ Actions disponibles :
-Pour chaque invité :
-→ Bouton : Renvoyer l’invitation (si en attente)
-→ Bouton : Retirer (supprime l’invitation)
-
-Pour une place vide :
-→ Bouton : Inviter un ami (ouvre recherche ou listes d’amis prédéfinies)
-
-Bouton global en bas de section : ENREGISTRER LES MODIFICATIONS
-
-👥 Zone latérale droite (amis) :
-Liste de vos amis affichée sous forme de cardbox
-→ Statut (ONLINE / OFFLINE)
-→ Pseudo
-→ Clic redirige vers leur profil
-
-💡 Autre élément UX :
-Slots visuellement différenciés selon leur état :
-→ Vert = Confirmé
-→ Jaune = En attente
-→ Gris = Disponible
-
-Feedback en temps réel sur les réponses des invités (WebSocket ou rafraîchissement)
-
-Infobulle sur chaque bouton d’action :
-→ “Retirer ce joueur du RDV”
-→ “Renvoyer l’invitation”
-→ “Cliquer pour inviter un ami”
-
-DARK MODE toujours visible
-
-🎮 Interactions utilisateur constatées :
-Consultation des slots :
-
-L’organisateur voit tous les participants, confirmés ou non, ainsi que les emplacements encore libres
-
-Gestion des invitations :
-
-Peut relancer une invitation non répondue
-
-Peut retirer une invitation à tout moment
-
-Peut remplir un slot vide en choisissant un ami via recherche ou liste prédéfinie
-
-Réorganisation possible (optionnelle selon implémentation) :
-
-Possibilité de réattribuer un slot (déplacer un participant vers un autre slot en cas d'erreur ou de bug)
-
-Enregistrement des modifications :
-
-Le bouton ENREGISTRER LES MODIFICATIONS sauvegarde tous les changements réalisés sur les invités du RDV
-
-Navigation fluide :
-
-L’utilisateur peut revenir au planning, à ses RDV ou à une autre page via le menu
-
-Thème sombre :
-
-Toujours disponible, avec conservation de l’état
-
-
-
-
-
-Page 8 – Détail invités – Participant – CrazyPUBG
-Contenu visible :
-En-tête persistante :
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Heure affichée
-
-Menu de navigation :
-→ MON PROFIL
-→ PLANNING
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-
-Zone latérale gauche (dashboard résumé) :
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV
-→ Horaire du prochain RDV
-
-Zone principale – Détail du RDV (vue participant) :
-Titre : ex. “RDV - CrazyPUBG”
-
-Détails visibles du RDV :
-
-Nom du jeu : PUBG
-
-Date et heure du RDV : ex. 12/06 à 20h30
-
-Organisateur : pseudo visible
-
-Statut du salon : Public ou Privé
-
-Bloc "Votre statut" (participant) :
-
-Indicateur : "Vous participez à ce RDV"
-
-Bouton unique : SE RETIRER DU RDV
-
-Liste des invités :
-
-Affichage de tous les joueurs :
-→ Pseudo, statut (confirmé/en attente/refusé)
-→ Avatar
-
-Bloc statique : Slots utilisés vs Slots max (ex. 3/4 joueurs)
-
-Zone latérale droite :
-amis (affichés via des cardbox empilées)
-→ Statut ONLINE/OFFLINE
-→ Cliquables : redirigent vers les profils amis
-
-Autre élément UX :
-Bouton de bascule DARK MODE toujours visible
-
-Infobulle d’aide au survol du bouton “SE RETIRER DU RDV”
-
-Icônes de statut avec légende (ex. ✅ confirmé, ❌ refusé, ⏳ en attente)
-
-Interactions utilisateur constatées :
-Consultation des informations du RDV :
-
-Le participant voit tous les détails du RDV :
-→ jeu, date, heure, organisateur, statut du salon.
-
-Retrait du RDV :
-
-En cliquant sur “SE RETIRER DU RDV” :
-→ L’utilisateur quitte la participation
-→ Un message de confirmation peut s’afficher
-→ Le slot devient libre pour un autre joueur
-→ L’état change côté organisateur
-
-Visualisation des autres invités :
-
-Tous les participants sont visibles
-
-Les statuts sont lisibles en temps réel ou à chaque rafraîchissement
-
-Navigation persistante :
-
-Possibilité de changer de section via le menu sans perdre le contexte
-
-Thème sombre :
-
-Basculable à tout moment, état conservé (ex. via localStorage)
-
-
-
-
-
-Page 9 – Mes amis
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Heure affichée
-
-Menu de navigation :
-→ MON PROFIL
-→ PLANNING
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-
-Zone latérale gauche (dashboard résumé) :
-
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV
-→ Horaire
-
-Zone principale – Gestion des amis :
-
-Titre de section : “MES AMIS”
-
-Champs de recherche de joueur (pseudo)
-
-Résultats dynamiques s’affichant sous le champ (avec statut et bouton “Ajouter”)
-
-Liste des amis existants (présentés sous forme de cardbox avec informations suivantes) :
-→ Pseudo
-→ Avatar
-→ Statut (ONLINE / OFFLINE)
-→ Bouton : Supprimer
-→ Bouton : Ajouter à une liste
-
-Gestion des listes d’amis (encart ou onglet) :
-→ Liste des groupes personnalisés créés par l’utilisateur
-→ Pour chaque groupe :
-• Nom de la liste
-• Nombre d’amis dans la liste
-• Bouton : Modifier la liste (ajouter/supprimer un ami, renommer, supprimer la liste)
-
-Zone latérale droite :
-
-amis (affichage identique aux autres pages)
-→ Statut ONLINE / OFFLINE
-→ Redirection vers le profil en cliquant sur une cardbox
-
-Autre élément UX :
-
-Bouton de bascule DARK MODE toujours visible
-
-Affichage de confirmation pour chaque action (ajout / suppression / ajout à une liste)
-
-Infobulle au survol des boutons (ex. : “Ajouter à une liste”, “Supprimer cet ami”)
-
-Affichage d’un message si aucun ami trouvé ou aucune liste créée (“Vous n’avez pas encore d’amis ajoutés”)
-
-Interactions utilisateur constatées :
-Ajout d’un ami :
-
-L’utilisateur tape un pseudo dans la barre de recherche
-
-Les suggestions s’affichent dynamiquement
-
-Cliquer sur “Ajouter” envoie une demande d’ami (ou ajoute directement si mutuel)
-
-Suppression d’un ami :
-
-Bouton “Supprimer” visible sur chaque cardbox ami
-
-Une confirmation est affichée avant validation de l’action
-
-Création et gestion de listes d’amis :
-
-L’utilisateur peut créer une liste personnalisée avec un nom
-
-Il peut ajouter ou retirer un ami d’une liste
-
-Il peut modifier le nom d’une liste ou la supprimer
-
-Une même personne peut appartenir à plusieurs listes
-
-Navigation rapide :
-
-Cliquer sur une cardbox d’un ami redirige vers son profil
-
-Le menu de navigation permet de changer de page sans perte de contexte
-
-Feedback visuel et messages :
-
-Infobulles explicatives au survol
-
-Message contextuel si aucune donnée affichable (amis ou listes vides)
-
-Mode sombre :
-
-Accessible à tout moment, état conservé
-
-
-
-
-
-Page 10 – Profil ami
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Menu de navigation :
-→ MON PROFIL
-→ PLANNING
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-
-Zone latérale gauche (dashboard résumé) :
-
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV (date du prochain RDV de l'utilisateur connecté)
-→ Horaire (heure du prochain RDV de l'utilisateur connecté)
-
-Zone principale – Affichage du profil d’un ami :
-
-Pseudo de l’ami consulté (ex. : “RustySniper”)
-
-Avatar de l’ami
-
-Statut en ligne (ONLINE / OFFLINE)
-
-Liste des RDV à venir de cet ami (sous forme de mini-cardbox) :
-→ Titre de chaque RDV (ex. “PUBGNow”, “Rust4Fun”)
-→ Date et heure du RDV
-→ Jeu concerné
-→ Indication du rôle de l’ami : Organisateur / Participant
-→ Bouton "VOIR LE RDV" redirige vers la page : Détails du RDV – Cardbox cliquée
-
-Boutons d’interaction avec cet ami :
-→ Bouton "RETIRER DE MES AMIS" (confirmation demandée avant suppression)
-→ Bouton "AJOUTER À UNE LISTE" → Affiche un mini-menu déroulant avec les listes existantes de l’utilisateur connecté
-
-Zone latérale droite :
-
-amis (cardbox verticales des autres amis de l’utilisateur connecté)
-→ Statut des amis apparent (ONLINE/OFFLINE)
-→ Chaque cardbox est cliquable et redirige vers le profil de l’ami concerné
-
-Autre élément UX :
-
-Bouton de bascule DARK MODE toujours visible
-
-Hover sur mini-cardbox RDV : info-bulle précisant s’il reste des places, ou s’il est complet
-
-Confirmation modale lors de la suppression d’un ami
-
-Message de validation après ajout à une liste
-
-Interactions utilisateur constatées :
-Consultation d’un profil ami :
-
-L’utilisateur accède à cette page en cliquant sur une cardbox d’ami depuis :
-→ Accueil
-→ Planning RDV (zone latérale droite)
-→ Liste d’amis (page Mes Amis)
-
-Parcourir les RDV d’un ami :
-
-L’utilisateur peut voir les prochains RDV de cet ami
-
-Il peut cliquer sur un RDV pour en voir les détails (redirection vers page Détails du RDV - Cardbox cliquée)
-
-Retirer un ami :
-
-Un clic sur "RETIRER DE MES AMIS" déclenche une boîte de confirmation
-
-En cas de confirmation, l’ami est supprimé de la liste personnelle
-
-Ajouter à une liste :
-
-Clic sur "AJOUTER À UNE LISTE" ouvre un menu déroulant
-
-L’utilisateur choisit une de ses listes existantes
-
-Confirmation visuelle de l’ajout (message de succès)
-
-Navigation persistante :
-
-L’utilisateur peut naviguer ailleurs à tout moment sans perdre son état de session
-
-Thème sombre :
-
-Bouton accessible en permanence, état conservé (via localStorage ou autre)
-
-
-
-
-
-Page 11 – Recherche joueurs
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Heure affichée
-
-Menu de navigation :
-→ MON PROFIL
-→ PLANNING
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-
-Zone latérale gauche (dashboard résumé) :
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV
-→ Horaire de ce prochain RDV
-
-Zone principale – Outil de recherche :
-Titre de section : “RECHERCHE JOUEURS”
-
-Champ de recherche par pseudo (autocomplétion) :
-→ Suggestion dynamique de pseudos lors de la saisie
-→ Résultat affiché sous forme de card utilisateur
-
-Filtres additionnels disponibles :
-→ Par jeu joué récemment (PUBG, Rust, Among Us)
-→ Par statut (En ligne / Hors ligne)
-→ Par type de relation : amis / non-amis
-
-Affichage des résultats :
-→ Chaque résultat apparaît sous forme de card utilisateur contenant :
-
-Pseudo
-
-Avatar
-
-Jeux joués récemment (icônes ou texte)
-
-Statut : en ligne / hors ligne
-
-Bouton : “Voir profil” (redirige vers la Page 10 – Profil ami)
-
-Bouton : “Ajouter en ami” (si non-ami)
-
-Zone latérale droite :
-Liste des amis connectés (format cardbox)
-→ Statut visible : ONLINE / OFFLINE
-→ Cardbox cliquable : redirige vers leur profil
-
-Autre élément UX :
-Bouton de bascule DARK MODE toujours visible
-
-Affichage clair si aucun résultat ne correspond à la recherche
-
-Chargement des résultats en temps réel (via debounce ou autre)
-
-Icône de chargement pendant les appels API
-
-Interactions utilisateur constatées :
-Recherche par pseudo :
-
-L’utilisateur peut taper un nom partiel ou complet
-
-Une liste dynamique de résultats s’affiche pendant la saisie
-
-Utilisation des filtres :
-
-Les filtres permettent de restreindre les résultats visibles
-
-Les résultats sont mis à jour dynamiquement
-
-Consultation d’un profil :
-
-Cliquer sur “Voir profil” redirige vers la page Profil ami (Page 10)
-
-Le contexte de navigation est conservé
-
-Envoi de demande d’amis :
-
-Si un utilisateur trouvé n’est pas encore ami :
-→ Le bouton “Ajouter en ami” apparaît
-→ Cliquer envoie la demande
-→ Un message de confirmation est affiché
-
-Thème sombre :
-
-Disponible et conservé
-
-
-
-
-
-Page 12 – Profil joueur
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Menu de navigation :
-→ MON PROFIL
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-→ PLANNING
-
-Zone latérale gauche (dashboard résumé utilisateur connecté) :
-
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur connecté affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV (date)
-→ Horaire (heure)
-
-Zone principale – Profil public du joueur consulté :
-
-Titre de section : “PROFIL DE [pseudo du joueur]”
-
-Informations générales visibles :
-→ Avatar du joueur
-→ Pseudo
-→ Statut (en ligne / hors ligne)
-→ Date d’inscription
-→ Nombre total de RDV créés
-→ Nombre total de participations à des RDV
-→ Taux de présence (participations validées / invitations acceptées)
-
-Historique synthétique des derniers RDV publics auxquels le joueur a participé :
-→ Affichage sous forme de cardbox miniatures avec :
-• Nom du RDV
-• Date et heure
-• Jeu concerné
-• Rôle dans le RDV : organisateur / participant
-
-Zone latérale droite :
-
-Bouton principal (en fonction du contexte de l’utilisateur connecté) :
-→ Si l’utilisateur n’a pas cet ami : “AJOUTER EN AMI”
-→ Si l’utilisateur a déjà cet ami : “RETIRER DES AMIS”
-
-Bouton secondaire (présent dans tous les cas) :
-→ “INVITER À UN RDV” (redirige vers la page de création de RDV avec pré-sélection de ce joueur dans la liste)
-
-Autres éléments UX :
-
-Bouton de bascule DARK MODE toujours visible
-
-Infobulles sur les actions possibles (ajouter, retirer, inviter)
-
-Retour possible via un bouton “← Retour à la recherche”
-
-Interactions utilisateur constatées :
-Consultation d’un profil joueur
-
-L’utilisateur peut consulter les informations publiques du joueur sélectionné depuis la page de recherche.
-
-Demande d’ajout en ami ou suppression d’ami
-
-Si l’utilisateur n’a pas encore ajouté ce joueur : bouton “AJOUTER EN AMI”
-
-Si ce joueur est déjà un ami : bouton “RETIRER DES AMIS”
-
-Une confirmation est demandée pour la suppression.
-
-Inviter à un RDV
-
-Quel que soit le statut d’amitié, l’utilisateur peut cliquer sur “INVITER À UN RDV”
-
-Cela redirige vers la page de création de RDV, avec la date du jour sélectionnée et ce joueur pré-ajouté à la liste des invités (si slots disponibles).
-
-Navigation fluide
-
-Retour à la page précédente (ex. : résultats de recherche) grâce au bouton de retour.
-
-Accès continu au menu de navigation principal.
-
-Affichage dynamique
-
-Les informations comme le statut en ligne, le nombre de RDV créés ou les participations sont mises à jour à chaque consultation (si l’API backend le permet).
-
-Thème sombre
-
-Bascule possible à tout moment. État mémorisé.
-
-
-
-
-
-Page 13 – Liste d’amis
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Heure affichée
-
-Menu de navigation :
-→ MON PROFIL
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-→ PLANNING
-
-Zone latérale gauche (dashboard résumé) :
-
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV (date)
-→ Horaire (heure du prochain RDV)
-
-Zone principale – Gestion des listes d’amis :
-
-Titre : “MES LISTES D’AMIS”
-
-Bouton : Créer une nouvelle liste
-→ Ouvre un formulaire léger dans une modale ou dans une zone inférieure :
-
-Champ : Nom de la liste
-
-Sélecteur multi-amis (liste déroulante avec recherche dynamique par pseudo)
-
-Bouton : VALIDER
-
-Pour chaque liste existante :
-
-Nom de la liste (ex. : “Team PUBG”, “Amis IRL”)
-
-Nombre de membres dans la liste
-
-Liste des membres visibles sous forme de cardbox :
-→ Avatar + Pseudo + Statut (ONLINE/OFFLINE)
-→ Bouton “Voir profil” (redirige vers la Page 10 – Profil ami)
-→ Bouton “Retirer” (retirer l’ami de cette liste uniquement)
-
-Boutons d’action en bas de la liste :
-→ Renommer la liste
-→ Supprimer la liste
-
-Si aucune liste n’a été créée :
-→ Message informatif : “Vous n’avez pas encore créé de liste. Cliquez sur le bouton ci-dessus pour en créer une.”
-
-Zone latérale droite :
-
-amis (en-dehors des listes) :
-→ Cardbox affichant tous les amis de l’utilisateur
-→ Statut ONLINE/OFFLINE
-→ Bouton “Ajouter à une liste” (ouvre une petite popup avec les listes existantes)
-→ Bouton “Voir profil” (redirige vers le profil ami)
-
-Autres éléments UX :
-
-Bouton de bascule DARK MODE toujours visible
-
-Icônes claires pour chaque action (supprimer, modifier, ajouter…)
-
-Feedback utilisateur :
-→ Confirmation après suppression ou ajout
-→ Messages d’erreur si une liste sans nom est validée
-
-Interactions utilisateur constatées :
-Création de liste d’amis :
-
-L’utilisateur peut cliquer sur Créer une nouvelle liste pour générer une nouvelle liste d’amis personnalisée.
-
-Il peut nommer la liste, sélectionner des amis via recherche dynamique et valider.
-
-Ajout/retrait dans une liste :
-
-Les amis affichés dans la zone latérale droite peuvent être ajoutés à une ou plusieurs listes via un bouton “Ajouter à une liste”.
-
-Les amis déjà présents dans une liste peuvent être retirés individuellement de cette liste sans être supprimés des autres.
-
-Navigation vers le profil :
-
-L’utilisateur peut cliquer sur le bouton “Voir profil” sur chaque cardbox pour être redirigé vers la Page 10 – Profil ami.
-
-Renommer ou supprimer une liste :
-
-Chaque liste propose une option de renommage ou de suppression.
-
-Supprimer une liste ne supprime pas les amis de l'utilisateur, uniquement le regroupement.
-
-Affichage dynamique du statut :
-
-Les statuts des amis (ONLINE / OFFLINE) sont mis à jour en temps réel ou à chaque rechargement de page.
-
-Thème sombre :
-
-L'utilisateur peut basculer le thème, et le choix est conservé sur toutes les pages.
-
-
-
-
-
-Page 14 – Créer une liste d’amis
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page Accueil authentifié
-
-Heure affichée
-
-Menu de navigation :
-→ MON PROFIL
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-→ PLANNING
-
-Zone latérale gauche (dashboard résumé) :
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV
-→ Horaire du prochain RDV
-
-Zone principale – Formulaire de création de liste :
-Titre de section : CRÉER UNE NOUVELLE LISTE D’AMIS
-
-Champ : Nom de la liste
-→ Champ texte libre obligatoire (ex. : “TryHard PUBG”, “Soirées du jeudi”)
-
-Zone de sélection des amis :
-→ Champ de recherche dynamique : l’utilisateur peut saisir un pseudo pour filtrer ses amis
-→ Résultats sous forme de cardbox avec pseudo + bouton AJOUTER
-→ Zone récapitulative des amis ajoutés à la liste (avec bouton Retirer)
-
-Bouton final : CRÉER LA LISTE
-→ Devient actif uniquement si un nom de liste est saisi et au moins 1 ami sélectionné
-
-Zone latérale droite :
-Affichage des amis (cardbox empilées)
-→ Statut ONLINE / OFFLINE visible
-→ Redirection possible vers Profil Ami via clic sur une cardbox
-
-Accès rapide aux listes existantes (sous forme de liens)
-
-Autres éléments UX :
-Bouton de bascule DARK MODE visible en permanence
-
-Gestion des erreurs en temps réel :
-→ Champ vide : encadré rouge + message type “Nom requis” ou “Ajoutez au moins un ami”
-
-Validation visuelle des sélections (amis ajoutés s’affichent en haut ou dans une zone latérale dédiée)
-
-Interactions utilisateur constatées :
-Saisie et validation du nom de la liste :
-
-Le champ ne peut pas être vide
-
-Le nom peut être modifié jusqu’à validation
-
-Sélection d’amis à inclure :
-
-L’utilisateur peut chercher des amis via pseudo
-
-Peut ajouter plusieurs amis à la liste
-
-Un ami déjà ajouté ne peut plus être sélectionné à nouveau
-
-Il est possible de retirer un ami sélectionné avant de valider
-
-Création de la liste :
-
-Si le nom et au moins 1 ami sont renseignés, clic sur CRÉER LA LISTE enregistre la liste
-
-Redirection automatique vers la page Liste d’amis après confirmation
-
-Thème sombre :
-
-Commutateur disponible à tout moment
-
-L’état du thème est mémorisé (via localStorage ou autre)
-
-
-
-
-
-Page 15 – Détail d’une liste d’amis
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Menu de navigation :
-→ MON PROFIL
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-→ PLANNING
-
-Zone latérale gauche (dashboard résumé) :
-
-Texte de bienvenue : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar affiché de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-→ Nombre total de RDV
-→ Prochain RDV
-→ Horaire du prochain RDV
-
-Zone principale – Contenu de la liste d’amis sélectionnée :
-
-Titre de section : “Liste : [nom de la liste sélectionnée]”
-
-Nombre total d’amis dans cette liste : (ex. : “4 amis dans cette liste”)
-
-Liste des amis affichée sous forme de cardbox :
-→ Pseudo
-→ Avatar
-→ Statut : ONLINE / OFFLINE
-→ Bouton : “Supprimer de la liste” (action immédiate)
-
-Bouton : “RENOMMER LA LISTE”
-→ Ouvre une modal ou un champ éditable pour modifier le nom
-
-Bouton : “SUPPRIMER LA LISTE”
-→ Ouvre une fenêtre de confirmation avant suppression
-
-Zone latérale droite :
-
-amis (liste classique en cardbox)
-→ Statut visible : ONLINE / OFFLINE
-→ Redirection vers leur profil joueur si cliqué
-
-Autre élément UX :
-
-Bouton DARK MODE toujours visible
-
-Affichage dynamique : si un ami est supprimé → la liste se met à jour automatiquement
-
-Message de confirmation ou d’erreur après chaque action (supprimer, renommer)
-
-Interactions utilisateur constatées :
-Consultation d’une liste d’amis :
-
-L’utilisateur voit tous les amis associés à la liste sélectionnée.
-
-Suppression d’un ami de la liste :
-
-Bouton “Supprimer de la liste” → Retire immédiatement l’ami
-
-Feedback visuel : cardbox supprimée + message “Ami retiré”
-
-Renommage de la liste :
-
-En cliquant sur “RENOMMER LA LISTE” → champ d’édition ou modal
-
-Validation déclenche la mise à jour du nom
-
-Suppression complète de la liste :
-
-Clic sur “SUPPRIMER LA LISTE” → pop-up de confirmation
-
-En cas de validation → redirection vers la page “Liste d’amis” (page 13)
-
-Navigation :
-
-En-tête toujours accessible pour changer de page
-
-Dark mode disponible à tout moment
-
-
-
-
-
-Page 16 – Notifications
-Contenu visible :
-En-tête persistante (commune à toutes les pages authentifiées) :
-Logo / Slogan : RDV Gaming Cheater Free
-→ Cliquer sur le logo ramène à la page d’accueil authentifié
-
-Menu de navigation :
-→ MON PROFIL
-→ PLANNING
-→ MES RDV
-→ MES AMIS
-→ RECHERCHE JOUEURS
-
-Heure actuelle affichée
-
-Zone latérale gauche (dashboard résumé) :
-Texte : “Bienvenue”
-
-Pseudo utilisateur affiché (ex. : “ByteStorm404”)
-
-Avatar de l’utilisateur connecté
-
-Bouton : DÉCONNEXION
-
-Bloc synthétique d’information :
-
-Nombre total de RDV
-
-Prochain RDV (date et heure)
-
-Zone principale – Notifications de l’utilisateur :
-Titre de section : “VOS NOTIFICATIONS”
-
-Liste des notifications sous forme de cardbox individuelles, organisées par ordre antéchronologique (les plus récentes en premier)
-
-Chaque notification affiche :
-
-Une icône contextuelle (type cloche, message, invitation, etc.)
-
-Texte de notification :
-
-Exemples :
-
-“Vous avez été invité au RDV ‘CrazyPUBG’ – cliquez ici pour voir.”
-
-“L’utilisateur RedSky42 vous a ajouté à sa liste d’amis.”
-
-“Votre demande de participation au RDV ‘RustRaid’ a été acceptée.”
-
-Date et heure de la notification
-
-État : non lue (mise en valeur) ou lue (affichage normal)
-
-Bouton / Lien contextuel (ex. : VOIR, ACCEPTER, REFUSER, ALLER AU PROFIL)
-
-Filtres disponibles (sous le titre ou dans une barre latérale contextuelle) :
-
-Toutes les notifications
-
-Invitations à des RDV
-
-Mises à jour d’amis
-
-Réponses à des demandes
-
-Autres
-
-Zone latérale droite :
-Liste des amis sous forme de cardbox empilées
-
-Statut ONLINE / OFFLINE affiché
-
-Cardbox cliquables → renvoient au Profil ami
-
-Autre élément UX :
-Bouton de bascule DARK MODE toujours visible
-
-Mise en gras ou surbrillance des nouvelles notifications
-
-Info-bulles sur les icônes pour expliquer leur signification
-
-Chargement dynamique au scroll (scroll infini ou pagination)
-
-Interactions utilisateur constatées :
-Consultation des notifications :
-
-À chaque connexion, les nouvelles notifications sont visibles automatiquement en haut
-
-L'utilisateur peut cliquer sur une notification pour accéder à l'action ou page liée
-
-Gestion des notifications :
-
-Clic sur une notification la marque comme lue
-
-Possibilité d’archiver ou supprimer une notification (option à droite de chaque cardbox)
-
-Navigation par filtre :
-
-L’utilisateur peut trier les notifications par type pour faciliter la lecture
-
-Le filtre reste actif tant qu’il n’est pas désélectionné
-
-Thème sombre :
-
-Comme sur toutes les pages, peut être activé/désactivé, état conservé
+    Page 7 – Détail invités – Organisateur – [Nom du RDV] (ex. : PUBGNow)
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page d’accueil authentifié
+                • Menu de navigation :
+                    → MON PROFIL
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+                    → PLANNING
+
+            Zone latéral gauche (dashboard résumé) :
+                • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+                • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                    → Nombre total de RDV
+                    → Prochain RDV (date du prochain RDV de l'utilisateur connecté)
+                    → Horaire (heure du prochain RDV de l'utilisateur connecté)
+
+            Zone principale – Tableau des invités pour le RDV sélectionné (que j'organise) :
+                • Titre de section : “ MON RDV - [RDV sélectionné] - DÉTAILS ET INVITÉS”
+                • Sous-titre : Nom du RDV : [RDV sélectionné]
+                • Le tableau affiche :
+                    → Jeu : PUBG dans l'exemple
+                    → Date et heure : 01/02/2025 à 14h20 dans l'exemple
+                    → Statut du salon : Privé (ex)
+                    → Nombre total de slots (1 organisateur + 3 participants dans l'exemple PUBGNow)
+                    → Nombre de places restantes (1 slot disponible dans l'exemple)
+                    → Le pseudo de chaque invité à la place des slots et les slots disponible indique : "Invitez un ami", si l'utilisateur clique sur cette celulle, il voit le speudonyme de ses amis apparaitre et il peut cliquer sur un ami pour qu'il remplisse le slot disponible.
+                    → Leur temps de jeu total sur le jeu sélectionné
+                    → Le statut : Confirmé / En attente
+                    → Un bouton Supprimer pour retirer un invité en attente    
+            Boutons principaux en bas de section :
+                • REVENIR À MES RDV
+                • SUPPRIMER LE RDV  
+
+            Zone latérale droite :
+                • amis (les amis apparaissent les uns au dessous des autres via des cardbox dans ce conteneur)
+                    → Statut des amis apparent (ONLINE/OFFLINE)
+                    → Les cardbox des amis sont cliquables est redirigent vers le profil de l’ami sélectionné
+
+            Autre élément UX :
+                • Bascule de thème DARK MODE toujours visible          
+
+
+        Interactions utilisateur constatées :
+
+            1.Consultation du RDV :
+                • L’organisateur peut voir le jeu, la date, l’heure, et le statut du salon.
+
+            2.Visualisation des invités :
+                • Chaque invité est listé avec pseudo, temps de jeu et statut (Confirmé / En attente)
+
+            3.Suppression d’un invité :
+                • Si un invité est en attente, un bouton Supprimer est visible et actionnable par l'oganisateur du RDV.
+
+            4.Ajout d’un nouvel invité :
+                • En cliquant sur “Invitez un ami”, l’organisateur peut sélectionner un ami dans une liste déroulante
+
+            5.Navigation :
+                • Bouton pour revenir à la page Mes RDV
+                • Bouton pour supprimer le RDV
+
+            6.Thème sombre :
+                • Activable en haut à droite
+                • État conservé (ex : localStorage)
+
+
+
+
+
+    Page 8 – Détail invités – Participant – CrazyPUBG
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page d’accueil authentifié
+                • Menu de navigation :
+                    → MON PROFIL
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+                    → PLANNING
+
+            Zone latéral gauche (dashboard résumé) :
+                • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+                • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                    → Nombre total de RDV
+                    → Prochain RDV (date du prochain RDV de l'utilisateur connecté)
+                    → Horaire (heure du prochain RDV de l'utilisateur connecté)
+
+            Zone principale – Détail du RDV (vue participant) :
+                • Titre de section : “MA PARTICIPATION AU RDV – [Nom du RDV] – DÉTAILS ET INVITÉS”
+                • Le tableau affiche :
+                    → Jeu : PUBG (dans l’exemple CrazyPUBG)
+                    → Date et heure : 12/06 à 20h30 (exemple)
+                    → Organisateur : pseudo visible
+                    → Statut du salon : Public / Privé
+                    → Nombre total de slots (1 organisateur + X participants)
+                    → Nombre de places occupées / restantes (ex. : 3 / 4 joueurs)
+                    → Partie concernant l'utilisateur connecté (participant) :
+                        - Bouton Annuler : SE RETIRER DU RDV
+                        - Permet au participant de libérer sa place dans le RDV
+                • Tableau des invités :
+                    → Chaque ligne affiche :
+                        - Pseudo
+                        - Temps de jeu sur le jeu concerné (si disponible)
+                        - Statut : Confirmé / En attente                     
+                        - Avatar joueur (si affiché)
+                            → L’utilisateur ne peut ni modifier, ni inviter, seulement consulter ou annuler sa participation
+
+            Zone latérale droite :
+                • amis (les amis apparaissent les uns au dessous des autres via des cardbox dans ce conteneur)
+                    → Statut des amis apparent (ONLINE/OFFLINE)
+                    → Les cardbox des amis sont cliquables est redirigent vers le profil de l’ami sélectionné
+
+            Autre élément UX :
+                • Bascule de thème DARK MODE toujours visible  
+                • Infobulle d’aide au survol du bouton “SE RETIRER DU RDV”
+
+
+        Interactions utilisateur constatées :
+
+            1. Consultation des informations du RDV :
+                • Le participant voit tous les détails du RDV :
+                    → Jeu, date, heure, organisateur, statut du salon
+
+            2. Retrait du RDV :
+                • En cliquant sur “SE RETIRER DU RDV” :
+                    → L’utilisateur quitte la participation
+                    → Un message de confirmation peut s’afficher
+                    → Le slot devient libre pour un autre joueur
+                    → L’état change côté organisateur
+
+            3. Visualisation des autres invités :
+                • Tous les participants sont visibles
+                • Les statuts sont lisibles en temps réel ou à chaque rafraîchissement
+
+            4. Navigation persistante :
+                • Possibilité de changer de section via le menu sans perdre le contexte
+
+            5. Thème sombre :
+                • Basculable à tout moment, état conservé (ex. via localStorage)
+       
+
+
+
+
+
+    Page 9 – Mes amis
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page d’accueil authentifié
+                • Heure affichée
+                • Menu de navigation :
+                    → MON PROFIL
+                    → PLANNING
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+
+            Zone latérale gauche (dashboard résumé) :           
+                • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+                • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                    → Nombre total de RDV
+                    → Prochain RDV
+                → Horaire
+
+            Zone principale – Gestion des amis :            
+                • Titre de section : “MES AMIS”
+                • Champ de recherche de joueur (pseudo)
+                • Résultats dynamiques s’affichant sous le champ (avec statut et bouton “Ajouter”)
+                • Liste des amis existants (présentés sous forme de cardbox avec informations suivantes) :
+                    → Pseudo
+                    → Avatar
+                    → Statut (ONLINE / OFFLINE)
+                    → Bouton : Supprimer
+                    → Bouton : Ajouter à une liste
+                • Gestion des listes d’amis (encart ou onglet) :
+                    → Liste des groupes personnalisés créés par l’utilisateur
+                    → Pour chaque groupe :
+                        • Nom de la liste
+                        • Nombre d’amis dans la liste
+                        • Bouton : Modifier la liste (ajouter/supprimer un ami, renommer, supprimer la liste)
+
+            Zone latérale droite :
+                • amis (affichage identique aux autres pages)
+                    → Statut ONLINE / OFFLINE
+                    → Redirection vers le profil en cliquant sur une cardbox
+
+            Autre élément UX :
+                • Bouton de bascule DARK MODE toujours visible
+                • Affichage de confirmation pour chaque action (ajout / suppression / ajout à une liste)
+                • Infobulle au survol des boutons (ex. : “Ajouter à une liste”, “Supprimer cet ami”)
+                • Affichage d’un message si aucun ami trouvé ou aucune liste créée
+                    → “Vous n’avez pas encore d’amis ajoutés”
+
+
+        Interactions utilisateur constatées :
+
+            1. Ajout d’un ami :
+                • L’utilisateur tape un pseudo dans la barre de recherche
+                • Les suggestions s’affichent dynamiquement
+                • Cliquer sur “Ajouter” envoie une demande d’ami (ou ajoute directement si mutuel)
+
+            2. Suppression d’un ami :
+                • Bouton “Supprimer” visible sur chaque cardbox ami
+                • Une confirmation est affichée avant validation de l’action
+
+            3. Création et gestion de listes d’amis :
+                • L’utilisateur peut créer une liste personnalisée avec un nom
+                • Il peut ajouter ou retirer un ami d’une liste
+                • Il peut modifier le nom d’une liste ou la supprimer
+                • Une même personne peut appartenir à plusieurs listes
+
+            4. Navigation rapide :
+                • Cliquer sur une cardbox d’un ami redirige vers son profil
+                • Le menu de navigation permet de changer de page sans perte de contexte
+
+            5. Feedback visuel et messages :
+                • Infobulles explicatives au survol
+                • Message contextuel si aucune donnée affichable (amis ou listes vides)
+
+            6. Mode sombre :
+                • Accessible à tout moment, état conservé
+
+
+
+
+
+
+    Page 10 – Profil ami
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page d’accueil authentifié
+                • Menu de navigation :
+                    → MON PROFIL
+                    → PLANNING
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+
+            Zone latérale gauche (dashboard résumé) :
+                • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+                • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                    → Nombre total de RDV
+                    → Prochain RDV (date du prochain RDV de l'utilisateur connecté)
+                    → Horaire (heure du prochain RDV de l'utilisateur connecté)
+
+            Zone principale – Affichage du profil d’un ami :
+                • Pseudo de l’ami consulté (ex. : “RustySniper”)
+                • Avatar de l’ami
+                • Statut en ligne (ONLINE / OFFLINE)
+                • Liste des RDV à venir de cet ami (sous forme de mini-cardbox) :
+                 → Titre de chaque RDV (ex. : “PUBGNow”, “Rust4Fun”)
+                 → Date et heure du RDV
+                 → Jeu concerné
+                 → Indication du rôle de l’ami : Organisateur / Participant
+                 → Bouton : VOIR LE RDV (redirige vers la page Détails du RDV – Cardbox cliquée)
+             • Boutons d’interaction avec cet ami :
+                 → RETIRER DE MES AMIS (confirmation demandée avant suppression)
+                 → AJOUTER À UNE LISTE (affiche un mini-menu déroulant avec les listes existantes de l’utilisateur connecté)
+
+            Zone latérale droite :
+                • amis (cardbox verticales des autres amis de l’utilisateur connecté)
+                    → Statut des amis apparent (ONLINE / OFFLINE)
+                    → Chaque cardbox est cliquable et redirige vers le profil de l’ami concerné
+
+            Autre élément UX :
+                • Bouton de bascule DARK MODE toujours visible
+                • Hover sur mini-cardbox RDV :
+                 → Info-bulle précisant s’il reste des places ou si le RDV est complet
+                • Confirmation modale lors de la suppression d’un ami
+                • Message de validation après ajout à une liste
+
+
+        Interactions utilisateur constatées :
+
+            1. Consultation d’un profil ami :
+                • L’utilisateur accède à cette page en cliquant sur une cardbox d’ami depuis :
+                    → Accueil
+                    → Planning RDV (zone latérale droite)
+                    → Liste d’amis (page Mes Amis)
+
+            2. Parcourir les RDV d’un ami :
+                • L’utilisateur peut voir les prochains RDV de cet ami
+                • Il peut cliquer sur un RDV pour en voir les détails (redirection vers page Détails du RDV - Cardbox cliquée)
+
+            3. Retirer un ami :
+                • Un clic sur “RETIRER DE MES AMIS” déclenche une boîte de confirmation
+                • En cas de confirmation, l’ami est supprimé de la liste personnelle
+
+            4. Ajouter à une liste :
+                • Clic sur “AJOUTER À UNE LISTE” ouvre un menu déroulant
+                • L’utilisateur choisit une de ses listes existantes
+                • Confirmation visuelle de l’ajout (message de succès)
+
+            5. Navigation persistante :
+                • L’utilisateur peut naviguer ailleurs à tout moment sans perdre son état de session
+
+            6. Thème sombre :
+                • Bouton accessible en permanence
+                • État conservé (via localStorage ou autre)
+
+
+
+
+
+    Page 11 – Recherche joueurs
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page d’accueil authentifié
+                • Heure affichée
+                • Menu de navigation :
+                    → MON PROFIL
+                    → PLANNING
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+
+            Zone latérale gauche (dashboard résumé) :
+                • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+                • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                 → Nombre total de RDV
+                    → Prochain RDV
+                 → Horaire de ce prochain RDV
+
+            Zone principale – Outil de recherche :
+                • Titre de section : “RECHERCHE JOUEURS”
+                • Champ de recherche par pseudo (autocomplétion) :
+                    → Suggestion dynamique de pseudos lors de la saisie
+                    → Résultat affiché sous forme de card utilisateur
+                • Filtres additionnels disponibles :
+                 → Par jeu joué récemment (PUBG, Rust, Among Us)
+                 → Par statut (En ligne / Hors ligne)
+                 → Par type de relation : amis / non-amis
+                • Affichage des résultats :
+                    → Chaque résultat apparaît sous forme de card utilisateur contenant :
+                        • Pseudo
+                        • Avatar
+                        • Jeux joués récemment (icônes ou texte)
+                        • Statut : en ligne / hors ligne
+                        • Bouton : VOIR PROFIL (redirige vers la Page 10 – Profil ami)
+                        • Bouton : AJOUTER EN AMI (si non-ami)
+
+            Zone latérale droite :
+                • Liste des amis connectés (format cardbox)
+                    → Statut visible : ONLINE / OFFLINE
+                    → Cardbox cliquable : redirige vers leur profil
+
+            Autre élément UX :
+                • Bouton de bascule DARK MODE toujours visible
+                • Affichage clair si aucun résultat ne correspond à la recherche
+                • Chargement des résultats en temps réel (via debounce ou autre)
+                • Icône de chargement pendant les appels API
+
+
+        Interactions utilisateur constatées :
+
+            1. Recherche par pseudo :
+                • L’utilisateur peut taper un nom partiel ou complet
+                • Une liste dynamique de résultats s’affiche pendant la saisie
+
+            2. Utilisation des filtres :
+                • Les filtres permettent de restreindre les résultats visibles
+                • Les résultats sont mis à jour dynamiquement
+
+            3. Consultation d’un profil :
+             • Cliquer sur “VOIR PROFIL” redirige vers la page Profil ami (Page 10)
+             • Le contexte de navigation est conservé
+
+            4. Envoi de demande d’amis :
+                • Si un utilisateur trouvé n’est pas encore ami :
+                 → Le bouton “AJOUTER EN AMI” apparaît
+                 → Cliquer envoie la demande
+                 → Un message de confirmation est affiché
+
+            5. Thème sombre :
+                • Disponible et conservé
+
+
+
+
+
+
+    Page 12 – Profil joueur
+
+        En-tête persistante (commune à toutes les pages authentifiées) :
+            • Logo / Slogan : RDV Gaming Cheater Free
+                → Cliquer sur le logo ramène à la page d’accueil authentifié
+            • Menu de navigation :
+             → MON PROFIL
+             → MES RDV
+             → MES AMIS
+             → RECHERCHE JOUEURS
+             → PLANNING
+
+        Zone latérale gauche (dashboard résumé utilisateur connecté) :
+            • Texte de bienvenue : “Bienvenue”
+            • Pseudo utilisateur connecté affiché (ex. : “ByteStorm404”)
+            • Avatar affiché de l’utilisateur connecté
+            • Bouton : DÉCONNEXION
+            • Bloc synthétique d’information :
+                → Nombre total de RDV
+                → Prochain RDV (date)
+                → Horaire (heure)
+
+        Zone principale – Profil public du joueur consulté :
+         • Titre de section : “PROFIL DE [pseudo du joueur]”
+         • Informations générales visibles :
+                → Avatar du joueur
+                → Pseudo
+                → Statut (en ligne / hors ligne)
+                → Date d’inscription
+                → Nombre total de RDV créés
+                → Nombre total de participations à des RDV
+                → Taux de présence (participations validées / invitations acceptées)
+            • Historique synthétique des derniers RDV publics auxquels le joueur a participé :
+                → Affichage sous forme de cardbox miniatures avec :
+                    • Nom du RDV
+                    • Date et heure
+                    • Jeu concerné
+                    • Rôle dans le RDV : organisateur / participant
+
+        Zone latérale droite :
+            • Bouton principal (en fonction du contexte de l’utilisateur connecté) :
+                → Si l’utilisateur n’a pas cet ami : “AJOUTER EN AMI”
+                → Si l’utilisateur a déjà cet ami : “RETIRER DES AMIS”
+            • Bouton secondaire (présent dans tous les cas) :
+                → “INVITER À UN RDV” (redirige vers la page de création de RDV avec pré-sélection de ce joueur dans la liste)
+
+        Autres éléments UX :
+         • Bouton de bascule DARK MODE toujours visible
+         • Infobulles sur les actions possibles (ajouter, retirer, inviter)
+         • Retour possible via un bouton “← Retour à la recherche”
+
+
+        Interactions utilisateur constatées :
+
+            1. Consultation d’un profil joueur :
+                • L’utilisateur peut consulter les informations publiques du joueur sélectionné depuis la page de recherche
+
+            2. Demande d’ajout en ami ou suppression d’ami :
+                • Si l’utilisateur n’a pas encore ajouté ce joueur :
+                    → Bouton “AJOUTER EN AMI”
+                • Si ce joueur est déjà un ami :
+                    → Bouton “RETIRER DES AMIS”
+                • Une confirmation est demandée pour la suppression
+
+        3. Inviter à un RDV :
+            • Quel que soit le statut d’amitié, l’utilisateur peut cliquer sur “INVITER À UN RDV”
+            • Cela redirige vers la page de création de RDV, avec la date du jour sélectionnée et ce joueur pré-ajouté à la liste des invités (si slots disponibles)
+
+        4. Navigation fluide :
+            • Retour à la page précédente (ex. : résultats de recherche) grâce au bouton de retour
+            • Accès continu au menu de navigation principal
+
+        5. Affichage dynamique :
+            • Les informations comme le statut en ligne, le nombre de RDV créés ou les participations sont mises à jour à chaque consultation (si l’API backend le permet)
+
+        6. Thème sombre :
+            • Bascule possible à tout moment
+            • État mémorisé
+
+
+
+
+
+
+    Page 13 – Liste d’amis
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page d’accueil authentifié
+                • Heure affichée
+                • Menu de navigation :
+                 → MON PROFIL
+                 → MES RDV
+                 → MES AMIS
+                 → RECHERCHE JOUEURS
+                 → PLANNING
+
+            Zone latérale gauche (dashboard résumé) :
+                • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+                • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                    → Nombre total de RDV
+                    → Prochain RDV (date)
+                    → Horaire (heure du prochain RDV)
+
+            Zone principale – Gestion des listes d’amis :
+                • Titre : “MES LISTES D’AMIS”
+                • Bouton : Créer une nouvelle liste
+                    → Ouvre un formulaire léger dans une modale ou dans une zone inférieure :
+                        • Champ : Nom de la liste
+                        • Sélecteur multi-amis (liste déroulante avec recherche dynamique par pseudo)
+                        • Bouton : VALIDER
+                • Pour chaque liste existante :
+                    → Nom de la liste (ex. : “Team PUBG”, “Amis IRL”)
+                    → Nombre de membres dans la liste
+                    → Liste des membres visibles sous forme de cardbox :
+                        • Avatar + Pseudo + Statut (ONLINE / OFFLINE)
+                        • Bouton “Voir profil” (redirige vers la Page 10 – Profil ami)
+                        • Bouton “Retirer” (retirer l’ami de cette liste uniquement)
+                • Boutons d’action en bas de la liste :
+                    → Renommer la liste
+                    → Supprimer la liste
+                • Si aucune liste n’a été créée :
+                    → Message informatif :
+                        “Vous n’avez pas encore créé de liste. Cliquez sur le bouton ci-dessus pour en créer une.”
+
+            Zone latérale droite :
+                • amis (en-dehors des listes) :
+                    → Cardbox affichant tous les amis de l’utilisateur
+                    → Statut ONLINE / OFFLINE
+                    → Bouton “Ajouter à une liste” (ouvre une petite popup avec les listes existantes)
+                    → Bouton “Voir profil” (redirige vers le profil ami)
+
+            Autres éléments UX :
+                • Bouton de bascule DARK MODE toujours visible
+                • Icônes claires pour chaque action (supprimer, modifier, ajouter…)
+                • Feedback utilisateur :
+                    → Confirmation après suppression ou ajout
+                    → Messages d’erreur si une liste sans nom est validée
+
+
+        Interactions utilisateur constatées :
+
+            1. Création de liste d’amis :
+                • L’utilisateur peut cliquer sur “Créer une nouvelle liste” pour générer une nouvelle liste d’amis personnalisée
+                • Il peut nommer la liste, sélectionner des amis via recherche dynamique et valider
+
+            2. Ajout / retrait dans une liste :
+                • Les amis affichés dans la zone latérale droite peuvent être ajoutés à une ou plusieurs listes via un bouton “Ajouter à une liste”
+                • Les amis déjà présents dans une liste peuvent être retirés individuellement de cette liste sans être supprimés des autres
+
+            3. Navigation vers le profil :
+             • L’utilisateur peut cliquer sur le bouton “Voir profil” sur chaque cardbox pour être redirigé vers la Page 10 – Profil ami
+
+            4. Renommer ou supprimer une liste :
+             • Chaque liste propose une option de renommage ou de suppression
+             • Supprimer une liste ne supprime pas les amis de l'utilisateur, uniquement le regroupement
+
+            5. Affichage dynamique du statut :
+             • Les statuts des amis (ONLINE / OFFLINE) sont mis à jour en temps réel ou à chaque rechargement de page
+
+            6. Thème sombre :
+                • L'utilisateur peut basculer le thème, et le choix est conservé sur toutes les pages
+
+
+
+
+
+    Page 14 – Créer une liste d’amis
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page Accueil authentifié
+                • Heure affichée
+                • Menu de navigation :
+                    → MON PROFIL
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+                    → PLANNING
+
+            Zone latérale gauche (dashboard résumé) :
+             • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+                • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                    → Nombre total de RDV
+                    → Prochain RDV
+                    → Horaire du prochain RDV
+
+            Zone principale – Formulaire de création de liste :
+                • Titre de section : “CRÉER UNE NOUVELLE LISTE D’AMIS”
+                • Champ : Nom de la liste
+                    → Champ texte libre obligatoire (ex. : “TryHard PUBG”, “Soirées du jeudi”)
+                • Zone de sélection des amis :
+                    → Champ de recherche dynamique : l’utilisateur peut saisir un pseudo pour filtrer ses amis
+                    → Résultats sous forme de cardbox avec pseudo + bouton AJOUTER
+                    → Zone récapitulative des amis ajoutés à la liste (avec bouton RETIRER)
+                • Bouton final : CRÉER LA LISTE
+                → Devient actif uniquement si un nom de liste est saisi et au moins 1 ami sélectionné
+
+            Zone latérale droite :
+                • Affichage des amis (cardbox empilées)
+                    → Statut ONLINE / OFFLINE visible
+                    → Redirection possible vers Profil Ami via clic sur une cardbox
+                • Accès rapide aux listes existantes (sous forme de liens)
+
+            Autres éléments UX :
+               • Bouton de bascule DARK MODE visible en permanence
+                • Gestion des erreurs en temps réel :
+                    → Champ vide : encadré rouge + message type “Nom requis” ou “Ajoutez au moins un ami”
+                • Validation visuelle des sélections :
+                    → Les amis ajoutés s’affichent en haut ou dans une zone latérale dédiée
+
+
+        Interactions utilisateur constatées :
+
+            1. Saisie et validation du nom de la liste :
+                • Le champ ne peut pas être vide
+                • Le nom peut être modifié jusqu’à validation
+
+            2. Sélection d’amis à inclure :
+                • L’utilisateur peut chercher des amis via pseudo
+                • Il peut ajouter plusieurs amis à la liste
+                • Un ami déjà ajouté ne peut plus être sélectionné à nouveau
+                • Il est possible de retirer un ami sélectionné avant de valider
+
+            3. Création de la liste :
+                • Si le nom et au moins 1 ami sont renseignés, clic sur “CRÉER LA LISTE” enregistre la liste
+               • Redirection automatique vers la page “Liste d’amis” après confirmation
+
+            4. Thème sombre :
+                • Commutateur disponible à tout moment
+               • L’état du thème est mémorisé (via localStorage ou autre)
+
+
+
+
+
+    Page 15 – Détail d’une liste d’amis
+
+        Contenu visible :
+
+            En-tête persistante (commune à toutes les pages authentifiées) :
+                • Logo / Slogan : RDV Gaming Cheater Free
+                    → Cliquer sur le logo ramène à la page d’accueil authentifié
+                • Menu de navigation :
+                    → MON PROFIL
+                    → MES RDV
+                    → MES AMIS
+                    → RECHERCHE JOUEURS
+                    → PLANNING
+
+            Zone latérale gauche (dashboard résumé) :
+                • Texte de bienvenue : “Bienvenue”
+                • Pseudo utilisateur affiché (ex. : “ByteStorm404”)
+                • Avatar affiché de l’utilisateur connecté
+             • Bouton : DÉCONNEXION
+                • Bloc synthétique d’information :
+                    → Nombre total de RDV
+                    → Prochain RDV
+                    → Horaire du prochain RDV
+
+            Zone principale – Contenu de la liste d’amis sélectionnée :
+                • Titre de section : “Liste : [nom de la liste sélectionnée]”
+                • Nombre total d’amis dans cette liste (ex. : “4 amis dans cette liste”)
+                • Liste des amis affichée sous forme de cardbox :
+                    → Pseudo
+                    → Avatar
+                    → Statut : ONLINE / OFFLINE
+                    → Bouton : “Supprimer de la liste” (action immédiate)
+                • Boutons d’action :
+                    → “RENOMMER LA LISTE”
+                        → Ouvre une modal ou un champ éditable pour modifier le nom
+                    → “SUPPRIMER LA LISTE”
+                        → Ouvre une fenêtre de confirmation avant suppression
+
+            Zone latérale droite :
+                • amis (liste classique en cardbox)
+                    → Statut visible : ONLINE / OFFLINE
+                    → Redirection vers leur profil joueur si cliqué
+
+            Autre élément UX :
+                • Bouton DARK MODE toujours visible
+                • Affichage dynamique :
+                    → Si un ami est supprimé → la liste se met à jour automatiquement
+                • Message de confirmation ou d’erreur après chaque action (supprimer, renommer)
+
+
+        Interactions utilisateur constatées :
+
+            1. Consultation d’une liste d’amis :
+                • L’utilisateur voit tous les amis associés à la liste sélectionnée
+
+            2. Suppression d’un ami de la liste :   
+                • Bouton “Supprimer de la liste” → Retire immédiatement l’ami
+                • Feedback visuel : cardbox supprimée + message “Ami retiré”
+
+            3. Renommage de la liste :  
+                • En cliquant sur “RENOMMER LA LISTE” → champ d’édition ou modal
+                • Validation déclenche la mise à jour du nom
+
+            4. Suppression complète de la liste :   
+                • Clic sur “SUPPRIMER LA LISTE” → pop-up de confirmation
+                • En cas de validation → redirection vers la page “Liste d’amis” (Page 13)
+
+            5. Navigation :
+                • En-tête toujours accessible pour changer de page
+
+            6. Dark mode :
+                • Disponible à tout moment
+
+
+
+
+
+    Page 16 – Notifications
+
+        Toutes les notifications :
+            • Invitations à des RDV
+            • Mises à jour d’amis
+            • Réponses à des demandes
+
+            • Mise en gras ou surbrillance des nouvelles notifications
+            • Info-bulles sur les icônes pour expliquer leur signification
+
+        Texte de notification :
+            • “Vous avez été invité au RDV ‘CrazyPUBG’ – cliquez ici pour voir.”
+            • “L’utilisateur RedSky42 vous a ajouté à sa liste d’amis.”
+            • “Votre demande de participation au RDV ‘RustRaid’ a été acceptée.”
+            • Date et heure de la notification
+            • État : non lue (mise en valeur) ou lue (affichage normal)
+            • Bouton / Lien contextuel (ex. : VOIR, ACCEPTER, REFUSER, ALLER AU PROFIL)
+
+
+        Interactions utilisateur constatées :
+
+            1.Consultation des notifications :
+                • À chaque connexion, les nouvelles notifications sont visibles automatiquement en haut
+                • L'utilisateur peut cliquer sur une notification pour accéder à l'action ou page liée
+
+            2.Gestion des notifications :
+                • Clic sur une notification la marque comme lue
+                • Possibilité d’archiver ou supprimer une notification (option à droite de chaque cardbox)
+
+            3.Navigation par filtre :
+                • L’utilisateur peut trier les notifications par type pour faciliter la lecture
+                • Le filtre reste actif tant qu’il n’est pas désélectionné
+
+            4.Thème sombre :
+                • Comme sur toutes les pages, peut être activé/désactivé, état conservé

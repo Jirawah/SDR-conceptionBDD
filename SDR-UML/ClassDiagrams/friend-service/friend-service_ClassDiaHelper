@@ -1,0 +1,71 @@
+🎯 Objectif : Diagramme de classes du microservice `friend-service`
+
+Ce service gère :
+    - L’ajout et la suppression d’amis (UC15, UC20, UC26)
+    - La création, modification et suppression de listes d’amis (UC16, UC17, UC19)
+
+──────────────────────────────────────────────
+🧱 Étape 1 : Entités persistées (domaines JPA)
+──────────────────────────────────────────────
+
+✅ 1. Friend  
+Représente une relation d’amitié entre deux utilisateurs.
+
+    Attributs :
+        - id : Long
+        - userId : Long
+        - amiId : Long
+        - statut : String (ex : PENDING, ACCEPTED, BLOCKED)
+        - dateAjout : LocalDateTime
+
+✅ 2. FriendList  
+Représente une liste d’amis nommée créée par un utilisateur.
+
+    Attributs :
+        - id : Long
+        - nom : String
+        - userId : Long (propriétaire de la liste)
+
+✅ 3. FriendListMember  
+Fait le lien entre une liste d’amis et un utilisateur ami.
+
+    Attributs :
+        - id : Long
+        - friendList : FriendList (ManyToOne)
+        - amiId : Long
+
+    Relations :
+        - Une FriendList peut contenir plusieurs FriendListMember
+        - Un FriendListMember appartient à une seule FriendList
+
+──────────────────────────────────────────────
+📦 Étape 2 : DTOs (objets d’échange)
+──────────────────────────────────────────────
+
+✅ FriendDTO  
+    - userId : Long  
+    - amiId : Long  
+    - statut : String  
+    - dateAjout : LocalDateTime  
+
+✅ FriendListDTO  
+    - id : Long  
+    - nom : String  
+    - userId : Long  
+    - membres : List<Long>
+
+✅ CreateFriendListRequest  
+    - nom : String  
+    - membres : List<Long>
+
+✅ UpdateFriendListRequest  
+    - id : Long  
+    - nom : String  
+    - membres : List<Long>
+
+──────────────────────────────────────────────
+🔗 Étape 3 : Relations
+──────────────────────────────────────────────
+
+- FriendList 1 -- * FriendListMember  
+- FriendListMember --> amiId (utilisateur externe, non lié dans ce microservice)

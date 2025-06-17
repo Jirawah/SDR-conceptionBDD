@@ -1,0 +1,70 @@
+@startuml auth_service_class_diagram
+
+' Couleurs personnalisées pour distinguer Domain & DTO
+skinparam class {
+    BackgroundColor<<Domain>> LightYellow
+    BackgroundColor<<DTO>> HoneyDew
+    ArrowColor Black
+    BorderColor Black
+}
+
+' ==========================
+'       ENTITÉS JPA
+' ==========================
+
+class User <<Domain>> {
+    - id : Long
+    - pseudo : String
+    - email : String
+    - password : String
+    - discordId : String
+    - steamId : String
+    - createdAt : LocalDateTime
+    - roles : Set<String>
+}
+
+class ResetToken <<Domain>> {
+    - id : Long
+    - token : String
+    - expirationDate : LocalDateTime
+    - user : User
+}
+
+User "1" -- "0..*" ResetToken
+
+' ==========================
+'           DTOs
+' ==========================
+
+class RegisterRequest <<DTO>> {
+    + email : String
+    + pseudo : String
+    + password : String
+}
+
+class LoginRequest <<DTO>> {
+    + email : String
+    + password : String
+}
+
+class AuthResponse <<DTO>> {
+    + token : String
+    + userId : Long
+    + pseudo : String
+}
+
+class ResetPasswordRequest <<DTO>> {
+    + email : String
+}
+
+class DiscordDataDTO <<DTO>> {
+    + discordId : String
+    + username : String
+}
+
+class SteamValidationDTO <<DTO>> {
+    + steamId : String
+    + profileName : String
+}
+
+@enduml

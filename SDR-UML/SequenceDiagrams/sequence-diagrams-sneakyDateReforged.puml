@@ -9,7 +9,7 @@ participant "DiscordService" as DiscordSvc
 database "Base Utilisateur" as DB
 participant "Discord Bot (vocal)" as Bot
 
-Utilisateur -> UI : Clique sur "CONNECTION DISCORD"
+Utilisateur -> UI : Clique sur "CONNEXION DISCORD"
 UI -> Utilisateur : Affiche instruction "Rejoindre le salon vocal"
 
 Utilisateur -> Bot : Se connecte au salon vocal Discord
@@ -21,7 +21,11 @@ DiscordSvc -> DB : Associe l’ID Discord à l’inscription en cours
 DB --> DiscordSvc : OK
 DiscordSvc --> AuthCtrl : OK
 AuthCtrl --> Bot : 200 OK
+
+AuthCtrl --> UI : Retour succès (association Discord OK)
+UI -> UI : Coche la case "CONNEXION DISCORD"
 @enduml
+
 
 ' ------------------------
 ' UC4 – Vérification du compte Steam
@@ -93,13 +97,17 @@ UI --> Utilisateur : Message "Mot de passe mis à jour"
 @enduml
 
 ' ------------------------
-' UC21 + UC22 + UC23 – Invitations à un RDV et réponse
+' UC21 + UC22 + UC23 + UC24 – Invitations à un RDV et réponse
 ' ------------------------
-@startuml uc21_22_23_rdv_invitation
+@startuml uc21_22_23_24_rdv_invitation
 actor Organisateur
 actor Invité
+actor "Utilisateur non invité" as Externe
+
 participant "UI Web (org)" as UIOrg
 participant "UI Web (invité)" as UIInv
+participant "UI Web (externe)" as UIExt
+
 participant "RdvController" as RdvCtrl
 participant "RdvService" as RdvSvc
 participant "NotificationService" as Notify
@@ -127,10 +135,26 @@ alt Accepte l'invitation
   UIInv -> RdvCtrl : POST /rdv/invitations/{id}/accept
   RdvCtrl -> RdvSvc : Marquer comme "accepté"
   RdvSvc -> DB : Update statut = "ACCEPTED"
+  UIInv -> UIInv : Rediriger vers le détail du RDV
 else Refuse l'invitation
   Invité -> UIInv : Clique sur "Refuser"
   UIInv -> RdvCtrl : POST /rdv/invitations/{id}/refuse
   RdvCtrl -> RdvSvc : Marquer comme "refusé"
   RdvSvc -> DB : Update statut = "REFUSED"
 endif
+
+' --- UC24 : demande à participer à un RDV public ---
+Externe -> UIExt : Accède à une fiche RDV public
+UIExt -> RdvCtrl : POST /rdv/{rdvId}/request
+RdvCtrl -> RdvSvc : Vérifie statut = public et slots disponibles
+
+alt Slots disponibles
+  RdvSvc -> DB : Ajouter participation en attente (statut = PENDING)
+  RdvSvc -> Notify : Notifier l’organisateur
+  Notify --> Organisateur : Notification de demande
+  UIExt -> UIExt : Rediriger vers le détail du RDV
+else Complet ou privé
+  RdvCtrl --> UIExt : Affiche message "Participation impossible"
+endif
 @enduml
+

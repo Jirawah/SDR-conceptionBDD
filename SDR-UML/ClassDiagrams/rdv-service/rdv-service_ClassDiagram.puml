@@ -1,0 +1,76 @@
+@startuml rdv_service_class_diagram
+
+' Couleurs personnalisées pour distinguer Domain & DTO
+skinparam class {
+    BackgroundColor<<Domain>> LightYellow
+    BackgroundColor<<DTO>> HoneyDew
+    ArrowColor Black
+    BorderColor Black
+}
+
+' ==========================
+'       ENTITÉS JPA
+' ==========================
+
+class Rdv <<Domain>> {
+    - id : Long
+    - nom : String
+    - date : LocalDate
+    - heure : LocalTime
+    - jeu : String
+    - statut : String
+    - slots : int
+    - organisateurId : Long
+}
+
+class Participant <<Domain>> {
+    - id : Long
+    - userId : Long
+    - rdv : Rdv
+    - role : String
+    - statutParticipation : String
+}
+
+Rdv "1" -- "0..*" Participant
+
+' ==========================
+'           DTOs
+' ==========================
+
+class CreateRdvRequest <<DTO>> {
+    + nom : String
+    + date : LocalDate
+    + heure : LocalTime
+    + jeu : String
+    + slots : int
+}
+
+class RdvDTO <<DTO>> {
+    + id : Long
+    + nom : String
+    + date : LocalDate
+    + heure : LocalTime
+    + jeu : String
+    + statut : String
+    + slots : int
+    + organisateurId : Long
+    + participants : List<ParticipantDTO>
+}
+
+class ParticipantDTO <<DTO>> {
+    + userId : Long
+    + role : String
+    + statutParticipation : String
+}
+
+class RdvSummaryDTO <<DTO>> {
+    + id : Long
+    + nom : String
+    + date : LocalDate
+    + jeu : String
+    + statut : String
+}
+
+RdvDTO --> ParticipantDTO : contient
+
+@enduml

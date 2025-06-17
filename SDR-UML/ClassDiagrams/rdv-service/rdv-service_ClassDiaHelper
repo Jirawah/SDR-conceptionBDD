@@ -1,0 +1,80 @@
+🎯 Objectif : Diagramme de classes du microservice `rdv-service`
+
+Ce service gère :
+    - La création, modification, suppression de RDV (UC7, UC8, UC9, UC10)
+    - Le détail des RDV + planning par jour (UC13, UC27, UC28)
+    - La demande de participation à un RDV (UC24)
+
+──────────────────────────────────────────────
+🧱 Étape 1 : Entités persistées (domaines JPA)
+──────────────────────────────────────────────
+
+✅ 1. Rdv  
+Représente un rendez-vous de jeu planifié par un utilisateur.
+
+    Attributs :
+        - id : Long
+        - nom : String
+        - date : LocalDate
+        - heure : LocalTime
+        - jeu : String
+        - statut : String (ex : OUVERT, FERME, ANNULE)
+        - slots : int (nombre de places disponibles)
+        - organisateurId : Long
+
+✅ 2. Participant  
+Représente un utilisateur inscrit à un RDV avec un rôle spécifique (joueur, remplaçant...).
+
+    Attributs :
+        - id : Long
+        - userId : Long
+        - rdv : Rdv (relation ManyToOne)
+        - role : String (ex : JOUEUR, REMPLAÇANT)
+        - statutParticipation : String (ex : CONFIRME, EN_ATTENTE, REFUSE)
+
+    Relation :
+        - Un Rdv peut avoir plusieurs Participants
+        - Un Participant appartient à un seul Rdv
+
+──────────────────────────────────────────────
+📦 Étape 2 : DTOs (objets d’échange)
+──────────────────────────────────────────────
+
+Utilisés côté Angular / REST pour échanger avec l’API.
+
+✅ CreateRdvRequest  
+    - nom : String  
+    - date : LocalDate  
+    - heure : LocalTime  
+    - jeu : String  
+    - slots : int  
+
+✅ RdvDTO  
+    - id : Long  
+    - nom : String  
+    - date : LocalDate  
+    - heure : LocalTime  
+    - jeu : String  
+    - statut : String  
+    - slots : int  
+    - organisateurId : Long  
+    - participants : List<ParticipantDTO>  
+
+✅ ParticipantDTO  
+    - userId : Long  
+    - role : String  
+    - statutParticipation : String  
+
+✅ RdvSummaryDTO  
+    - id : Long  
+    - nom : String  
+    - date : LocalDate  
+    - jeu : String  
+    - statut : String  
+
+──────────────────────────────────────────────
+🔗 Étape 3 : Relations
+──────────────────────────────────────────────
+
+- Rdv 1 -- * Participant (un RDV peut avoir plusieurs participants)
+- Les DTOs sont utilisés pour l’échange API, avec composition (ex : RdvDTO contient une liste de ParticipantDTO)

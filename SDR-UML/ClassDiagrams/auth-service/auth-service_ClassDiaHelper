@@ -1,0 +1,75 @@
+🎯 Objectif : Diagramme de classes du microservice `auth-service`
+
+Ce service gère :
+    - L’inscription / connexion
+    - Lier un compte Discord
+    - Vérifier l'identité Steam
+    - Réinitialiser un mot de passe
+    - Authentification avec JWT
+
+──────────────────────────────────────────────
+🧱 Étape 1 : Entités persistées (domaines JPA)
+──────────────────────────────────────────────
+
+✅ 1. User  
+Représente un utilisateur inscrit dans le système.
+
+    Attributs :
+        - id : Long
+        - pseudo : String
+        - email : String
+        - password : String (hashé)
+        - discordId : String (optionnel)
+        - steamId : String (optionnel)
+        - createdAt : LocalDateTime
+        - roles : Set<String> (par exemple ROLE_USER, ROLE_ADMIN)
+
+✅ 2. ResetToken  
+Permet la réinitialisation sécurisée du mot de passe.
+
+    Attributs :
+        - id : Long
+        - token : String (UUID)
+        - expirationDate : LocalDateTime
+        - user : User (relation ManyToOne)
+
+    Relation :
+        - Un User peut avoir plusieurs tokens actifs en base (utile si on veut accepter plusieurs tentatives)
+
+──────────────────────────────────────────────
+📦 Étape 2 : DTOs (objets d’échange)
+──────────────────────────────────────────────
+
+Utilisés côté Angular / REST pour échanger avec l’API.
+
+✅ RegisterRequest  
+    - email : String  
+    - pseudo : String  
+    - password : String  
+
+✅ LoginRequest  
+    - email : String  
+    - password : String  
+
+✅ AuthResponse  
+    - token : String  
+    - userId : Long  
+    - pseudo : String  
+
+✅ ResetPasswordRequest  
+    - email : String  
+
+✅ DiscordDataDTO  
+    - discordId : String  
+    - username : String  
+
+✅ SteamValidationDTO  
+    - steamId : String  
+    - profileName : String  
+
+──────────────────────────────────────────────
+🔗 Étape 3 : Relations
+──────────────────────────────────────────────
+
+- User 1 -- * ResetToken (un utilisateur peut avoir plusieurs tokens de reset)
+- Les DTOs ne sont pas liés entre eux directement (pas de relation), ils sont plats.

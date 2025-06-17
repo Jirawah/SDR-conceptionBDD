@@ -1,0 +1,47 @@
+@startuml notification_service_class_diagram
+
+' Couleurs personnalisées pour distinguer Domain & DTO
+skinparam class {
+    BackgroundColor<<Domain>> LightYellow
+    BackgroundColor<<DTO>> HoneyDew
+    ArrowColor Black
+    BorderColor Black
+}
+
+' ==========================
+'       ENTITÉ JPA
+' ==========================
+
+class Notification <<Domain>> {
+    - id : Long
+    - userId : Long
+    - type : String
+    - message : String
+    - date : LocalDateTime
+    - lue : Boolean
+}
+
+' ==========================
+'           DTOs
+' ==========================
+
+class NotificationDTO <<DTO>> {
+    + id : Long
+    + userId : Long
+    + type : String
+    + message : String
+    + date : LocalDateTime
+    + lue : Boolean
+}
+
+class CreateNotificationRequest <<DTO>> {
+    + userId : Long
+    + type : String
+    + message : String
+}
+
+class MarkAsReadRequest <<DTO>> {
+    + notificationIds : List<Long>
+}
+
+@enduml

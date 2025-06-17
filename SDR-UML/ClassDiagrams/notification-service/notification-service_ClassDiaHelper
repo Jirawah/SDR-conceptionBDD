@@ -1,0 +1,45 @@
+🎯 Objectif : Diagramme de classes du microservice `notification-service`
+
+Ce service gère :
+    - Les notifications liées aux RDV, invitations, amis, réponses (UC16)
+    - L’affichage des notifications non lues ou l’historique
+
+──────────────────────────────────────────────
+🧱 Étape 1 : Entité persistée (domaine JPA)
+──────────────────────────────────────────────
+
+✅ 1. Notification  
+Représente un message destiné à un utilisateur.
+
+    Attributs :
+        - id : Long
+        - userId : Long
+        - type : String (ex : INVITATION, REPONSE, RDV, AMI)
+        - message : String
+        - date : LocalDateTime
+        - lue : Boolean
+
+──────────────────────────────────────────────
+📦 Étape 2 : DTOs (objets d’échange)
+──────────────────────────────────────────────
+
+✅ NotificationDTO  
+    - id : Long  
+    - userId : Long  
+    - type : String  
+    - message : String  
+    - date : LocalDateTime  
+    - lue : Boolean  
+
+✅ CreateNotificationRequest  
+    - userId : Long  
+    - type : String  
+    - message : String  
+
+✅ MarkAsReadRequest  
+    - notificationIds : List<Long>
+
+──────────────────────────────────────────────
+🔗 Étape 3 : Relations
+
+- Aucun lien vers d'autres entités, toutes les informations sont autonomes dans la classe Notification

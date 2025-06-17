@@ -1,0 +1,49 @@
+🎯 Objectif : Diagramme de classes du microservice `invitation-service`
+
+Ce service gère :
+    - L’envoi d’invitations à un RDV (UC21)
+    - L’acceptation ou le refus d’une invitation (UC22, UC23)
+    - L’annulation d’une participation à un RDV (UC24)
+
+──────────────────────────────────────────────
+🧱 Étape 1 : Entités persistées (domaines JPA)
+──────────────────────────────────────────────
+
+✅ 1. Invitation  
+Représente une invitation envoyée à un utilisateur pour rejoindre un RDV.
+
+    Attributs :
+        - id : Long
+        - rdvId : Long
+        - inviteId : Long (identifiant de l’utilisateur invité)
+        - statut : String (ex : PENDING, ACCEPTED, REFUSED)
+        - dateEnvoi : LocalDateTime
+
+──────────────────────────────────────────────
+📦 Étape 2 : DTOs (objets d’échange)
+──────────────────────────────────────────────
+
+Utilisés côté Angular / REST pour échanger avec l’API.
+
+✅ InvitationRequestDTO  
+    - rdvId : Long  
+    - destinataires : List<Long>  
+
+✅ InvitationResponseDTO  
+    - id : Long  
+    - rdvId : Long  
+    - inviteId : Long  
+    - statut : String  
+    - dateEnvoi : LocalDateTime  
+
+✅ InvitationDecisionDTO  
+    - invitationId : Long  
+    - decision : String (ACCEPTED, REFUSED)
+
+──────────────────────────────────────────────
+🔗 Étape 3 : Relations
+──────────────────────────────────────────────
+
+- Pas de relations complexes dans ce microservice :  
+    • L’`Invitation` contient juste des IDs d’entités externes (rdvId, inviteId)  
+    • Aucun lien vers des entités persistées comme User ou Rdv dans ce microservice
