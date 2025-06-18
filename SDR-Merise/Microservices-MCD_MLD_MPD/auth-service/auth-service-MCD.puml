@@ -1,0 +1,22 @@
+@startuml auth_service_mcd
+
+entity "UTILISATEUR" as Utilisateur {
+  *id : identifiant
+  pseudo
+  email
+  password
+  discordId
+  steamId
+  createdAt
+  roles
+}
+
+entity "RESETTOKEN" as ResetToken {
+  *id : identifiant
+  token
+  expirationDate
+}
+
+Utilisateur ||--o{ ResetToken : "possède"
+
+@enduml

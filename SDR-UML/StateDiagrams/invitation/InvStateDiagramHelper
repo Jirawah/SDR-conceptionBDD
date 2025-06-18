@@ -1,0 +1,27 @@
+✅ Diagramme d’état – Entité `Invitation`
+
+──────────────────────────────────────────────
+📘 invitation-state-helper
+──────────────────────────────────────────────
+
+🎯 Objectif : Diagramme d’état UML de l’entité `Invitation`
+
+Ce diagramme modélise le cycle de vie d’une invitation envoyée à un utilisateur pour participer à un RDV.
+
+📦 Contexte métier :
+- Une invitation est créée avec le statut `PENDING`
+- L’utilisateur peut ensuite :
+    → l’accepter → `ACCEPTED`
+    → la refuser → `REFUSED`
+    → ou ne rien faire (reste `PENDING`)
+
+📌 États principaux :
+- `PENDING` → état initial
+- `ACCEPTED` → accepté par l’utilisateur
+- `REFUSED` → refusé par l’utilisateur
+
+🔁 Transitions :
+- `PENDING` → `ACCEPTED` : action « Accepter »
+- `PENDING` → `REFUSED` : action « Refuser »
+
+🛑 États finaux : `ACCEPTED`, `REFUSED` (pas de retour arrière)

@@ -1,0 +1,10 @@
+@startuml invitation_service_mcd
+
+entity "INVITATION" as Invitation {
+  *id : identifiant
+  rdvId
+  invitéId
+  statut
+}
+
+@enduml

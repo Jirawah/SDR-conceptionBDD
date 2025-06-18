@@ -1,0 +1,18 @@
+@startuml profile_service_mpd
+
+entity "PROFIL (vue)" as Profil {
+  user_id : BIGINT
+  pseudo : VARCHAR
+  avatar_url : VARCHAR
+  steam_id : VARCHAR
+  discord_id : VARCHAR
+  nombre_amis : INT
+  nombre_rdvs : INT
+  prochain_rdv : DATETIME
+  stats_total : INT
+  stats_confirmes : INT
+  stats_annules : INT
+  stats_participations : INT
+}
+
+@enduml

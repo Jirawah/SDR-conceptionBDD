@@ -1,0 +1,48 @@
+🎯 Objectif : Diagramme d’état UML de l’entité Friend
+
+Ce diagramme modélise le cycle de vie d’une relation d’amitié entre deux utilisateurs de la plateforme.
+
+──────────────────────────────────────────────
+📦 Contexte métier
+──────────────────────────────────────────────
+
+Une relation d’amitié évolue en fonction des interactions entre les utilisateurs :
+
+Elle est initiée par une demande d’ajout d’ami (→ PENDING)
+
+Elle peut ensuite être :
+
+acceptée (→ ACCEPTED)
+
+refusée (→ REFUSED)
+
+bloquée (→ BLOCKED) à tout moment après acceptation
+
+──────────────────────────────────────────────
+📌 États principaux
+──────────────────────────────────────────────
+
+✅ PENDING
+- Demande d’ami envoyée, en attente d’une réponse
+
+✅ ACCEPTED
+- Les deux utilisateurs sont désormais amis
+
+✅ REFUSED
+- L’utilisateur a rejeté la demande d’ami
+
+✅ BLOCKED
+- L’un des utilisateurs a bloqué l’autre
+
+──────────────────────────────────────────────
+🔁 Transitions
+──────────────────────────────────────────────
+
+PENDING → ACCEPTED : demande acceptée
+
+PENDING → REFUSED : demande refusée
+
+ACCEPTED → BLOCKED : blocage après relation validée
+
+🛑 États finaux : REFUSED, BLOCKED
+- Pas de retour automatique possible (blocage = état terminal)

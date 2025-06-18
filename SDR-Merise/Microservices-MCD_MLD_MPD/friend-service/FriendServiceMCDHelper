@@ -1,0 +1,40 @@
+📘 MCD - friend-service (Modèle Conceptuel de Données - méthode Merise)
+
+──────────────────────────────────────────────
+🏷️ ENTITÉS
+──────────────────────────────────────────────
+
+🟦 FRIEND
+    - id (Identifiant)
+    - userId
+    - amiId
+    - statut
+
+🟦 FRIENDLIST
+    - id (Identifiant)
+    - nom
+    - userId
+
+🟦 FRIENDLISTMEMBER
+    - id (Identifiant)
+    - friendListId
+    - amiId
+
+──────────────────────────────────────────────
+🔗 ASSOCIATIONS
+──────────────────────────────────────────────
+
+🔄 AJOUTE
+    - Lie FRIENDLIST à FRIENDLISTMEMBER
+    - Cardinalités :
+        FRIENDLIST (1,n) —— (1,1) FRIENDLISTMEMBER
+
+🔄 CONTIENT
+    - friendListId + amiId = relation composite pour associer un utilisateur à une liste
+
+──────────────────────────────────────────────
+📌 NOTES DE CONCEPTION
+──────────────────────────────────────────────
+- Le champ `statut` dans FRIEND suit un diagramme d’état (PENDING, ACCEPTED, BLOCKED)
+- Les noms peuvent être raffinés pour plus de lisibilité dans l’implémentation physique
+- Il est possible de factoriser les utilisateurs dans un service externe (`auth-service`)

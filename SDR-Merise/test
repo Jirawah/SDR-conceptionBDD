@@ -1,0 +1,61 @@
+ENTITE UTILISATEUR
+  id : identifiant
+  pseudo
+  email
+  password
+  discordId
+  steamId
+  createdAt
+  roles
+
+ENTITE RESETTOKEN
+  id : identifiant
+  token
+  expirationDate
+
+ENTITE RDV
+  id : identifiant
+  nom
+  date
+  heure
+  jeu
+  statut
+  slots
+  organisateurId
+
+ENTITE PARTICIPANT
+  id : identifiant
+  userId
+  role
+  statutParticipation
+
+ENTITE INVITATION
+  id : identifiant
+  rdvId
+  inviteId
+  statut
+
+ENTITE FRIEND
+  id : identifiant
+  userId
+  amiId
+  statut
+
+ENTITE FRIENDLIST
+  id : identifiant
+  nom
+  userId
+
+ENTITE FRIENDLISTMEMBER
+  id : identifiant
+  friendListId
+  amiId
+
+RELATION Possede 1,1 RESETTOKEN 0,N UTILISATEUR
+RELATION Inscrit 1,1 PARTICIPANT 0,N RDV
+RELATION Demande_Invitation 1,1 INVITATION 0,N UTILISATEUR
+RELATION Invite_Concernant 1,1 INVITATION 0,N RDV
+RELATION Est_Ami_Avec 1,1 FRIEND 0,N UTILISATEUR
+RELATION A_Pour_Liste 1,1 FRIENDLIST 0,N UTILISATEUR
+RELATION Est_Dans 1,1 FRIENDLISTMEMBER 0,N FRIENDLIST
+RELATION Est_Un_Utilisateur 1,1 FRIENDLISTMEMBER 0,N UTILISATEUR

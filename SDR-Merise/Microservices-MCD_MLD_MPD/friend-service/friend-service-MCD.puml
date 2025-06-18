@@ -1,0 +1,24 @@
+@startuml friend_service_mcd
+
+entity "FRIEND" as Friend {
+  *id : identifiant
+  userId
+  amiId
+  statut
+}
+
+entity "FRIENDLIST" as FriendList {
+  *id : identifiant
+  nom
+  userId
+}
+
+entity "FRIENDLISTMEMBER" as FriendListMember {
+  *id : identifiant
+  friendListId
+  amiId
+}
+
+FriendList ||--o{ FriendListMember : "ajoute"
+
+@enduml

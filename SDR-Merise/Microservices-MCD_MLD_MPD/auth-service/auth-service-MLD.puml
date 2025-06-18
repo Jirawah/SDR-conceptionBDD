@@ -1,0 +1,23 @@
+@startuml auth_service_mld
+
+entity "UTILISATEUR" as Utilisateur {
+  + id : BIGINT <<PK>>
+  pseudo : VARCHAR
+  email : VARCHAR
+  password : VARCHAR
+  discordId : VARCHAR
+  steamId : VARCHAR
+  createdAt : DATETIME
+  roles : TEXT
+}
+
+entity "RESETTOKEN" as ResetToken {
+  + id : BIGINT <<PK>>
+  token : CHAR(36)
+  expirationDate : DATETIME
+  utilisateur_id : BIGINT <<FK>>
+}
+
+Utilisateur ||--o{ ResetToken : possède
+
+@enduml

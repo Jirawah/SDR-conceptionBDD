@@ -1,0 +1,63 @@
+Friend.java
+
+@Entity
+@Table(name = "friend")
+public class Friend {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "ami_id", nullable = false)
+    private Long amiId;
+
+    private String statut; // PENDING, ACCEPTED, BLOCKED
+}
+
+
+
+
+
+FriendList.java
+
+@Entity
+@Table(name = "friend_list")
+public class FriendList {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nom;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @OneToMany(mappedBy = "friendList", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendListMember> membres = new ArrayList<>();
+}
+
+
+
+
+
+FriendListMember.java
+
+@Entity
+@Table(name = "friend_list_member")
+public class FriendListMember {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "friend_list_id", nullable = false)
+    private FriendList friendList;
+
+    @Column(name = "ami_id", nullable = false)
+    private Long amiId;
+}

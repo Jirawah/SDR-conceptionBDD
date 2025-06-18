@@ -1,0 +1,79 @@
+@startuml component_diagram_microservices
+
+skinparam componentStyle rectangle
+
+' ========= Frontend =========
+
+package "Frontend - Angular App" {
+    [HomeComponent]
+    [LoginComponent]
+    [RegisterComponent]
+    [ResetPasswordComponent]
+    [ProfileComponent]
+    [PlayerProfileComponent]
+    [SearchPlayersComponent]
+    [MyFriendsComponent]
+    [FriendProfileComponent]
+    [FriendListComponent]
+    [CreateFriendListComponent]
+    [FriendListDetailComponent]
+    [PlanningComponent]
+    [RdvDetailComponent]
+    [CreateRdvComponent]
+    [InvitationsComponent]
+    [NotificationsComponent]
+
+    [HomeComponent] --> [auth-service]
+    [LoginComponent] --> [auth-service]
+    [RegisterComponent] --> [auth-service]
+    [ResetPasswordComponent] --> [auth-service]
+
+    [ProfileComponent] --> [profile-service]
+    [PlayerProfileComponent] --> [profile-service]
+    [SearchPlayersComponent] --> [profile-service]
+
+    [MyFriendsComponent] --> [friend-service]
+    [FriendProfileComponent] --> [friend-service]
+    [FriendListComponent] --> [friend-service]
+    [CreateFriendListComponent] --> [friend-service]
+    [FriendListDetailComponent] --> [friend-service]
+
+    [PlanningComponent] --> [rdv-service]
+    [RdvDetailComponent] --> [rdv-service]
+    [CreateRdvComponent] --> [rdv-service]
+
+    [InvitationsComponent] --> [invitation-service]
+    [NotificationsComponent] --> [notification-service]
+}
+
+' ========= Backend Microservices =========
+
+package "Backend Microservices" {
+    [auth-service] --> [MySQL DB auth]
+    [rdv-service] --> [MySQL DB rdv]
+    [invitation-service] --> [MySQL DB invitation]
+    [friend-service] --> [MySQL DB friend]
+    [notification-service] --> [MongoDB]
+
+    [profile-service] --> [auth-service]
+    [profile-service] --> [rdv-service]
+    [profile-service] --> [friend-service]
+}
+
+' ========= Config & Discovery =========
+
+[config-server] --> [auth-service]
+[config-server] --> [rdv-service]
+[config-server] --> [invitation-service]
+[config-server] --> [friend-service]
+[config-server] --> [profile-service]
+[config-server] --> [notification-service]
+
+[eureka-server] --> [auth-service]
+[eureka-server] --> [rdv-service]
+[eureka-server] --> [invitation-service]
+[eureka-server] --> [friend-service]
+[eureka-server] --> [profile-service]
+[eureka-server] --> [notification-service]
+
+@enduml

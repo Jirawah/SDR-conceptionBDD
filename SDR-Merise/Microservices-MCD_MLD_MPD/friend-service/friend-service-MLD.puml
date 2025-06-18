@@ -1,0 +1,24 @@
+@startuml friend_service_mld
+
+entity "FRIEND" as Friend {
+  + id : BIGINT <<PK>>
+  userId : BIGINT
+  amiId : BIGINT
+  statut : VARCHAR
+}
+
+entity "FRIENDLIST" as FriendList {
+  + id : BIGINT <<PK>>
+  nom : VARCHAR
+  userId : BIGINT
+}
+
+entity "FRIENDLISTMEMBER" as FriendListMember {
+  + id : BIGINT <<PK>>
+  friendListId : BIGINT <<FK>>
+  amiId : BIGINT
+}
+
+FriendList ||--o{ FriendListMember : ajoute
+
+@enduml

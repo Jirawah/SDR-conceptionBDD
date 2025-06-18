@@ -1,0 +1,76 @@
+@startuml deployment_diagram_microservices
+
+node "Docker Host" {
+
+  node "Frontend (Angular via Nginx)" {
+    [webApp]
+  }
+
+  node "auth-service" {
+    [auth-service]
+    database "auth-db (MySQL)" as authdb
+    [auth-service] --> authdb
+  }
+
+  node "rdv-service" {
+    [rdv-service]
+    database "rdv-db (MySQL)" as rdvdb
+    [rdv-service] --> rdvdb
+  }
+
+  node "invitation-service" {
+    [invitation-service]
+    database "invitation-db (MySQL)" as invdb
+    [invitation-service] --> invdb
+  }
+
+  node "friend-service" {
+    [friend-service]
+    database "friend-db (MySQL)" as frienddb
+    [friend-service] --> frienddb
+  }
+
+  node "profile-service" {
+    [profile-service]
+    [profile-service] --> [auth-service]
+    [profile-service] --> [rdv-service]
+    [profile-service] --> [friend-service]
+  }
+
+  node "notification-service" {
+    [notification-service]
+    database "notification-db (MongoDB)" as notifdb
+    [notification-service] --> notifdb
+  }
+
+  node "eureka-server" {
+    [eureka-server]
+  }
+
+  node "config-server" {
+    [config-server]
+  }
+
+  [auth-service] --> [eureka-server]
+  [rdv-service] --> [eureka-server]
+  [invitation-service] --> [eureka-server]
+  [friend-service] --> [eureka-server]
+  [profile-service] --> [eureka-server]
+  [notification-service] --> [eureka-server]
+
+  [auth-service] --> [config-server]
+  [rdv-service] --> [config-server]
+  [invitation-service] --> [config-server]
+  [friend-service] --> [config-server]
+  [profile-service] --> [config-server]
+  [notification-service] --> [config-server]
+
+  [webApp] --> [auth-service]
+  [webApp] --> [rdv-service]
+  [webApp] --> [invitation-service]
+  [webApp] --> [friend-service]
+  [webApp] --> [profile-service]
+  [webApp] --> [notification-service]
+}
+
+@enduml

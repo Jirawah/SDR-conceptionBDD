@@ -1,0 +1,12 @@
+@startuml friend_state_diagram
+
+[*] --> PENDING : Demande d'ajout d'ami
+
+PENDING --> ACCEPTED : Demande acceptée
+PENDING --> REFUSED : Demande refusée
+ACCEPTED --> BLOCKED : Utilisateur bloqué
+
+REFUSED --> [*] : Fin de relation
+BLOCKED --> [*] : Fin de relation
+
+@enduml

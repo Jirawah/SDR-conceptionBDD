@@ -1,0 +1,40 @@
+📘 MCD - rdv-service (Modèle Conceptuel de Données - méthode Merise)
+
+──────────────────────────────────────────────
+🏷️ ENTITÉS
+──────────────────────────────────────────────
+
+🟦 RDV
+    - id (Identifiant)
+    - nom
+    - date
+    - heure
+    - jeu
+    - statut
+    - slots
+    - organisateurId
+
+🟦 PARTICIPANT
+    - id (Identifiant)
+    - userId
+    - role
+    - statutParticipation
+
+──────────────────────────────────────────────
+🔗 ASSOCIATIONS
+──────────────────────────────────────────────
+
+🔄 INSCRIT_A
+    - Lie PARTICIPANT à RDV
+    - Cardinalités :
+        RDV (1,n) —— (1,1) PARTICIPANT
+    - Lecture : un RDV peut avoir plusieurs participants ;
+                chaque participant est inscrit à un seul RDV.
+
+──────────────────────────────────────────────
+📌 NOTES DE CONCEPTION
+──────────────────────────────────────────────
+- Le champ `organisateurId` dans RDV pointe vers un utilisateur dans `auth-service`, 
+  mais la relation n’est pas incluse dans ce MCD local.
+- Le rôle et le statut de participation peuvent être modélisés comme valeurs référentielles
+  si besoin de contrainte future.

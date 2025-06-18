@@ -1,0 +1,21 @@
+ProfilDTO.java
+
+public class ProfilDTO {
+
+    private Long userId;
+    private String pseudo;
+    private String avatarUrl;
+    private String steamId;
+    private String discordId;
+
+    private int nombreAmis;
+    private int nombreRdvs;
+    private LocalDateTime prochainRdv;
+
+    private int statsTotal;
+    private int statsConfirmes;
+    private int statsAnnules;
+    private int statsParticipations;
+
+    // getters/setters
+}

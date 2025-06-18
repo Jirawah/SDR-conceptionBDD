@@ -1,0 +1,75 @@
+✅ État d’avancement UML – Projet SneakyDateReforged
+
+──────────────────────────────────────────────
+🎯 Ce que tu as déjà fait (excellent état)
+──────────────────────────────────────────────
+
+1. 🎨 Maquette fonctionnelle
+    - ✔️ Prototypée, complète, avec interactions utilisateurs
+    - ✔️ Sert de base à l'identification des cas d’utilisation
+
+2. 📋 Spécifications fonctionnelles
+    - ✔️ Détaillées pour chaque page (non-authentifié / authentifié)
+    - ✔️ Organisées par contenu visible et comportements
+
+3. 🧑‍💻 Diagrammes de cas d'utilisation (Use Case)
+    - ✔️ Acteurs, cas, include/extend
+    - ✔️ Alignés sur les spécifications fonctionnelles
+
+4. 🔄 Diagrammes d'activités
+    - ✔️ Créés pour plusieurs groupes de cas d’utilisation (ex : UC21 à UC24)
+    - ✔️ Décrivent les enchaînements métier étape par étape
+
+5. 🔁 Diagrammes de séquence
+    - ✔️ Illustrent les échanges entre frontend, contrôleurs, services
+    - ✔️ Organisés par UC, très utiles pour implémentation technique
+
+6. 🧱 Diagrammes de classes
+    - ✔️ Réalisés pour chaque microservice
+    - ✔️ Distinction entités JPA et DTOs
+    - ✔️ Relations bien définies avec PlantUML
+
+──────────────────────────────────────────────
+🟡 Ce qui n’a pas encore été fait ou à ajouter
+──────────────────────────────────────────────
+
+7. 🧭 Diagramme de composants (Component Diagram)
+    ➤ Visualise les microservices et leurs interfaces REST
+
+    🔧 Utile pour :
+        - Montrer que `webApp` (Angular) interagit avec chaque microservice
+        - Montrer les dépendances inter-services (ex : `profile-service` dépend de `auth-service`, `rdv-service`...)
+
+8. 🕸️ Diagramme de déploiement (Deployment Diagram)
+    ➤ Représente l’infrastructure logicielle : Docker, ports, réseau, BDD
+
+    🔧 Utile pour :
+        - Documenter l’usage de Docker Compose
+        - Visualiser les conteneurs, ports, connexions
+
+9. 🧠 Diagrammes d’états (State Machine)
+    ➤ Décrit le cycle de vie d’une entité métier
+
+    🔧 Exemples :
+        - `Invitation` : PENDING → ACCEPTED / REFUSED
+        - `RDV` : OUVERT → FERME / ANNULE
+        - `Friend` : PENDING → ACCEPTED → BLOCKED
+
+10. 📝 MCD / MLD / MPD (optionnel si tu restes en UML objet)
+    ➤ Pour faire un schéma relationnel pur (Merise ou UML logique)
+
+    🔧 Idéal si :
+        - Tu dois présenter un modèle SQL
+        - Tu veux générer un schéma MySQL ou PostgreSQL
+
+──────────────────────────────────────────────
+📌 Conclusion
+
+✔️ Tu as couvert environ **90 %** de la conception UML.
+
+🔥 Il ne te reste que les **diagrammes structurels d’architecture**
+    - composants (microservices + API)
+    - déploiement (Docker, réseau)
+    - états (cycle de vie métier)
+
+Souhaites-tu commencer par un **diagramme de composants** ?

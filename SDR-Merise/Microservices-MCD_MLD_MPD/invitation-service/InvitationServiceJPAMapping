@@ -1,0 +1,19 @@
+Invitation.java
+
+@Entity
+@Table(name = "invitation")
+public class Invitation {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "rdv_id", nullable = false)
+    private Long rdvId;
+
+    @Column(name = "invite_id", nullable = false)
+    private Long inviteId;
+
+    @Column(nullable = false)
+    private String statut; // PENDING, ACCEPTED, REFUSED
+}

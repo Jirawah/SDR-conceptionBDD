@@ -1,0 +1,28 @@
+📘 MCD - invitation-service (Modèle Conceptuel de Données - méthode Merise)
+
+──────────────────────────────────────────────
+🏷️ ENTITÉS
+──────────────────────────────────────────────
+
+🟦 INVITATION
+    - id (Identifiant)
+    - rdvId
+    - invitéId
+    - statut
+
+──────────────────────────────────────────────
+🔗 ASSOCIATIONS
+──────────────────────────────────────────────
+
+❗ Remarques sur les clés étrangères :
+    - `rdvId` fait référence à un RDV dans `rdv-service`
+    - `invitéId` fait référence à un UTILISATEUR dans `auth-service`
+
+Pour ce MCD local, ces références sont gardées comme attributs simples, sans relation graphique Merise.
+
+──────────────────────────────────────────────
+📌 NOTES DE CONCEPTION
+──────────────────────────────────────────────
+- `statut` peut contenir : PENDING, ACCEPTED, REFUSED
+- Ce statut est également utilisé dans le diagramme d’état associé
+- `invitéId` pourrait être renommé `userId` pour cohérence avec les autres microservices

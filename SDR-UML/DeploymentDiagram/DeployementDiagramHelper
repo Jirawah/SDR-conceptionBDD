@@ -1,0 +1,65 @@
+✅ Diagramme de déploiement – Architecture Dockerisée
+
+──────────────────────────────────────────────
+📘 deployment-diagram_Helper
+──────────────────────────────────────────────
+
+🎯 Objectif : Diagramme de déploiement de l'architecture
+
+Ce diagramme montre comment les composants (microservices, base de données, etc.) sont déployés sur l'infrastructure physique et logicielle, notamment via Docker.
+
+🏗️ Contexte de déploiement : Docker + Docker Compose
+- Chaque composant est dans un conteneur Docker
+- Tous communiquent sur un réseau Docker commun
+
+🧱 Nœuds de déploiement (conteneurs Docker)
+
+✅ nginx / frontend-angular (webApp)
+    - Port exposé : 4200
+    - Sert les composants Angular
+
+✅ auth-service
+    - Port exposé : 8081
+    - Connecté à BDD MySQL (auth-db)
+
+✅ rdv-service
+    - Port exposé : 8082
+    - Connecté à BDD MySQL (rdv-db)
+
+✅ invitation-service
+    - Port exposé : 8083
+    - Connecté à BDD MySQL (invitation-db)
+
+✅ friend-service
+    - Port exposé : 8084
+    - Connecté à BDD MySQL (friend-db)
+
+✅ profile-service
+    - Port exposé : 8086
+    - Agrège les données de auth, rdv et friend
+
+✅ notification-service
+    - Port exposé : 8087
+    - Connecté à MongoDB (notification-db)
+
+✅ eureka-server
+    - Port exposé : 8761
+    - Service discovery
+
+✅ config-server
+    - Port exposé : 8888
+    - Configuration centralisée
+
+✅ mysql
+    - Port par défaut : 3306
+    - Utilisé par auth, rdv, invitation, friend
+
+✅ mongo
+    - Port : 27017
+    - Utilisé par notification-service
+
+🔗 Connexions réseau principales
+
+- Chaque service s’enregistre auprès de `eureka-server`
+- Chaque service récupère sa config depuis `config-server`
+- Le frontend appelle les microservices via REST

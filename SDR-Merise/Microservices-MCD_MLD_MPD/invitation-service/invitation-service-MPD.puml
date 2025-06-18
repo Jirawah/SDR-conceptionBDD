@@ -1,0 +1,10 @@
+@startuml invitation_service_mpd
+
+entity "INVITATION" as Invitation {
+  + id : BIGINT <<PK>>
+  rdv_id : BIGINT
+  invite_id : BIGINT
+  statut : VARCHAR(50)
+}
+
+@enduml

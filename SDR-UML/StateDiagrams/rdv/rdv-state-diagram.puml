@@ -1,0 +1,11 @@
+@startuml rdv_state_diagram
+
+[*] --> OUVERT : Création du RDV
+
+OUVERT --> FERME : Clôture automatique ou manuelle
+OUVERT --> ANNULE : Annulation par l'organisateur
+
+FERME --> [*] : État final
+ANNULE --> [*] : État final
+
+@enduml

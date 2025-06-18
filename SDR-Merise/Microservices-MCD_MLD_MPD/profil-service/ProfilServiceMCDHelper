@@ -1,0 +1,39 @@
+📘 MCD - profile-service (Modèle Conceptuel de Données - méthode Merise)
+
+──────────────────────────────────────────────
+📌 REMARQUE GLOBALE
+──────────────────────────────────────────────
+
+Ce microservice ne dispose d’aucune entité persistée.
+Il effectue uniquement des **agrégations de données** venant de :
+    - `auth-service` (pseudo, steamId, discordId, avatar)
+    - `rdv-service` (prochains RDVs, nombre de participations)
+    - `friend-service` (nombre d’amis, etc.)
+
+Aucun MCD classique n’est requis, mais on peut représenter une **entité virtuelle** utile à la modélisation fonctionnelle :
+
+──────────────────────────────────────────────
+🏷️ ENTITÉ VIRTUELLE
+──────────────────────────────────────────────
+
+🟦 PROFIL
+    - userId
+    - pseudo
+    - avatarUrl
+    - steamId
+    - discordId
+    - nombreAmis
+    - nombreRDVs
+    - prochainRDV
+    - jeuxFavoris
+    - statsRDV.total
+    - statsRDV.confirmés
+    - statsRDV.annulés
+    - statsRDV.participations
+
+──────────────────────────────────────────────
+📌 UTILISATION
+──────────────────────────────────────────────
+- À but de lecture uniquement
+- Représente une **vue métier enrichie**, pas une table
+- Ne doit pas être traduite en MLD ni MPD

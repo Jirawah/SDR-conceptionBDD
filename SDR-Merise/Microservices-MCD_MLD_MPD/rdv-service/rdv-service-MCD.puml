@@ -1,0 +1,23 @@
+@startuml rdv_service_mcd
+
+entity "RDV" as Rdv {
+  *id : identifiant
+  nom
+  date
+  heure
+  jeu
+  statut
+  slots
+  organisateurId
+}
+
+entity "PARTICIPANT" as Participant {
+  *id : identifiant
+  userId
+  role
+  statutParticipation
+}
+
+Rdv ||--o{ Participant : "inscrit à"
+
+@enduml

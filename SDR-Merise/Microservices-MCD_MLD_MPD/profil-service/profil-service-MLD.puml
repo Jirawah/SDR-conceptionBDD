@@ -1,0 +1,33 @@
+' Le MLD de profil-service est à considérer comme documentaire et ne sera pas directement implémenté en BDD car :
+
+'       1.Il ne possède pas sa propre BDD
+'           - Il ne persiste aucune entité.
+'           - Il consomme des données via des appels REST ou Feign vers :
+'               • auth-service (pseudo, avatar, discordId…)
+'               • rdv-service (stats RDV, prochain RDV…)
+'               • friend-service (nombre d’amis…)
+
+'       2.Les données du profil sont dynamiques et calculées à la volée
+'       3.Le MLD ici est utilisé à but illustratif et documentaire pour :
+'           - formaliser la structure des données renvoyées à Angular,
+'           - préparer des DTO et la doc API claire
+
+@startuml profile_service_mld
+
+entity "PROFIL (vue virtuelle)" as Profil {
+  userId : BIGINT
+  pseudo : VARCHAR
+  avatarUrl : VARCHAR
+  steamId : VARCHAR
+  discordId : VARCHAR
+  nombreAmis : INT
+  nombreRDVs : INT
+  prochainRDV : DATETIME
+  statsRDV_total : INT
+  statsRDV_confirmes : INT
+  statsRDV_annules : INT
+  statsRDV_participations : INT
+}
+
+@enduml
+

@@ -1,0 +1,38 @@
+📘 MCD - auth-service (Modèle Conceptuel de Données - méthode Merise)
+
+──────────────────────────────────────────────
+🏷️ ENTITÉS
+──────────────────────────────────────────────
+
+🟦 UTILISATEUR
+    - id (Identifiant)
+    - pseudo
+    - email
+    - password
+    - discordId
+    - steamId
+    - createdAt
+    - roles
+
+🟦 RESETTOKEN
+    - id (Identifiant)
+    - token
+    - expirationDate
+
+──────────────────────────────────────────────
+🔗 ASSOCIATIONS
+──────────────────────────────────────────────
+
+🔄 POSSEDE
+    - Lie UTILISATEUR à RESETTOKEN
+    - Cardinalités :
+        UTILISATEUR (1,n) —— (1,1) RESETTOKEN
+    - Lecture : un utilisateur peut posséder plusieurs tokens de réinitialisation ;
+                chaque token appartient à un seul utilisateur.
+
+──────────────────────────────────────────────
+📌 NOTES DE CONCEPTION
+──────────────────────────────────────────────
+- Les rôles (Set<String>) peuvent être externalisés en table annexe si nécessaire
+- DiscordId et SteamId sont optionnels (non obligatoires en MCD sauf contrainte à formaliser)
+- Le MCD se concentre ici sur le périmètre d’authentification uniquement

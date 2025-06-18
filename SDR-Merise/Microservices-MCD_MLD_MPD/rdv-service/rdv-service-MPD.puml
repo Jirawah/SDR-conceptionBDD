@@ -1,0 +1,24 @@
+@startuml rdv_service_mpd
+
+entity "RDV" as Rdv {
+  + id : BIGINT <<PK>>
+  nom : VARCHAR(100)
+  date : DATE
+  heure : TIME
+  jeu : VARCHAR(100)
+  statut : VARCHAR(50)
+  slots : INT
+  organisateur_id : BIGINT
+}
+
+entity "PARTICIPANT" as Participant {
+  + id : BIGINT <<PK>>
+  user_id : BIGINT
+  rdv_id : BIGINT <<FK>>
+  role : VARCHAR(50)
+  statut_participation : VARCHAR(50)
+}
+
+Rdv ||--o{ Participant : "inscrit à"
+
+@enduml

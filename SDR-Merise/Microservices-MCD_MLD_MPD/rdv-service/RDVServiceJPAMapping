@@ -1,0 +1,55 @@
+Rdv.java
+
+@Entity
+@Table(name = "rdv")
+public class Rdv {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nom;
+
+    private LocalDate date;
+
+    private LocalTime heure;
+
+    private String jeu;
+
+    private String statut;
+
+    private int slots;
+
+    @Column(name = "organisateur_id", nullable = false)
+    private Long organisateurId;
+
+    @OneToMany(mappedBy = "rdv", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participant> participants = new ArrayList<>();
+}
+
+
+
+
+
+Participant.java
+
+@Entity
+@Table(name = "participant")
+public class Participant {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rdv_id", nullable = false)
+    private Rdv rdv;
+
+    private String role;
+
+    @Column(name = "statut_participation")
+    private String statutParticipation;
+}

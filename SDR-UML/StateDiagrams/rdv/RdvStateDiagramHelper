@@ -1,0 +1,41 @@
+🎯 Objectif : Diagramme d’état UML de l’entité RDV
+
+Ce diagramme modélise le cycle de vie d’un rendez-vous organisé par un utilisateur dans l’application.
+
+──────────────────────────────────────────────
+📦 Contexte métier
+──────────────────────────────────────────────
+
+Un RDV passe par plusieurs états selon son avancement et les actions des utilisateurs :
+
+Il est créé avec le statut OUVERT
+
+Il peut ensuite être fermé automatiquement ou manuellement (slots remplis, événement passé, etc.)
+
+Il peut aussi être annulé à tout moment par l’organisateur
+
+──────────────────────────────────────────────
+📌 États principaux
+──────────────────────────────────────────────
+
+✅ OUVERT
+- État initial après la création
+- Les utilisateurs peuvent encore rejoindre le RDV
+
+✅ FERME
+- RDV clôturé : plus d’ajouts ou modifications possibles
+- Peut être déclenché manuellement ou automatiquement (date atteinte ou slots pleins)
+
+✅ ANNULE
+- L’organisateur a annulé le RDV
+- Tous les participants sont notifiés
+
+──────────────────────────────────────────────
+🔁 Transitions
+──────────────────────────────────────────────
+
+OUVERT → FERME : par validation manuelle ou déclencheur automatique
+
+OUVERT → ANNULE : annulation par l’organisateur
+
+🛑 États FERME et ANNULE sont des états finaux (pas de retour en arrière)

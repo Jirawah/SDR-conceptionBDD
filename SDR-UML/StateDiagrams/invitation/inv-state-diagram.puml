@@ -1,0 +1,11 @@
+@startuml invitation_state_diagram
+
+[*] --> PENDING : Création d'une invitation
+
+PENDING --> ACCEPTED : L'utilisateur accepte
+PENDING --> REFUSED : L'utilisateur refuse
+
+ACCEPTED --> [*] : État final
+REFUSED --> [*] : État final
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml profile_service_mcd
+
+entity "PROFIL (virtuel)" as Profil {
+  userId
+  pseudo
+  avatarUrl
+  steamId
+  discordId
+  nombreAmis
+  nombreRDVs
+  prochainRDV
+  statsRDV.total
+  statsRDV.confirmés
+  statsRDV.annulés
+  statsRDV.participations
+}
+
+@enduml

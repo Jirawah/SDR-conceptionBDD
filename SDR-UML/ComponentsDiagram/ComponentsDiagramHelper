@@ -1,0 +1,79 @@
+🎯 Objectif : Diagramme de composants de l’architecture microservices
+
+Ce diagramme UML montre :
+    - Les composants logiciels (microservices)
+    - Les interactions entre eux (API REST)
+    - Les dépendances avec le frontend Angular
+    - Les éventuelles connexions à des bases de données ou services externes
+
+──────────────────────────────────────────────
+🧩 Composants (microservices)
+──────────────────────────────────────────────
+
+✅ Frontend Angular (webApp)
+    - Appelle les APIs REST exposées par les microservices
+    - Composants UI :
+        • HomeComponent
+        • LoginComponent
+        • RegisterComponent
+        • ResetPasswordComponent
+        • ProfileComponent
+        • PlayerProfileComponent
+        • SearchPlayersComponent
+        • MyFriendsComponent
+        • FriendProfileComponent
+        • FriendListComponent
+        • CreateFriendListComponent
+        • FriendListDetailComponent
+        • PlanningComponent
+        • RdvDetailComponent
+        • CreateRdvComponent
+        • InvitationsComponent
+        • NotificationsComponent
+
+✅ auth-service
+    - Authentification, Discord, Steam
+    - Gère JWT
+    - Connecté à BDD MySQL
+
+✅ rdv-service
+    - Création, modification, suppression des RDV
+    - Gestion des participants
+    - Connecté à BDD MySQL
+
+✅ invitation-service
+    - Envoi et gestion des invitations à un RDV
+    - Connecté à BDD MySQL
+
+✅ friend-service
+    - Gestion des amis et des listes
+    - Connecté à BDD MySQL
+
+✅ profile-service
+    - Agrégation de données depuis auth, rdv, friend
+    - Pas de base de données propre
+
+✅ notification-service
+    - Envoi et consultation des notifications
+    - Connecté à BDD MongoDB (ou MySQL selon ton choix)
+
+✅ eureka-server
+    - Découverte des services
+
+✅ config-server
+    - Fournit les fichiers de configuration centralisés
+
+──────────────────────────────────────────────
+🔗 Interactions
+──────────────────────────────────────────────
+
+- Angular ↔ auth-service (/api/auth)
+- Angular ↔ rdv-service (/api/rdv)
+- Angular ↔ invitation-service (/api/invitations)
+- Angular ↔ friend-service (/api/friends)
+- Angular ↔ profile-service (/api/profiles)
+- Angular ↔ notification-service (/api/notifications)
+
+- profile-service → Feign REST → auth-service, rdv-service, friend-service
+- Tous les microservices ↔ config-server
+- Tous les microservices ↔ eureka-server
