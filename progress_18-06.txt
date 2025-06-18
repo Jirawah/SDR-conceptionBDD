@@ -12,6 +12,8 @@ On identifie clairement :
     invitation-service  | invitation                                   | Liens entre utilisateurs et RDV, statuts
     friend-service      | friend, friendlist, friendlistmember         | Relations complexes, listes, filtres
 
+
+
 ✅ Conclusion :
 
 Ces 4 microservices doivent utiliser MySQL.
@@ -30,6 +32,8 @@ En analysant la maquette PDF que tu m’as déjà fournie, j’identifie des él
     ✅ Notifications                              | Non dans le modèle, mais logique      | Stockage asynchrone, souple
     ✅ Préférences utilisateurs (dark mode, etc.) | Réglages potentiels à venir           | JSON flexible, idéal MongoDB
 
+
+
 🎯 Répartition finale recommandée
 
     Base de données | Entités concernées                                               | Justification
@@ -39,6 +43,8 @@ En analysant la maquette PDF que tu m’as déjà fournie, j’identifie des él
     ________________|__________________________________________________________________|_______________________________
     MongoDB         | notifications, historiqueRDV, userStats (heures de jeu),         |
                     | préférences UI, logs (optionnel)                                 | Structure souple, évolutive, orientée lecture
+
+
 
 ✅ Prochaines étapes
 
