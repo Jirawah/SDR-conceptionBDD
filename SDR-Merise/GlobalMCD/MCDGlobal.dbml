@@ -1,0 +1,78 @@
+// =========================
+// 📦 AUTH-SERVICE
+// =========================
+
+Table utilisateur {
+  id bigint [pk]
+  pseudo varchar
+  email varchar
+  password varchar
+  discordId varchar
+  steamId varchar
+  createdAt datetime
+  roles text
+}
+
+Table resettoken {
+  id bigint [pk]
+  token char(36)
+  expirationDate datetime
+  utilisateur_id bigint [ref: > utilisateur.id]
+}
+
+// =========================
+// 📦 RDV-SERVICE
+// =========================
+
+Table rdv {
+  id bigint [pk]
+  nom varchar
+  date date
+  heure time
+  jeu varchar
+  statut varchar
+  slots int
+  organisateurId bigint [ref: > utilisateur.id]
+}
+
+Table participant {
+  id bigint [pk]
+  userId bigint [ref: > utilisateur.id]
+  rdvId bigint [ref: > rdv.id]
+  role varchar
+  statutParticipation varchar
+}
+
+// =========================
+// 📦 INVITATION-SERVICE
+// =========================
+
+Table invitation {
+  id bigint [pk]
+  rdvId bigint [ref: > rdv.id]
+  inviteId bigint [ref: > utilisateur.id]
+  statut varchar
+}
+
+// =========================
+// 📦 FRIEND-SERVICE
+// =========================
+
+Table friend {
+  id bigint [pk]
+  userId bigint [ref: > utilisateur.id]
+  amiId bigint [ref: > utilisateur.id]
+  statut varchar
+}
+
+Table friendlist {
+  id bigint [pk]
+  nom varchar
+  userId bigint [ref: > utilisateur.id]
+}
+
+Table friendlistmember {
+  id bigint [pk]
+  friendListId bigint [ref: > friendlist.id]
+  amiId bigint [ref: > utilisateur.id]
+}

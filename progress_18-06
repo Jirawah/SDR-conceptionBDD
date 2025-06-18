@@ -1,0 +1,51 @@
+✅ Analyse du MCDGlobal.dbml
+
+Ce fichier présente la structure complète du domaine avec un bon découpage par microservice.
+On identifie clairement :
+
+🔹 Microservices SQL (fortement relationnels)
+
+    Microservice        | Entités principales                          | Justification pour MySQL
+    --------------------|----------------------------------------------|-------------------------------
+    auth-service        | utilisateur, resettoken                      | Données sensibles, intégrité, relations fortes
+    rdv-service         | rdv, participant                             | Planning, slots, organisateur → cohérence stricte
+    invitation-service  | invitation                                   | Liens entre utilisateurs et RDV, statuts
+    friend-service      | friend, friendlist, friendlistmember         | Relations complexes, listes, filtres
+
+✅ Conclusion :
+
+Ces 4 microservices doivent utiliser MySQL.
+Je te fournirai les scripts SQL complets pour créer ces tables avec contraintes d'intégrité.
+
+🧩 Ce qui manque dans le .dbml et que l’on voit dans la maquette : candidatures pour MongoDB
+
+En analysant la maquette PDF que tu m’as déjà fournie, j’identifie des éléments parfaits pour MongoDB :
+
+    Élément dans la maquette                      | Où ? (UI)                             | Pourquoi MongoDB ?
+    ----------------------------------------------|---------------------------------------|----------------------------
+    ✅ Invitations envoyées / reçues              | Détail RDV, listes de participation   | Historique évolutif, structure répétée
+    ✅ Historique des RDV passés                  | Profil / Mes RDV                      | Donnée figée, pas de jointure nécessaire
+    ✅ Temps de jeu par utilisateur               | Profil joueur                         | Donnée en lecture seule, très documentée
+    ✅ Activité des utilisateurs (logs, événements)| Non visible mais utile métier         | Parfait pour collection Mongo
+    ✅ Notifications                              | Non dans le modèle, mais logique      | Stockage asynchrone, souple
+    ✅ Préférences utilisateurs (dark mode, etc.) | Réglages potentiels à venir           | JSON flexible, idéal MongoDB
+
+🎯 Répartition finale recommandée
+
+    Base de données | Entités concernées                                               | Justification
+    ----------------|------------------------------------------------------------------|-------------------------------
+    MySQL           | utilisateur, resettoken, rdv, participant, invitation,           |
+                    | friend, friendlist, friendlistmember                             | Relations fortes, intégrité, filtres
+    ________________|__________________________________________________________________|_______________________________
+    MongoDB         | notifications, historiqueRDV, userStats (heures de jeu),         |
+                    | préférences UI, logs (optionnel)                                 | Structure souple, évolutive, orientée lecture
+
+✅ Prochaines étapes
+
+Souhaites-tu maintenant :
+
+    - Les scripts SQL complets pour MySQL (avec CREATE TABLE, FOREIGN KEY, etc.)
+    - La structure des collections MongoDB avec exemples de documents (JSON)
+    - Un document de justification technique clair pour ton dossier ou soutenance
+
+👉 Dis-moi par quoi on commence et je te le produis directement ici.
