@@ -1,54 +1,54 @@
-🔒 1. Procédure d’inscription utilisateur
+1. Procédure d’inscription utilisateur
 Nom : sp_register_user
 Utilité : Vérifie si l’email ou le pseudo existe déjà, insère l’utilisateur, et génère un token de validation éventuel.
 Paramètres : email, pseudo, mot de passe hashé, SteamID, DiscordID
 Retour : code d’état (succès / échec / doublon)
 
-📅 2. Création de rendez-vous avec invitations
+2. Création de rendez-vous avec invitations
 Nom : sp_create_rdv_with_invites
 Utilité : Insère un RDV, puis insère en masse les invitations pour une liste d’amis
 Paramètres : nom, date, heure, jeu, organisateurId, liste d'IDs des amis à inviter
 Retour : ID du RDV créé
 
-🧾 3. Procédure d’acceptation d’invitation
+3. Procédure d’acceptation d’invitation
 Nom : sp_respond_to_invitation
 Utilité : Met à jour le statut d’une invitation (acceptée/refusée), éventuellement génère une notification
 Paramètres : invitationId, status (accepté/refusé), invitéId
 
-🔔 4. Génération de notifications
+4. Génération de notifications
 Nom : sp_generate_notification
 Utilité : Enregistre une notification à afficher à l’utilisateur
 Paramètres : userId, message, typeNotification, date
 
-🧑‍🤝‍🧑 5. Ajout d’un ami bidirectionnel
+5. Ajout d’un ami bidirectionnel
 Nom : sp_add_friendship
 Utilité : Insère deux lignes dans la table amis pour un lien bidirectionnel
 Paramètres : userA, userB
 
-📈 6. Statistiques personnelles
+6. Statistiques personnelles
 Nom : sp_get_user_stats
 Utilité : Retourne le nombre de RDV organisés, le nombre de participations, le prochain RDV à venir
 Paramètres : userId
 Retour : plusieurs valeurs OUT (via SELECT ou variables OUT)
 
-🗑️ 7. Suppression d’un RDV et ses dépendances
+7. Suppression d’un RDV et ses dépendances
 Nom : sp_delete_rdv_and_dependencies
 Utilité : Supprime un RDV, ses invitations, participants, et notifications liées
 Paramètres : rdvId
 
-📋 8. Liste d’invités d’un RDV
+8. Liste d’invités d’un RDV
 Nom : sp_list_rdv_invitees
 Utilité : Récupère les utilisateurs invités, leur statut (accepté/refusé/en attente)
 Paramètres : rdvId
 Retour : jeu de résultats
 
-📬 9. Notifications non lues
+9. Notifications non lues
 Nom : sp_get_unread_notifications
 Utilité : Récupère les notifications non lues d’un utilisateur
 Paramètres : userId
 Retour : liste de notifications
 
-👀 10. Historique des RDV
+10. Historique des RDV
 Nom : sp_get_user_rdv_history
 Utilité : Retourne tous les RDV passés ou annulés liés à un utilisateur
 Paramètres : userId
