@@ -101,11 +101,11 @@ DTO :
 
 ## 🎯 Architecture front → back
 
-| Frontend Angular                | Microservice ciblé         |
+| Frontend Angular                | Microservice ciblé         | Nom ms
 |---------------------------------|----------------------------|
-| Formulaire inscription/connexion| `auth-service`             |
-| Planning / Création / Détail RDV| `rdv-service`              |
-| Invitations / réponses          | `invitation-service`       |
-| Gestion amis / listes           | `friend-service`           |
-| Profils / recherche joueurs     | `profile-service`          |
-| Liste de notifications          | `notification-service`     |
+| Formulaire inscription/connexion| `auth-service`             | ms-auth
+| Planning / Création / Détail RDV| `rdv-service`              | ms-rdv
+| Invitations / réponses          | `invitation-service`       | ms-invitation
+| Gestion amis / listes           | `friend-service`           | ms-friend
+| Profils / recherche joueurs     | `profile-service`          | ms-profil
+| Liste de notifications          | `notification-service`     | ms-notif
