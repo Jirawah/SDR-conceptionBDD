@@ -31,7 +31,7 @@ Via l'API Web Steam :
    - récupère les données id, username, etc.
    - les envoie via un appel HTTP POST/PUT à ton backend ms-auth
 5. Le backend reçoit les données, les lie à la session utilisateur, et :
-   - enregistre les données dans la BDD temporairement (ou dans un cache si non finalisé)
+   - enregistre les données dans la BDD
    - informe le frontend que la connexion Discord est validée
 6. Le frontend peut alors valider la checkbox "CONNEXION DISCORD"
 
@@ -41,7 +41,7 @@ Via l'API Web Steam :
 
 Le bouton "INSCRIPTION" n’est activable que si :
 - Le pseudo, email, steamId, mot de passe et confirmation sont bien remplis.
-- L’API Steam a confirmé que le compte n’a jamais été banni pour triche.
+- L’API Steam a confirmé que le compte existe et n’a jamais été banni pour triche.
 - La connexion Discord est validée (via le bot → backend → checkbox cochée).
 
 ===========================
